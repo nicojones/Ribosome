@@ -4,3 +4,6 @@
 [submodule "app/libs/Carbon"]
 	path = app/libs/Carbon
 	url = https://github.com/briannesbitt/Carbon
+[submodule "app/libs/firephp-core"]
+	path = app/libs/firephp-core
+	url = https://github.com/firephp/firephp-core/
