@@ -1,0 +1,93 @@
+#suphp_configpath /home2/mumimher/public_html/
+DirectoryIndex app.php
+
+<FilesMatch "\.(ini|php|htaccess|sqlite*|sql|x?html|xml|cgi|pl|htm)">
+  order allow,deny
+  deny from all
+</FilesMatch>
+<Files app.php>
+    order allow,deny
+    allow from all
+</Files>
+<FilesMatch "\.(xml|txt|html|js|css|gif|png|jpg)$">
+    order allow,deny
+    allow from all
+</FilesMatch>
+
+# Turn on Expires and set default to 0
+ExpiresActive On
+ExpiresDefault A0
+ 
+# Set up caching on media files for 1 year (forever?)
+<FilesMatch "\.(flv|ico|pdf|avi|mov|ppt|doc|mp3|wmv|wav)$">
+ExpiresDefault A29030400
+Header append Cache-Control "public"
+</FilesMatch>
+ 
+# Set up caching on media files for 1 week
+<FilesMatch "\.(gif|jpg|jpeg|png|swf)$">
+ExpiresDefault A604800
+Header append Cache-Control "public"
+</FilesMatch>
+ 
+# Set up 2 Hour caching on commonly updated files
+<FilesMatch "\.(xml|txt|html|js|css)$">
+ExpiresDefault A7200
+Header append Cache-Control "proxy-revalidate"
+</FilesMatch>
+ 
+# Force no caching for dynamic files
+<FilesMatch "\.(php|cgi|pl|htm)$">
+ExpiresActive Off
+Header set Cache-Control "private, no-cache, no-store, proxy-revalidate, no-transform"
+Header set Pragma "no-cache"
+</FilesMatch>
+
+<FilesMatch ".(eot|ttf|otf|woff)">
+    Header set Access-Control-Allow-Origin "*"
+</FilesMatch>
+
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript
+</IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+#
+    RewriteCond %{HTTP_HOST} ^www\.(.+)
+    RewriteCond %{HTTPS}s/%1 ^(on(s)|offs)/(.+)
+    RewriteRule ^ http%2://%3%{REQUEST_URI} [L,R=301]
+
+    RewriteCond %{HTTP_USER_AGENT} libwww-perl.* 
+    RewriteRule .* – [F,L]
+
+    RewriteCond %{REQUEST_URI}::$1 ^(/.+)/(.*)::\2$
+    RewriteRule ^(.*) - [E=BASE:%1]
+
+    RewriteCond %{ENV:REDIRECT_STATUS} ^$
+    RewriteRule ^app\.php(/(.*)|$) %{ENV:BASE}/$2 [R=301,L]
+
+    # If the requested filename exists, simply serve it.
+    # We only want to let Apache serve files and not directories.
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule .? - [L]
+
+    RewriteCond $1 !\.(gif|jpe?g|png)$ [NC]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    RewriteRule ^css/(.*)$ src/resources/views/assets/css/$1?asset=css [QSA,L]
+    RewriteRule ^fonts/(.*)$ src/resources/views/assets/fonts/$1?asset=fonts [QSA,L]
+    RewriteRule ^images/(.*)$ src/resources/views/assets/images/$1?asset=images [QSA,L]
+    RewriteRule ^js/(.*)$ src/resources/views/assets/js/$1?asset=js [QSA,L]
+
+    RewriteRule ^_app/bootload/?$ app/bootload/bootload.php [QSA,L]
+    RewriteRule ^_app/bootloadassets/(.*)$ app/bootload/bootload.php/?assets=$1 [QSA,L]
+    RewriteRule ^_app/version/?$ app/versioning/version.php [QSA,L]
+
+    # If you happen to change VENDOR_FOLDER in /app/config/config.ini, change the "src/vendor" part here too.
+    RewriteRule ^vendor_([a-zA-Z\-0-9_]+)/(.*)$ src/vendor/$1/views/assets/$2 [QSA,L]
+
+    # Rewrite all other queries to the front controller.
+    RewriteRule .? %{ENV:BASE}/app.php [L]
+</IfModule>

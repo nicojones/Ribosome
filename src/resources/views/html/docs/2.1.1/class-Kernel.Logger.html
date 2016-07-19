@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class Kernel\Logger</title>
+
+	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li>
+					<a href="namespace-Core.html">
+						Core					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-Kernel.html">
+						Kernel					</a>
+
+						</li>
+				<li>
+					<a href="namespace-None.html">
+						None					</a>
+
+						</li>
+				<li>
+					<a href="namespace-Vendor.html">
+						Vendor<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-Vendor.Landingpage.html">
+						Landingpage					</a>
+
+						</li>
+				<li>
+					<a href="namespace-Vendor.Menu.html">
+						Menu					</a>
+
+						</li>
+							</ul></li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Kernel.AppKernel.html">AppKernel</a></li>
+				<li class="active"><a href="class-Kernel.Logger.html">Logger</a></li>
+				<li><a href="class-Kernel.Mailer.html">Mailer</a></li>
+				<li><a href="class-Kernel.Mailer_PHP.html">Mailer_PHP</a></li>
+				<li><a href="class-Kernel.Permission.html">Permission</a></li>
+				<li><a href="class-Kernel.Router.html">Router</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-Kernel.html" title="Summary of Kernel"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class Logger</h1>
+
+
+	<div class="description">
+	<p>Logs messages to an external database. Configure it from <b>/app/config/config.ini</b></p>
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-Kernel.html">Kernel</a><br>
+		<b>Package:</b> Kernel<br>
+
+				<b>Hooks:</b>
+				(<span class="php-quote">'logger_post'</span>, <span class="php-var">$postArray</span>) <span class="php-comment">// Called before posting an error log <code><a href="class-Kernel.Logger.html#_sendLog">Kernel\Logger::sendLog()</a></code></span><br>
+			<b>Located at</b> Logger.php		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="singleton" id="_singleton">
+
+		<td class="attributes"><code>
+			 public static
+
+			<code><a href="class-Kernel.Logger.html">Kernel\Logger</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_singleton">#</a>
+		<code>singleton( )</code>
+
+		<div class="description short">
+			<p>Returns a Logger instance, creating it if it did not exist.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns a Logger instance, creating it if it did not exist.</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-Kernel.Logger.html">Kernel\Logger</a></code>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code>__construct( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="info" id="_info">
+
+		<td class="attributes"><code>
+			 public static
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_info">#</a>
+		<code>info( <span>mixed <var>$message</var></span>, <span>integer <var>$errType</var> = <span class="php-num">0</span></span> )</code>
+
+		<div class="description short">
+			<p>Sends an info message to the central logger</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Sends an info message to the central logger</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$message</var></dt>
+					<dd>The message to save. If it is not string or numeric, it will be converted using var_export($var, TRUE)</dd>
+					<dt><var>$errType</var></dt>
+					<dd>= 0 An error code</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="warn" id="_warn">
+
+		<td class="attributes"><code>
+			 public static
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_warn">#</a>
+		<code>warn( <span>mixed <var>$message</var></span>, <span>integer <var>$errType</var> = <span class="php-num">0</span></span> )</code>
+
+		<div class="description short">
+			<p>Sends a warn message to the central logger</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Sends a warn message to the central logger</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$message</var></dt>
+					<dd>The message to save. If it is not string or numeric, it will be converted using var_export($var, TRUE)</dd>
+					<dt><var>$errType</var></dt>
+					<dd>= 0 An error code</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="error" id="_error">
+
+		<td class="attributes"><code>
+			 public static
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_error">#</a>
+		<code>error( <span>array <var>$error</var></span> )</code>
+
+		<div class="description short">
+			<p>Sends an error message to the central logger</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Sends an error message to the central logger</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$error</var></dt>
+					<dd>The error to persist</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="sendLog" id="_sendLog">
+
+		<td class="attributes"><code>
+			 protected static
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_sendLog">#</a>
+		<code>sendLog( <span>string <var>$type</var></span>, <span>string <var>$file</var></span>, <span>integer <var>$line</var></span>, <span>string <var>$message</var></span>, <span>integer <var>$errType</var></span> )</code>
+
+		<div class="description short">
+			<p>Sends log info to the central logger and FB::logs the response</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Sends log info to the central logger and FB::logs the response</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$type</var></dt>
+					<dd>The type of log ('info', 'warn', 'error')</dd>
+					<dt><var>$file</var></dt>
+					<dd>The file of the error</dd>
+					<dt><var>$line</var></dt>
+					<dd>The line number where the error is triggered</dd>
+					<dt><var>$message</var></dt>
+					<dd>The error or info message</dd>
+					<dt><var>$errType</var></dt>
+					<dd>The PHP errno</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary properties" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="hooks" id="$hooks">
+		<td class="attributes"><code>
+			protected static 
+			<code><a href="class-Core.Hooks.html">Core\Hooks</a></code>
+		</code></td>
+
+		<td class="name">
+<var>$hooks</var>
+			<div class="description short">
+				<p>The instance of the Hooks class.</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>The instance of the Hooks class.</p>
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$hooks" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>

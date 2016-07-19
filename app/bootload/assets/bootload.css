@@ -1,0 +1,70 @@
+.stretch {
+    width: 100%;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.input {
+
+}
+
+.plus {
+    font-size: 65px;
+    font-weight: 400;
+    cursor: pointer;
+    line-height: 30px;
+    display: inline-block;
+    padding: 0 0 12px 2px;
+    -webkit-transition: transform 0.5s ease-in-out;
+    -moz-transition: transform 0.5s ease-in-out;
+    -ms-transition: transform 0.5s ease-in-out;
+    -o-transition: transform 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
+}
+.plus.open {
+    transform: rotate(225deg);
+}
+
+.section_toggle {
+    display:none;
+    position: relative;
+}
+.section_toggle.open {
+    display: inline;
+}
+
+.section_toggle > * {
+    margin-left: 60px;
+}
+
+#diagnosis_results {
+}
+
+#diagnosis_results li {
+    font-size: 15px;
+    max-width: 700px;
+    padding: 15px 0 1px 20px;
+    margin-bottom: 10px;
+}
+
+#logout_label {
+    background-color: #666;
+    border: 1px solid black;
+    border-radius: 10px 10px 0 0;
+    bottom: 0;
+    color: white;
+    padding: 0.2em 1em;
+    position: fixed;
+    right: 5px;
+}
+
+.screen_centered {
+    width: 50%;
+    text-align: center;
+    position:absolute;
+    left: 50%;
+    margin-left: -25%;
+    margin-top: 10%;
+}

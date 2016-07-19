@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class Kernel\Permission</title>
+
+	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li>
+					<a href="namespace-Core.html">
+						Core					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-Kernel.html">
+						Kernel					</a>
+
+						</li>
+				<li>
+					<a href="namespace-None.html">
+						None					</a>
+
+						</li>
+				<li>
+					<a href="namespace-Vendor.html">
+						Vendor<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-Vendor.Landingpage.html">
+						Landingpage					</a>
+
+						</li>
+				<li>
+					<a href="namespace-Vendor.Menu.html">
+						Menu					</a>
+
+						</li>
+							</ul></li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Kernel.AppKernel.html">AppKernel</a></li>
+				<li><a href="class-Kernel.Logger.html">Logger</a></li>
+				<li><a href="class-Kernel.Mailer.html">Mailer</a></li>
+				<li><a href="class-Kernel.Mailer_PHP.html">Mailer_PHP</a></li>
+				<li class="active"><a href="class-Kernel.Permission.html">Permission</a></li>
+				<li><a href="class-Kernel.Router.html">Router</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-Kernel.html" title="Summary of Kernel"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class Permission</h1>
+
+
+	<div class="description">
+	<p>Manages the permissions required for a specific call (<b>Controller->action()</b>).<br/>
+If the user has not enough permissions, it returns a <b>__throw_to</b> action to redirect them to.</p>
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-Kernel.html">Kernel</a><br>
+		<b>Package:</b> Kernel<br>
+
+				<b>Example:</b>
+				<pre>; <span class="php-keyword1">For</span> LoginController, it should look something like
+[Login]
+    __throw_to = <span class="php-quote">&quot;Login&quot;</span> ; any unauthorized request goes to the Login path (check routing.ini)
+     * = <span class="php-num">2</span>               ; <span class="php-keyword1">As</span> a general rule, in this example all calls <span class="php-keyword1">require</span> being authenticated
+    showLogin = <span class="php-num">1</span>        ; Of course, to <span class="php-keyword2">log</span> in you must be guest, so this has level=<span class="php-num">1</span>
+    login = <span class="php-num">1</span> ; user     ; On submitting the login form, you are not authenticated yet! level=<span class="php-num">1</span>
+    showLoginHome = <span class="php-num">2</span>    ; Once logged in, you go to the <span class="php-quote">&quot;admin zone&quot;</span>: level=<span class="php-num">2</span></pre><br>
+				<b>Usage:</b>
+				<p>Enter the name of the Controller (but without writing "Controller"; e.g., for HomeController, write [Home].<br/>
+There is no ambiguity here, for there should be no direct access/permission to Model files.<br/></p>
+
+<p>By default, &lt;Controller&gt;::&lt;action&gt; has permission level = 1 for all controllers and actions.<br/>
+That means, if you don't write it down there'll be no errors thrown, but also no security level!<br/></p><br>
+			<b>Located at</b> Permission.php		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="singleton" id="_singleton">
+
+		<td class="attributes"><code>
+			 public static
+
+			<code><a href="class-Kernel.Permission.html">Kernel\Permission</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_singleton">#</a>
+		<code>singleton( )</code>
+
+		<div class="description short">
+			<p>Returns a Permission instance, creating it if it did not exist</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns a Permission instance, creating it if it did not exist</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-Kernel.Permission.html">Kernel\Permission</a></code>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="checkPermission" id="_checkPermission">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_checkPermission">#</a>
+		<code>checkPermission( <span>string <var>$controller</var></span>, <span>string <var>$method</var></span> )</code>
+
+		<div class="description short">
+			<p>Returns whether the user has permission to acces a given method</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns whether the user has permission to acces a given method</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$controller</var></dt>
+					<dd>The controller name</dd>
+					<dt><var>$method</var></dt>
+					<dd>The method name</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean<br>$accesAllowed;
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getUserPermission" id="_getUserPermission">
+
+		<td class="attributes"><code>
+			 public 
+
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getUserPermission">#</a>
+		<code>getUserPermission( )</code>
+
+		<div class="description short">
+			<p>Returns the user permission as an integer.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns the user permission as an integer.</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					integer<br>user permission
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setUserPermission" id="_setUserPermission">
+
+		<td class="attributes"><code>
+			 public 
+
+			<code><a href="class-Kernel.Permission.html">Kernel\Permission</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setUserPermission">#</a>
+		<code>setUserPermission( <span>integer <var>$level</var> = <span class="php-num">1</span></span> )</code>
+
+		<div class="description short">
+			<p>Sets a permission level to the current user</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Sets a permission level to the current user</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$level</var></dt>
+					<dd>= 1 The permission level</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-Kernel.Permission.html">Kernel\Permission</a></code>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+<Files *.*>
+    order allow,deny
+    deny from all
+</Files>
+
+<Files version.php>
+    order allow,deny
+    allow from all
+</Files>

@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class Vendor\VendorController</title>
+
+	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li>
+					<a href="namespace-Core.html">
+						Core					</a>
+
+						</li>
+				<li>
+					<a href="namespace-Kernel.html">
+						Kernel					</a>
+
+						</li>
+				<li>
+					<a href="namespace-None.html">
+						None					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-Vendor.html">
+						Vendor<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-Vendor.Landingpage.html">
+						Landingpage					</a>
+
+						</li>
+				<li>
+					<a href="namespace-Vendor.Menu.html">
+						Menu					</a>
+
+						</li>
+							</ul></li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li class="active"><a href="class-Vendor.VendorController.html">VendorController</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-Vendor.html" title="Summary of Vendor"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class VendorController</h1>
+
+
+	<div class="description">
+	<p>Class VendorController is the parent class for all plugins (located in the plugin folder).<br/>
+Please notice that some functions, when called from plugins, have different names (<b>view</b>, <b>get</b>, <b>asset</b>). See &#64;see for more details.</p>
+	</div>
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+			<a href="class-Core.ParentController.html"><span>Core\ParentController</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by">
+<b><span>Vendor\VendorController</span></b>			
+			
+			
+		</dd>
+	</dl>
+
+
+	<div>
+		<h4>Direct known subclasses</h4>
+			<a href="class-Vendor.Landingpage.LandingController.html">Vendor\Landingpage\LandingController</a>, 
+			<a href="class-Vendor.Menu.MenuController.html">Vendor\Menu\MenuController</a>
+	</div>
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-Vendor.html">Vendor</a><br>
+		<b>Package:</b> Vendor<br>
+
+				<b>See:</b>
+				<code><a href="class-Vendor.VendorController.html#_vendor_show">Vendor\VendorController::vendor_show()</a></code><br>
+				<b>See:</b>
+				<code><a href="class-Vendor.VendorController.html#_vendor_get">Vendor\VendorController::vendor_get()</a></code><br>
+				<b>See:</b>
+				<code><a href="class-Vendor.VendorController.html#_vendor_asset">Vendor\VendorController::vendor_asset()</a></code><br>
+				<b>Note:</b>
+				Respect the directives for creating new plugins. See the example ones for more info.<br>
+			<b>Located at</b> VendorController.php		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="singleton" id="_singleton">
+
+		<td class="attributes"><code>
+			 public static
+
+			<code><a href="class-Vendor.VendorController.html">Vendor\VendorController</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_singleton">#</a>
+		<code>singleton( )</code>
+
+		<div class="description short">
+			<p>Returns the class Singleton</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns the class Singleton</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-Vendor.VendorController.html">Vendor\VendorController</a></code>
+				</div>
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-Core.ParentController.html#_singleton">Core\ParentController::singleton()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="vendor_show" id="_vendor_show">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_vendor_show">#</a>
+		<code>vendor_show( <span>string <var>$view</var></span>, <span>string|boolean <var>$template</var> = <span class="php-keyword1">FALSE</span></span> )</code>
+
+		<div class="description short">
+			<p>This is an implementation of ParentController::show() to allow for plugins.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>This is an implementation of ParentController::show() to allow for plugins.</p>
+
+<p>Shows a view embedded inside a specified template and die()
+Remember that both $view and $template can be absolute or relative paths</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$view</var></dt>
+					<dd>The path to the file, being '/' the 'html' directory</dd>
+					<dt><var>$template</var></dt>
+					<dd>The name of the template. If no template is specified, we use the default one</dd>
+				</dl></div>
+
+
+				<h4>Throws</h4>
+				<div class="list">
+					Exception<br>specifying the type of missing view.
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="vendor_get" id="_vendor_get">
+
+		<td class="attributes"><code>
+			 public 
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_vendor_get">#</a>
+		<code>vendor_get( <span>string <var>$view</var></span>, <span>array|[] <var>$vars</var> = []</span>, <span>string|boolean <var>$template</var> = <span class="php-keyword1">FALSE</span></span> )</code>
+
+		<div class="description short">
+			<p>This is an implementation of ParentController::get() to allow for plugins.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>This is an implementation of ParentController::get() to allow for plugins.</p>
+
+<p>Returns a view, optionally embedded inside a specified template.
+Remember that both $view and $template can be absolute or relative paths</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$view</var></dt>
+					<dd>The path to the file, being '/' the 'html' directory</dd>
+					<dt><var>$vars</var></dt>
+					<dd>The vars that you want to show in the $view</dd>
+					<dt><var>$template</var></dt>
+					<dd>The name of the template. If no template is specified, we use the default one</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					string<br>The rendered view / view+template
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					Exception<br>specifying the type of missing view.
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="vendorSaveCache" id="_vendorSaveCache">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_vendorSaveCache">#</a>
+		<code>vendorSaveCache( )</code>
+
+		<div class="description short">
+			<p>Saves the vendor directives (Folders, Controllers, Models, Routing and Permissions) to a cache file.<br/>
+Outputs a JSON encoded array.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Saves the vendor directives (Folders, Controllers, Models, Routing and Permissions) to a cache file.<br/>
+Outputs a JSON encoded array.</p>
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="addStyle" id="_addStyle">
+
+		<td class="attributes"><code>
+			 public 
+
+			<code><a href="class-Vendor.VendorController.html">Vendor\VendorController</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_addStyle">#</a>
+		<code>addStyle( <span>string <var>$path</var></span>, <span>boolean|true <var>$local</var> = <span class="php-keyword1">TRUE</span></span>, <span>boolean <var>$dummy</var> = <span class="php-keyword1">TRUE</span></span> )</code>
+
+		<div class="description short">
+			<p>Adds a style snippet to the $this->vendor_show() renderer.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Adds a style snippet to the $this->vendor_show() renderer.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$path</var></dt>
+					<dd>The path under which the asset is located</dd>
+					<dt><var>$local</var></dt>
+					<dd>whether it's a relative (local) or absolute URL</dd>
+					<dt><var>$dummy</var></dt>
+					<dd>To prevent StrictStandards warning</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-Vendor.VendorController.html">Vendor\VendorController</a></code>
+				</div>
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-Core.ParentController.html#_addStyle">Core\ParentController::addStyle()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="addScript" id="_addScript">
+
+		<td class="attributes"><code>
+			 public 
+
+			<code><a href="class-Vendor.VendorController.html">Vendor\VendorController</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_addScript">#</a>
+		<code>addScript( <span>string <var>$path</var></span>, <span>boolean|true <var>$local</var> = <span class="php-keyword1">TRUE</span></span>, <span>boolean <var>$dummy</var> = <span class="php-keyword1">TRUE</span></span> )</code>
+
+		<div class="description short">
+			<p>Adds a script snippet to the $this->vendor_show() renderer.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Adds a script snippet to the $this->vendor_show() renderer.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$path</var></dt>
+					<dd>The path under which the asset is located</dd>
+					<dt><var>$local</var></dt>
+					<dd>whether it's a relative (local) or absolute URL</dd>
+					<dt><var>$dummy</var></dt>
+					<dd>To prevent StrictStandards warning</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-Vendor.VendorController.html">Vendor\VendorController</a></code>
+				</div>
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-Core.ParentController.html#_addScript">Core\ParentController::addScript()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="vendor_asset" id="_vendor_asset">
+
+		<td class="attributes"><code>
+			 public 
+
+			string|<code><a href="class-Vendor.VendorController.html">Vendor\VendorController</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_vendor_asset">#</a>
+		<code>vendor_asset( <span>string <var>$path</var></span>, <span>boolean|false <var>$return</var> = <span class="php-keyword1">FALSE</span></span> )</code>
+
+		<div class="description short">
+			<p>Echoes or returns the absolute path to the asset</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Echoes or returns the absolute path to the asset</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$path</var></dt>
+					<dd>The path under which the view is located</dd>
+					<dt><var>$return</var></dt>
+					<dd>Whether to return or echo</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					string|<code><a href="class-Vendor.VendorController.html">Vendor\VendorController</a></code><br>The absolute path (or $this if 'echo')
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-Core.ParentController.html#methods">Core\ParentController</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-Core.ParentController.html#___construct">__construct()</a>, 
+			<a href="class-Core.ParentController.html#_add">add()</a>, 
+			<a href="class-Core.ParentController.html#_addFooter">addFooter()</a>, 
+			<a href="class-Core.ParentController.html#_addHeader">addHeader()</a>, 
+			<a href="class-Core.ParentController.html#_addJSVar">addJSVar()</a>, 
+			<a href="class-Core.ParentController.html#_asset">asset()</a>, 
+			<a href="class-Core.ParentController.html#_cache">cache()</a>, 
+			<a href="class-Core.ParentController.html#_compressWithMinify">compressWithMinify()</a>, 
+			<a href="class-Core.ParentController.html#_get">get()</a>, 
+			<a href="class-Core.ParentController.html#_getGet">getGet()</a>, 
+			<a href="class-Core.ParentController.html#_getModel">getModel()</a>, 
+			<a href="class-Core.ParentController.html#_getPost">getPost()</a>, 
+			<a href="class-Core.ParentController.html#_header">header()</a>, 
+			<a href="class-Core.ParentController.html#_json">json()</a>, 
+			<a href="class-Core.ParentController.html#_minimize">minimize()</a>, 
+			<a href="class-Core.ParentController.html#_minimizeURL">minimizeURL()</a>, 
+			<a href="class-Core.ParentController.html#_path">path()</a>, 
+			<a href="class-Core.ParentController.html#_redirect">redirect()</a>, 
+			<a href="class-Core.ParentController.html#_setFavicon">setFavicon()</a>, 
+			<a href="class-Core.ParentController.html#_setTitle">setTitle()</a>, 
+			<a href="class-Core.ParentController.html#_show">show()</a>, 
+			<a href="class-Core.ParentController.html#_url">url()</a>
+		</code></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary properties" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="pluginFolder" id="$pluginFolder">
+		<td class="attributes"><code>
+			public  
+			string
+		</code></td>
+
+		<td class="name">
+<var>$pluginFolder</var>
+			<div class="description short">
+				<p>The path where each plugin is stored. Set individually in each plugin (children).</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>The path where each plugin is stored. Set individually in each plugin (children).</p>
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$pluginFolder" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+	<table class="summary inherited">
+	<caption>Properties inherited from <a href="class-Core.ParentController.html#properties">Core\ParentController</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-Core.ParentController.html#$ajax"><var>$ajax</var></a>, 
+			<a href="class-Core.ParentController.html#$config"><var>$config</var></a>, 
+			<a href="class-Core.ParentController.html#$hooks"><var>$hooks</var></a>, 
+			<a href="class-Core.ParentController.html#$model"><var>$model</var></a>, 
+			<a href="class-Core.ParentController.html#$path"><var>$path</var></a>, 
+			<a href="class-Core.ParentController.html#$templatePath"><var>$templatePath</var></a>, 
+			<a href="class-Core.ParentController.html#$vars"><var>$vars</var></a>, 
+			<a href="class-Core.ParentController.html#$viewPath"><var>$viewPath</var></a>
+		</code></td>
+	</tr>
+	</table>
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>

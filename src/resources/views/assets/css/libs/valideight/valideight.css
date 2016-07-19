@@ -1,0 +1,29 @@
+form.valideight .error-block {
+    background-color: #FF4136;
+    color: #FFFFFF;
+    display: none;
+    margin-bottom: 10px;
+    margin-top: 5px;
+    padding-left: 10px;
+    position: relative;
+    top: -5px;
+    border-radius: 0 0 4px 4px;
+}
+form.valideight .has-error .error-block {
+    display: block !important;
+}
+
+form.valideight .has-error input[type], 
+form.valideight .has-error textarea {
+    border: 1px solid #FF4136;
+    border-radius: 4px 4px 0 0;
+}
+
+form.valideight .valideight-box .form-control-feedback {
+    display: none;
+}
+form.valideight .valideight-box.has-feedback.has-error   .form-control-feedback.glyphicon-remove, 
+form.valideight .valideight-box.has-feedback.has-success .form-control-feedback.glyphicon-ok {
+    display: inline-block;
+    margin-top: -20px;
+}

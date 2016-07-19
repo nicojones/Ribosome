@@ -1,0 +1,21 @@
+DirectoryIndex bootload.php
+
+<Files bootload.php>
+    order allow,deny
+    allow from all
+</Files>
+
+<Files CHANGELOG.txt,README.md,UPGRADE.txt>
+    order allow,deny
+    allow from all
+</Files>
+
+<Files *.ini>
+    order allow,deny
+    deny from all
+</Files>
+
+#<FilesMatch "\.(xml|txt|html|js|css|gif|png|jpg)$">
+#    order allow,deny
+#    allow from all
+#</FilesMatch>
