@@ -1,3 +1,6 @@
 [submodule "app/libs/kint"]
 	path = app/libs/kint
 	url = https://github.com/raveren/kint/
+[submodule "app/libs/Carbon"]
+	path = app/libs/Carbon
+	url = https://github.com/briannesbitt/Carbon
