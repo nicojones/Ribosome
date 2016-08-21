@@ -22,7 +22,7 @@
      * @throws Exception If a render problem occurs
      */
     function view($view, $vars = [], $template = '') {
-        echo \Core\ParentController::singleton()->get('html/' . str_replace('.', '/', $view), $vars, $template);
+        echo \Core\ParentController::singleton()->get(str_replace('.', '/', $view), $vars, $template);
     }
 
     function t($translationKey) {

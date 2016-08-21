@@ -155,7 +155,7 @@ class ParentController {
      * Shows a view inside a specified template
      * Remember that both $view and $template can be absolute or relative paths
      *
-     * @param string $view The path to the file, being '/' the 'html' directory
+     * @param string $view The path to the file, being '/' the 'views' directory
      * @param string $template The name of the template
      *
      * @throws \Exception specifying the type of missing view.
@@ -163,7 +163,7 @@ class ParentController {
     public function show($view, $template = 'default') {
         ob_start();
         extract($this->vars['view']);
-        if (file_exists($file = ($view[0] === '/' ? $view : str_replace('{view}', 'html/' . $view, $this->viewPath)))) {
+        if (file_exists($file = ($view[0] === '/' ? $view : str_replace('{view}', $view, $this->viewPath)))) {
             try {
                 /* Useful if you need to include extra things to a view */
                 $this->hooks->do_action('include_show_view', ['vars' => $this->vars]);
@@ -432,7 +432,7 @@ class ParentController {
     public function addHeader($vars = [], $headerLocation = FALSE) {
         $header = $headerLocation ?
             $this->get($headerLocation, $vars) :
-            $this->get('html/blocks/header', $vars);
+            $this->get('blocks/header', $vars);
         $this->add('_header', $header);
         return $this;
     }
@@ -447,7 +447,7 @@ class ParentController {
     public function addFooter($vars = [], $footerLocation = FALSE) {
         $footer = $footerLocation ?
             $this->get($footerLocation, $vars) :
-            $this->get('html/blocks/footer', $vars);
+            $this->get('blocks/footer', $vars);
         $this->add('_footer', $footer);
         return $this;
     }
