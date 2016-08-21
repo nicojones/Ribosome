@@ -1,6 +1,6 @@
 <?php
 
-class LoginModel extends \Core\LoginModel
+class LoginModel extends \Core\Auth\PasswordModel
 {
 
     /**

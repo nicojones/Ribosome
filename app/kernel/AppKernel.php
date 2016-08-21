@@ -2,10 +2,14 @@
 
 namespace Kernel;
 
-use Core\Config;
+use Kernel\Providers\Router;
+use Kernel\Providers\Permission;
+
+use Core\Providers\Config;
 use Core\Language;
-use Core\ParentController;
-use Core\Session;
+use Core\Providers\Session;
+use Core\Helpers\Hooks;
+use Core\Exceptions\Exception;
 
 /**
  * Front logic. Dispatches and manages the input flow thread.<br/>
@@ -31,7 +35,9 @@ class AppKernel {
      */
     public static function init() {
         
-        /* We define the encoding */
+        /**
+         * We define the encoding
+         */
         //header('Charset: UTF-8');
 
         /**
@@ -55,7 +61,8 @@ class AppKernel {
         /**
          * Initialize hooks
          */
-        $hooks = $GLOBALS['hooks'] = new \Core\Hooks();
+//        $hooks = $GLOBALS['hooks'] = new Hooks();
+        $hooks = Hooks::init();
         $hooks->do_action('After_Hooks_Setup', $hooks);
 
         /**
@@ -91,7 +98,7 @@ class AppKernel {
          */
         try {
             $controllerClass = $controllerName . 'Controller';
-            if (!class_exists($controllerClass)) {
+            if (!class_exists($controllerClass) && !class_exists($controllerName)) {
                 throw new \Exception(str_replace('[[CLASS]]', $controllerName, $config->get('Exceptions', 'CLASS_NOT_FOUND')));
             }
             if (!method_exists($controllerClass, $action)) {
@@ -145,7 +152,7 @@ class AppKernel {
             /**
              * Catch the exception if something's not OK
              */
-            \Core\ExceptionController::singleton()->showException($e);
+            Exception::singleton()->showException($e);
         }
 
         /* TOTAL time execution */

@@ -1,6 +1,7 @@
 <?php
 
 namespace Core;
+use Core\Providers\Config;
 
 /**
  * Class ParentModel connects to the database and provides useful functions (<b>query</b>, <b>queryIndexed</b>,

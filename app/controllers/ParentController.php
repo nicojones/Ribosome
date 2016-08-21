@@ -1,6 +1,8 @@
 <?php
 
 namespace Core;
+use Core\Helpers\Hooks;
+use Core\Providers\Config;
 
 /**
  * This is the parent class for all controllers in <b>/src/controllers</b>, and indirectly for all controllers
@@ -86,7 +88,7 @@ class ParentController {
             strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
         $this->viewPath = __ROOT__ . '/src/resources/views/{view}.php';
         $this->templatePath = __ROOT__ . '/src/resources/views/templates/{template}Template.php';
-        $this->hooks = $GLOBALS['hooks'];
+        $this->hooks = Hooks::init();//$GLOBALS['hooks'];
     }
 
     /**
@@ -321,10 +323,16 @@ class ParentController {
     /**
      * Performs a header redirection and a die();
      * @param string $path
+     *
+     * @return object A JSON object with redirect instructions (if it's an ajax call) or a Location header.
      */
     public function redirect($path = '') {
-        header ('Location: ' . $path);
-        die();
+        if ($this->ajax) {
+            return $this->json(['redirect' => $path]);
+        } else {
+            header ('Location: ' . $path);
+            die();
+        }
     }
 
     /**
