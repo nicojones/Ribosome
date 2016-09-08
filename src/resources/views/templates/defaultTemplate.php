@@ -13,7 +13,7 @@
         <meta property="og:url" content="<?php echo __SITE_URL__ . $_SERVER['REQUEST_URI'];?>">
         <meta property="og:image" content="<?php echo (!empty($_ogImage) ? $_ogImage : (__SITE_URL__ . $this->asset('images/favicon.png', TRUE))); ?>">
 
-        <link href="<?php echo $this->minimizeURL(['libs/bootstrap/themes/paper_theme.css','custom.css'], 'css');?>"
+        <link href="<?php $this->asset('css/style.css');?>"
               type="text/css" rel="stylesheet"/>
         <?php echo $_style; // Extra, custom-set styles?>
     </head>
@@ -32,6 +32,7 @@
         <div id='fb-root'></div>
 
         <?php view('blocks.preloads');?>
+        <script src="<?php $this->asset('js/script.js');?>" defer="defer"></script>
         <script type="text/javascript">
             var __PATH__ = "<?php echo __PATH__; // you'll need this PATH if you want to, say, add assets from javascript ?>";
             <?php echo $_js; // JS vars added from the controllers?>

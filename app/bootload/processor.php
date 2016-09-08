@@ -88,7 +88,7 @@
             $version = $_GET['version'];
 
             // checking that everything is in order to start
-            $folders = array('controllers', 'bootload', 'kernel', 'models');
+            $folders = array('controllers', 'bootload', 'Kernel', 'models');
             $errors = [];
             if (!is_writable(sys_get_temp_dir())) {
                 $errors[] = "The /tmp folder <b>" . sys_get_temp_dir() . "</b> is not writable";

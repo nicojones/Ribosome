@@ -34,28 +34,14 @@
     }
 
     /**
-     * Returns whether the PHP server is localhost or remote. True if the host matches <b>*.local</b> or <b>localhost</b>.
-     * From the Symfony framework.
-     * @return bool TRUE if the $_SERVER is a local machine; FALSE if it's a remote machine
-     */
-    function isLocalServer() {
-        $remoteServer = (
-               isset($_SERVER['HTTP_CLIENT_IP'])
-            || isset($_SERVER['HTTP_X_FORWARDED_FOR'])
-            || !(in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'fe80::1', '::1'))
-                   || php_sapi_name() === 'cli-server')
-        );
-        return !$remoteServer;
-    }
-
-    /**
      * All <b>Fatal Error</b>s enter this function automatically.
      * Hence we use this to register/catch a Fatal Error and log it (<b>\Kernel\Logger</b>).
      */
     register_shutdown_function(function() {
+        require_once __ROOT__ . '/app/Kernel/Dispatch/Logger.php';
         $error = error_get_last();
 
-        if(class_exists('\\Kernel\\Dispatch\\Logger') && $error !== NULL) {
+        if($error !== NULL) {
             \Kernel\Dispatch\Logger::error($error);
         }
     });
@@ -64,18 +50,39 @@
      * spl_autoload_register is automatically called when PHP can't find a specified class.
      * This scans some folders and includes the aforementioned file.
      */
-    spl_autoload_register(function($name) {
+    spl_autoload_register(function($className) {
+        $exploded = explode('\\', $className);
+
+        // We get the namespace... if it has one
+        if(count($exploded) == 1) {
+            $namespace = "";
+            $name = $exploded[0];
+        } else {
+            list($namespace, $name) = $exploded;
+        }
+
         // local redeclaration; it's faster
         $root = __ROOT__;
 
-        if (file_exists($req = $root . '/src/controllers/' . $name . '.php')) {
-            // ...
-        } elseif (file_exists($req = $root . '/src/models/' . $name . '.php')) {
-            // ...
+        if ($namespace) {
+            if (file_exists($req = $root . '/app/Kernel/' . $name . '.php')) {
+                // ...
+            } elseif (file_exists($req = $root . '/app/controllers/' . $name . '.php')) {
+                // ...
+            } elseif (file_exists($req = $root . '/app/models/' . $name . '.php')) {
+                // ...
+            } else {
+                return false;
+            }
         } else {
-            return false;
+            if (file_exists($req = $root . '/src/controllers/' . $name . '.php')) {
+                // ...
+            } elseif (file_exists($req = $root . '/src/models/' . $name . '.php')) {
+                // ...
+            } else {
+                return false;
+            }
         }
-
         // Require the file, if any
         require_once $req;
         return TRUE;
@@ -168,7 +175,7 @@
 
     /**
      * Saves an associative array to a file <b>${path}.ini</b>
-     * @param $assoc_arr The array to save
+     * @param $assoc_arr array The array to save
      * @param bool|false $has_sections Whether the config file has sections or is of the form &lt;KEY&gt;=&lt;VALUE&gt;
      * @param string $path The absolute path to save the $assoc_arr to
      *
@@ -289,3 +296,23 @@
         closedir($dir);
     }
 
+    /**
+     * Deletes a directory and all the files in it
+     */
+    function deleteDir($dirPath) {
+        if (! is_dir($dirPath)) {
+            throw new InvalidArgumentException("$dirPath must be a directory");
+        }
+        if (substr($dirPath, strlen($dirPath) - 1, 1) != '/') {
+            $dirPath .= '/';
+        }
+        $files = glob($dirPath . '*', GLOB_MARK);
+        foreach ($files as $file) {
+            if (is_dir($file)) {
+                deleteDir($file);
+            } else {
+                unlink($file);
+            }
+        }
+        rmdir($dirPath);
+    }

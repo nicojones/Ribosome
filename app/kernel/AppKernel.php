@@ -125,7 +125,7 @@ class AppKernel {
                 /**
                  * With this we ensure we don't redirect the user to a /ajax/<something>, for instance
                  */
-                if ($permission['after_login'] === TRUE) {
+                if (!empty($route['after_login']) && $route['after_login'] == TRUE) {
                     Session::setAfterLogin($_SERVER['REQUEST_URI']);
                 }
 
@@ -137,8 +137,17 @@ class AppKernel {
                     $controllerClass = $throwTo[0];
                     $action = $throwTo[1];
                 } else {
-                    header('Location: ' . __PATH__ . '/' . $config->get('Routing', $throwTo)['path']);
-                    die;
+                    $location = __PATH__ . '/' . $config->get('Routing', $throwTo)['path'];
+                    if (isAjax()) {
+                        die(json_encode([
+                            'success' => 0,
+                            'responseData' => [
+                                'message' => 'Please login to continue',
+                                'redirect' => $location]]));
+                    } else {
+                        header('Location: ' . $location);
+                        die;
+                    }
                 }
             }
 
@@ -146,7 +155,8 @@ class AppKernel {
              * Call requested action
              */
             $controller = $controllerClass::singleton();
-            $controller->{$action}();
+            $response = $controller->{$action}();
+
         } catch (\Exception $e) {
             $hooks->do_action('general_exception', ['e' => $e]);
             /**

@@ -58,6 +58,8 @@ class HomeController extends Controller {
                 $params['controller'] . '->' . $params['action'] . '()</small>';
         });
         $this->show('home/index');
+
+        return $this;
     }
 
     /*

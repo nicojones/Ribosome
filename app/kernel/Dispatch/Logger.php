@@ -1,7 +1,8 @@
 <?php
 
 namespace Kernel\Dispatch;
-use Core\Config;
+use Core\Providers\Config;
+use Core\Helpers\Hooks;
 
 /**
  * Logs messages to an external database. Configure it from <b>/app/config/config.ini</b>
@@ -22,7 +23,7 @@ class Logger {
     private static $instance = FALSE;
 
     /**
-     * @var \Core\Hooks The instance of the Hooks class.
+     * @var Hooks The instance of the Hooks class.
      */
     protected static $hooks;
 
@@ -38,6 +39,9 @@ class Logger {
         return self::$instance;
     }
 
+    /**
+     *
+     */
     public function __construct() {
         self::$hooks = $GLOBALS['hooks'];
     }

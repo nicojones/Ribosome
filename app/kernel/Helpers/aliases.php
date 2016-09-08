@@ -5,12 +5,13 @@
 
     /**
      * @param string $var Returns the value of $config[$var].
+     * @param string $subVar (optional) Returns the value of $config[$var][$subVar].
      * @aliasFor Config::singleton()->get($var)
      *
      * @return mixed|null
      */
-    function config($var) {
-        return \Core\Config::singleton()->get($var);
+    function config($var, $subVar = null) {
+        return \Core\Config::singleton()->get($var, $subVar);
     }
 
     /**
@@ -58,4 +59,28 @@
     function isAuth() {
         return \Core\Providers\Session::getUser('role') >= __ROLE_ADMIN__;
     }
+
+    /**
+     * @return bool Whether the request was made through an AJAX call
+     */
+    function isAjax() {
+        return (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+            strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
+    }
+
+    /**
+     * Returns whether the PHP server is localhost or remote. True if the host matches <b>*.local</b> or <b>localhost</b>.
+     * From the Symfony framework.
+     * @return bool TRUE if the $_SERVER is a local machine; FALSE if it's a remote machine
+     */
+    function isLocalServer() {
+        $remoteServer = (
+            isset($_SERVER['HTTP_CLIENT_IP'])
+            || isset($_SERVER['HTTP_X_FORWARDED_FOR'])
+            || !(in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'fe80::1', '::1'))
+                || php_sapi_name() === 'cli-server')
+        );
+        return !$remoteServer;
+    }
+
 

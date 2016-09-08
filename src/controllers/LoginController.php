@@ -63,15 +63,26 @@
             $user = $this->auth->login();
 
             if (!$user) {
-                $this->redirect($this->url('Login'));
+                if (isAjax()) {
+                    $this->json(['success' => 0]);
+                } else {
+                    $this->redirect($this->url('Login'));
+                }
             }
+            
             /**
              * Redirect after login if previous attempt got a 403
              */
-            if ($afterLogin = Session::cleanAfterLogin()) {
-                $this->redirect($afterLogin);
+            if ($afterLogin = Session::getAfterLogin()) {
+                Session::cleanAfterLogin();
             } else {
-                $this->redirect($this->url('LoginHome'));
+                $afterLogin = $this->url('LoginHome');
+            }
+
+            if (isAjax()) {
+                $this->json(['redirect' => $afterLogin]);
+            } else {
+                $this->redirect($afterLogin);
             }
         }
 
