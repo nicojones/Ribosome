@@ -48,6 +48,7 @@ class HomeController extends Controller {
     }
 
     public function showHome() {
+
 //        $this->hooks->add_action('extra_params_path', function($params) {
             // I'll appear on the "Login" link on the home page
 //            return ['im_a_hook' => 'yes'];
