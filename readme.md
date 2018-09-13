@@ -11,9 +11,12 @@ Lightweight PHP framework, with
 * ...
 
 See the README online [here](https://github.com/nicojones/Ribosome)
+
 See the full docs [here](https://rawgit.com/nicojones/Ribosome/master/docs/index.html) (generated from comments) or [download it](https://rawgit.com/nicojones/Ribosome/master/docs/-API-documentation.zip)
+
 Fork me on Github, that would make me happy: [https://github.com/nicojones]
-My personal websites can be found at [https://kupfer.es/]  
+
+My personal websites can be found at [https://kupfer.es/]
 
 ## micro Tutorial
 We are going to build a page that shows the current date and time, taking in parameters from the URL.
