@@ -135,3 +135,8 @@ This tells Ribosome that `[Date]` is a page to which the user can be redirected 
 Okay! Now log out (`/logout`), and visit `/date` again. Login… and you’re back looking at our beautiful clock.
 
 Feel free to tinker with the code. Don't forget to look at the docs for reference, or just download them.
+
+<hr/>
+
+Known issues:
+File minimisation isn't working: Please configure gulp to minify assets into the /public folder, or code in it. Sorry
