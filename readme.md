@@ -10,13 +10,29 @@ Lightweight PHP framework, with
 * more stuff ...
 * ...
 
-See the README online [here](https://github.com/nicojones/Ribosome)
+See the README online [here][1]
 
-See the full docs [here](https://rawgit.com/nicojones/Ribosome/master/docs/index.html) (generated from comments) or [download it](https://rawgit.com/nicojones/Ribosome/master/docs/-API-documentation.zip)
+See the full docs [here][2] (generated from comments) or [download it][3]
 
 Fork me on Github, that would make me happy: [https://github.com/nicojones]
 
 My personal websites can be found at [https://kupfer.es/]
+
+## How to set it up
+1. Recommended way:  
+	Type into your terminal
+	git clone —recursive https://github.com/nicojones/Ribosome.git
+The `--recursive` flag is very important, as it will download the latest version of some of the included libraries.
+2. Download the ZIP.  
+	If you do so, remember to also download the libraries on their own, and add them to `/app/libs`
+
+Once downloaded, set up your environment. If you will make a virtual server just for Ribosome, make the `root` point to the `/public` folder, as `app.php` is the index file. In that way, `http://ribosome.local` (or whatever you use) points to `/public`.
+If you *don’t* have a virtual server, or you are just running it as a subfolder of, say, `http://localhost`, you need to edit one file: `/app/config/config.ini`, and set the `__PATH__` global variable to the folder, **including leading slash /**. For example, if you are running it under
+	http://localhost:3000/php/Ribosome/public
+Then you need to set
+	__PATH__ = "/php/Ribosome/public"
+
+That’s it, refresh and you should see the Welcome message.
 
 ## micro Tutorial
 We are going to build a page that shows the current date and time, taking in parameters from the URL.
@@ -24,11 +40,8 @@ We are going to build a page that shows the current date and time, taking in par
 First of all, we will create a `DateController`. There are two easy ways to do this:
 1. By accessing the Configuration Panel on `/?_bootload_` and entering the (default) password 1234.  
 	From there we go to the last option, and we expand it.  
-	  
 	**Generate a controller or model**
-	  
 	Here we can enter the name of the controller we want (in our case, `Date`, without the “Controller” part of the name) and we click on `Generate a Model as well`. We don’t need it for the example but you might need it in the future.
-	  
 	Copy the controller basic structure into `/src/controllers` and the model into `/src/models`.
 
 2. From the terminal, on your project root, call
@@ -39,7 +52,7 @@ Now, we’re ready to start!
 
 First of all, we need a url `path` for our date app, to access it from our browser. We can call it `date`, to keep the naming convention (Model/View/Controller).
 
-Go to `/src/config/routing.ini` and add a new entry for this app:    
+Go to `/src/config/routing.ini` and add a new entry for this app:  
 
 	[Date]
 	path = date
@@ -140,3 +153,7 @@ Feel free to tinker with the code. Don't forget to look at the docs for referenc
 
 Known issues:
 File minimisation isn't working: Please configure gulp to minify assets into the /public folder, or code in it. Sorry
+
+[1]:	https://github.com/nicojones/Ribosome
+[2]:	https://rawgit.com/nicojones/Ribosome/master/docs/index.html
+[3]:	https://rawgit.com/nicojones/Ribosome/master/docs/-API-documentation.zip
