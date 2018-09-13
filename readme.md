@@ -19,10 +19,9 @@ Fork me on Github, that would make me happy: [https://github.com/nicojones]
 My personal websites can be found at [https://kupfer.es/]
 
 ## How to set it up
-1. Recommended way:  
-	Type into your terminal
-		git clone —recursive https://github.com/nicojones/Ribosome.git
-	The `--recursive` flag is very important, as it will download the latest version of some of the included libraries.
+1. Recommended way. Type into your terminal
+	git clone —recursive https://github.com/nicojones/Ribosome.git
+The `--recursive` flag is very important, as it will download the latest version of some of the included libraries.
 2. Alternative way:  
 	404 NOT FOUND. There’s no alternative way (in this case). What could be better than a lovely `git clone` with the `--recursive` flag (so it downloads the subgits as well ;).
 
