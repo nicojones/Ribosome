@@ -1,1 +1,0 @@
-<h1 class="text-center"><?php echo date($format); ?></h1>
