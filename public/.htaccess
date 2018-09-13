@@ -52,13 +52,15 @@ Header set Pragma "no-cache"
 </IfModule>
 
 <IfModule mod_rewrite.c>
+    Options +FollowSymlinks
     RewriteEngine On
+    RewriteBase /public
 #
     RewriteCond %{HTTP_HOST} ^www\.(.+)
     RewriteCond %{HTTPS}s/%1 ^(on(s)|offs)/(.+)
     RewriteRule ^ http%2://%3%{REQUEST_URI} [L,R=301]
 
-    RewriteCond %{HTTP_USER_AGENT} libwww-perl.* 
+    RewriteCond %{HTTP_USER_AGENT} libwww-perl.*
     RewriteRule .* – [F,L]
 
     RewriteCond %{REQUEST_URI}::$1 ^(/.+)/(.*)::\2$
@@ -72,6 +74,7 @@ Header set Pragma "no-cache"
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule .? - [L]
 
+
     RewriteCond $1 !\.(gif|jpe?g|png)$ [NC]
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
@@ -81,12 +84,8 @@ Header set Pragma "no-cache"
     RewriteRule ^images/(.*)$ src/resources/views/assets/images/$1?asset=images [QSA,L]
     RewriteRule ^js/(.*)$ src/resources/views/assets/js/$1?asset=js [QSA,L]
 
-    RewriteRule ^_app/bootload/?$ app/bootload/bootload.php [QSA,L]
-    RewriteRule ^_app/bootloadassets/(.*)$ app/bootload/bootload.php/?assets=$1 [QSA,L]
-    RewriteRule ^_app/version/?$ app/versioning/version.php [QSA,L]
-
     # If you happen to change VENDOR_FOLDER in /app/config/config.ini, change the "src/vendor" part here too.
-    RewriteRule ^vendor_([a-zA-Z\-0-9_]+)/(.*)$ src/vendor/$1/views/assets/$2 [QSA,L]
+    RewriteRule ^vendor_([a-zA-Z\-0-9_]+)/(.*)$ /src/vendor/$1/views/assets/$2 [QSA,L]
 
     # Rewrite all other queries to the front controller.
     RewriteRule .? %{ENV:BASE}/app.php [L]

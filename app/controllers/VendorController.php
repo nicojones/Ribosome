@@ -6,9 +6,9 @@ use Core\Session;
 /**
  * Class VendorController is the parent class for all plugins (located in the plugin folder).<br/>
  * Please notice that some functions, when called from plugins, have different names (<b>view</b>, <b>get</b>, <b>asset</b>). See &#64;see for more details.
- * @see VendorController::vendor_show
- * @see VendorController::vendor_get
- * @see VendorController::vendor_asset
+ * @see VendorController@vendor_show
+ * @see VendorController@vendor_get
+ * @see VendorController@vendor_asset
  * @note Respect the directives for creating new plugins. See the example ones for more info.
  * @package Vendor
  */
@@ -26,6 +26,11 @@ class VendorController extends \Core\ParentController
     public $pluginFolder;
 
     /**
+     * @var array Array to store information about the view: scripts, styles, views, title...
+     */
+    protected $vars;
+
+    /**
      * Returns the class Singleton
      *
      * @return VendorController
@@ -39,7 +44,25 @@ class VendorController extends \Core\ParentController
     }
 
     /**
-     * This is an implementation of ParentController::show() to allow for plugins.
+     *
+     */
+    public function __construct() {
+        parent::__construct();
+
+        $this->vars = [
+            'view' => ['_header' => '', '_footer' => ''],
+            'JS' => '',
+            'script' => [],
+            'scriptSnippet' => '',
+            'style' => [],
+            'styleSnippet' => '',
+            'favicon' => '',
+            'title' => ''
+        ];
+    }
+
+    /**
+     * This is an implementation of ParentController@show() to allow for plugins.
      *
      * Shows a view embedded inside a specified template and die()
      * Remember that both $view and $template can be absolute or relative paths
@@ -69,7 +92,7 @@ class VendorController extends \Core\ParentController
     }
 
     /**
-     * This is an implementation of ParentController::get() to allow for plugins.
+     * This is an implementation of ParentController@get() to allow for plugins.
      *
      * Returns a view, optionally embedded inside a specified template.
      * Remember that both $view and $template can be absolute or relative paths

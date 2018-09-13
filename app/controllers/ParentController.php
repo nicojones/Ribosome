@@ -3,6 +3,7 @@
 namespace Core;
 use Core\Helpers\Hooks;
 use Core\Providers\Config;
+use Core\Exceptions\Exception;
 
 /**
  * This is the parent class for all controllers in <b>/src/controllers</b>, and indirectly for all controllers
@@ -171,7 +172,7 @@ class ParentController {
                 include $file;
             } catch (\Exception $e) {
                 ob_end_clean();
-                ExceptionController::singleton()->showException($e);
+                Exception::singleton()->showException($e);
             }
         } else {
             throw new \Exception(str_replace('[[FILE]]', $file, $this->config->get('Exceptions', 'VIEW_NOT_FOUND')));
@@ -201,7 +202,7 @@ class ParentController {
                 include $templateFile;
             } catch (\Exception $e) {
                 ob_end_clean();
-                ExceptionController::singleton()->showException($e);
+                Exception::singleton()->showException($e);
             }
         } else {
             throw new \Exception(str_replace('[[FILE]]', $template, $this->config->get('Exceptions', 'TEMPLATE_NOT_FOUND')));
@@ -230,7 +231,7 @@ class ParentController {
                 include $file;
             } catch (\Exception $e) {
                 ob_end_clean();
-                ExceptionController::singleton()->showException($e);
+                Exception::singleton()->showException($e);
             }
         } else {
             throw new \Exception(str_replace('[[FILE]]', $file, $this->config->get('Exceptions', 'VIEW_NOT_FOUND')));
@@ -244,7 +245,7 @@ class ParentController {
                     include $templateFile;
                 } catch (\Exception $e) {
                     ob_end_clean();
-                    ExceptionController::singleton()->showException($e);
+                    Exception::singleton()->showException($e);
                 }
             } else {
                 throw new \Exception(str_replace('[[FILE]]', $template, $this->config->get('Exceptions', 'TEMPLATE_NOT_FOUND')));

@@ -13,7 +13,11 @@ class ${name}Controller extends \\Vendor\\VendorController
 {
 ";
         } else {
-            $code.= "class ${name}Controller extends Controller
+            $code.= "
+/**
+ * ${name}Controller seems a cool idea
+ */
+ class ${name}Controller extends Controller
  {
  ";
         }
@@ -47,6 +51,9 @@ class ${name}Controller extends \\Vendor\\VendorController
         return self::\$instance;
     }
 
+    /**
+     * Constructor for the class ${name}Controller
+     */
     public function __construct() {
         parent::__construct();";
         if ($model) {

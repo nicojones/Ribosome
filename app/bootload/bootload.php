@@ -18,17 +18,14 @@
         $_SESSION['bootload_authenticated'] = TRUE;
         if ( isset($_POST['pass']) ) {
             /* If it has just authenticated */
-            header ('Location: ' . S_BASE . '/_app/bootload/ ' /* self */);
+            header ('Location: ' . S_BASE . '/app/bootload/ ' /* self */);
         }
         if ( isset($_GET['logout']) ) {
             $_SESSION['bootload_authenticated'] = FALSE;
-            header('Location: ' . S_BASE . '/_app/bootload/ ' /* self */);
+            header('Location: ' . S_BASE . '/app/bootload/ ' /* self */);
         }
 
         /* All set, user is not an intruder */
-
-        // document root. Change this if you change the location of /bootload
-        define('__ROOT__', __DIR__ . '/../..');
 
     } else {
         /* Intruder = TRUE */
@@ -59,7 +56,7 @@
                 <span class="screen_centered">
                     <h1>You are not allowed here</h1>
                     <form action="" method="post">
-                        <p>The password is in the file <b>security.ini</b></p>
+                        <p>The password is in the file <b>/app/bootload/security.ini</b></p>
                         <input type="password" autocomplete="off" required="" name="pass" autofocus placeholder="Enter the password">
                         <input type="submit" value="Login">
                     </form>
@@ -70,18 +67,18 @@
         die();
     }
 
-require_once 'blocks/functions_globals.php';
+    require_once 'blocks/functions_globals.php';
 
-if (!empty($_GET['assets'])) {
-    asset($_GET['assets']);
-}
-if (!empty($_GET['versioning'])) {
-    versioning($_GET['versioning']);
-}
+    if (!empty($_GET['assets'])) {
+        asset($_GET['assets']);
+    }
+    if (!empty($_GET['versioning'])) {
+        versioning($_GET['versioning']);
+    }
 
-define('LOADER', S_BASE . '/_app/bootloadassets/loader.gif');
+    define('LOADER', S_BASE . '/app/bootloadassets/loader.gif');
 
-$config_INI = parse_ini_file(__ROOT__ . '/app/config/config.ini', TRUE, INI_SCANNER_NORMAL);
+    $config_INI = parse_ini_file(__ROOT__ . '/app/config/config.ini', TRUE, INI_SCANNER_NORMAL);
 
     $config_db = $config_INI['Database'];
     try {
@@ -91,10 +88,13 @@ $config_INI = parse_ini_file(__ROOT__ . '/app/config/config.ini', TRUE, INI_SCAN
         $connectionParamsOK = FALSE;
     }
 
-if (isset($_GET['action'])) {
-    require_once 'processor.php';
-    die();
-} ?>
+    // is it an AJAX call?
+
+    if (isset($_GET['action'])) {
+        require_once __ROOT__ . '/app/bootload/processor.php';
+        die();
+    }
+?>
 
 <!DOCTYPE html>
 <html>
@@ -110,14 +110,16 @@ if (isset($_GET['action'])) {
             <img src="<?php echo LOADER?>" width="100%"/>
         </div>
         <div class="container container-fluid" id="all_content" style="display:none;">
-            <div class="row" id="check_for_updates_box">
+            <div class="row"><h1>Configuration panel</h1>
+                <hr></div>
+            <div class="row" id="check_for_updates_box" style="display:none">
                 <h2>
                     <span class="plus" id="toggle_plus_Framework_Versions" onclick="toggleSection('Framework_Versions')">+</span>
                     <span class="glyphicon glyphicon-transfer"></span>
                     Versioning and Upgrades <small id="label_upgrade" style="font-size: 13px;top: -8px;position: relative"></small></h2>
                 <div class="col-xs-12 section_toggle" id="section_Framework_Versions">
                     <img id="frameworkversions_loader" src="<?= LOADER ?>" height="30px" style="display: none;" class="pull-left"/>
-                    <a href="?action=check-updates" class="_async btn btn-default pull-left" id="check_for_updates_button"
+                    <a href="?_bootload_&action=check-updates" class="_async btn btn-default pull-left" id="check_for_updates_button"
                        data-loading-text="Checking..." data-loading="frameworkversions_loader"
                        data-success="$('#label_upgrade').addClass('label ' + (data.success ? 'label-success':'label-default')).html('<span class=\'glyphicon glyphicon-' + (data.success ? 'ok':'refresh') + '\'></span>')"
                        data-response-box="frameworkversions_results">Check for updates</a>
@@ -134,7 +136,7 @@ if (isset($_GET['action'])) {
                     Run diagnosis for the framework</h2>
                 <div class="col-xs-12 section_toggle" id="section_Run_Diagnosis">
                     <img id="diagnosis_loader" src="<?= LOADER ?>" height="30px" style="display: none;" class="pull-left"/>
-                    <a href="?action=run-diagnosis" class="_async btn btn-default pull-left"
+                    <a href="?_bootload_&action=run-diagnosis" class="_async btn btn-default pull-left"
                        data-loading-text="Running..." data-loading="diagnosis_loader"
                        data-response-box="diagnosis_results">Run diagnosis</a>
                     <br/>
@@ -157,11 +159,11 @@ if (isset($_GET['action'])) {
                             </p>
                         </div>
                         <?php
-                            $dirFiles = scandir('config_sections');
+                            $dirFiles = scandir(__ROOT__ . '/app/bootload/config_sections');
                             foreach ($dirFiles as $f) { ?>
                                 <?php if ($f[0] == '.') continue; ?>
                                     <div class="col-xs-12">
-                                        <?php include 'config_sections/' . $f;?>
+                                        <?php include __ROOT__ . '/app/bootload/config_sections/' . $f;?>
                                         <hr/>
                                     </div>
                             <?php } ?>
@@ -177,7 +179,7 @@ if (isset($_GET['action'])) {
                     <div class="col-xs-12 section_toggle" id="section_Vendor_Cache_ini">
                         <p class="help-block"></p>
                         <img id="vendor_ini_loader" src="<?= LOADER ?>" height="30px" style="display: none;" class="pull-left"/>
-                        <a href="?action=vendor-cache-refresh" class="_async pull-left btn btn-default" data-loading="vendor_ini_loader"
+                        <a href="?_bootload_&action=vendor-cache-refresh" class="_async pull-left btn btn-default" data-loading="vendor_ini_loader"
                             data-loading-text="Updating cache file">
                             Refresh <code>vendor_ini.ini</code> cache</a>
                     </div>
@@ -202,7 +204,7 @@ if (isset($_GET['action'])) {
                     <span class="glyphicon glyphicon-file"></span>
                     Generate a controller or model</h2>
                 <div class="col-xs-12 section_toggle" id="section_Generate_Class">
-                    <form class="_form-async" action="?action=generate-class" method="POST" id="generate_class_form"
+                    <form class="_form-async" action="?_bootload_&action=generate-class" method="POST" id="generate_class_form"
                           data-success="writeControllerCode(data.responseData)">
                         <div class="form-group">
                             <label for="class_name">Name of the class</label>
@@ -219,7 +221,7 @@ if (isset($_GET['action'])) {
                         </div>
                         <h4 id="will_generate_class"></h4>
 <!--                    <img id="createclass_loader" src="--><?//= LOADER ?><!--" height="30px" style="display: none;" class="pull-left"/>-->
-<!--                    <a href="?action=generate-class" class="btn btn-default pull-left"-->
+<!--                    <a href="?_bootload_&action=generate-class" class="btn btn-default pull-left"-->
 <!--                       data-loading-text="Checking..." data-loading="createclass_loader"-->
 <!--                        data-success="gid('createclass_controller').value = data.responseData.controller;-->
 <!--                        gid('createclass_controller').innerHTML = data.responseData.model;-->
@@ -234,11 +236,11 @@ if (isset($_GET['action'])) {
                     <div class="row" id="createclass_results">
                         <div class="col-xs-6">
                             <h4>Controller <span id="createclass_controllername">will appear here</span></h4>
-                            <textarea id="createclass_controller" class="form-control" style="min-height: 250px" onclick="this.select()"></textarea>
+                            <textarea id="createclass_controller" class="form-control" style="min-height: 450px" onclick="this.select()"></textarea>
                         </div>
                         <div class="col-xs-6">
                             <h4>Model <span id="createclass_modelname">will appear here</span></h4>
-                            <textarea id="createclass_model" class="form-control" style="min-height: 250px" onclick="this.select()"></textarea>
+                            <textarea id="createclass_model" class="form-control" style="min-height: 450px" onclick="this.select()"></textarea>
                         </div>
                     </div>
                 </div>

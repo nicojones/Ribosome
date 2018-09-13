@@ -72,10 +72,12 @@ class AppKernel {
             ->load('config.ini')
             ->load('routing.ini', FALSE, 'Routing')
             ->load('permissions.ini', FALSE, 'Permissions')
-            ->load(__ROOT__ . '/src/resources/routing/permissions.ini', TRUE, 'Permissions')
-            ->load(__ROOT__ . '/src/resources/routing/routing.ini', TRUE, 'Routing')
+            ->load(__ROOT__ . '/src/config/globals.ini', TRUE)
+            ->load(__ROOT__ . '/src/config/permissions.ini', TRUE, 'Permissions')
+            ->load(__ROOT__ . '/src/config/routing.ini', TRUE, 'Routing')
             ->loadVendors();
 
+//        ddie($config);
         /**
          * Set the language:
          */

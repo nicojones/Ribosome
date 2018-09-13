@@ -6,3 +6,5 @@
     <br/>
     <a href="<?php $this->path('Login');?>" class="btn btn-default btn-sm">Login</a>
 </div>
+
+<?= SOME_GLOBAL ?>

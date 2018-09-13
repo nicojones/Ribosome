@@ -140,9 +140,6 @@ class Config
             if (!defined($namespace . $key)) {
                 DEFINE($namespace . $key, $value);
             }
-            //if (!defined('__' . $key . '__')) {
-            //    DEFINE('__' . $key . '__', $value);
-            //}
         }
         return self::$instance;
     }
@@ -201,6 +198,7 @@ class Config
             $this->cacheIni['Config'][$f] = $vendorFolder . '/config/config.ini';
             $this->cacheIni['Permissions'][$f] = $vendorFolder . '/config/permissions.ini';
             $this->cacheIni['Routing'][$f] = $vendorFolder . '/config/routing.ini';
+
         }
 
         // we leave it for now. We want each "dev" execution to save the vendor_ini configuration.

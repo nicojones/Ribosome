@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class Core\ParentModel | Ribosome</title>
+
+	<link rel="stylesheet" href="resources/style.css?c2f33731c1948fbed7c333554678bfa68d4817da">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li class="active">
+					<a href="namespace-Core.html">
+						Core<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-Core.Auth.html">
+						Auth					</a>
+
+						</li>
+				<li>
+					<a href="namespace-Core.Exceptions.html">
+						Exceptions					</a>
+
+						</li>
+				<li>
+					<a href="namespace-Core.Helpers.html">
+						Helpers					</a>
+
+						</li>
+				<li>
+					<a href="namespace-Core.Providers.html">
+						Providers					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-Kernel.html">
+						Kernel<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-Kernel.Dispatch.html">
+						Dispatch					</a>
+
+						</li>
+				<li>
+					<a href="namespace-Kernel.Providers.html">
+						Providers					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-None.html">
+						None					</a>
+
+						</li>
+				<li>
+					<a href="namespace-Vendor.html">
+						Vendor					</a>
+
+						</li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Core.AbstractClass.html">AbstractClass</a></li>
+				<li><a href="class-Core.ErrorController.html">ErrorController</a></li>
+				<li><a href="class-Core.Language.html">Language</a></li>
+				<li><a href="class-Core.ParentController.html">ParentController</a></li>
+				<li class="active"><a href="class-Core.ParentModel.html">ParentModel</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-Core.html" title="Summary of Core"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class ParentModel</h1>
+
+
+	<div class="description">
+	<p>Class ParentModel connects to the database and provides useful functions (<b>query</b>, <b>queryIndexed</b>,
+<b>updateRow</b>, <b>getRow</b>). See each one for more details.</p>
+	</div>
+
+
+
+	<div>
+		<h4>Direct known subclasses</h4>
+			<a href="class-Core.Auth.PasswordModel.html">Core\Auth\PasswordModel</a>, 
+			<a href="class-Core.Providers.Service.html">Core\Providers\Service</a>, 
+			<a href="class-Model.html">Model</a>
+	</div>
+
+	<div>
+		<h4>Indirect known subclasses</h4>
+			<a href="class-DateModel.html">DateModel</a>, 
+			<a href="class-HomeModel.html">HomeModel</a>, 
+			<a href="class-LoginModel.html">LoginModel</a>
+	</div>
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-Core.html">Core</a><br>
+		
+
+				<b>Author:</b>
+				Nico Kupfer nico.kupfer&#64;mamasu.es<br>
+			<b>Located at</b> <a href="source-class-Core.ParentModel.html#6-158" title="Go to source code">app/models/ParentModel.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="singleton" id="_singleton">
+
+		<td class="attributes"><code>
+			 public static
+
+			<code><a href="class-Core.ParentModel.html">Core\ParentModel</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_singleton">#</a>
+		<code><a href="source-class-Core.ParentModel.html#62-73" title="Go to source code">singleton</a>( )</code>
+
+		<div class="description short">
+			<p>Returns the class instance, creating it if it did not exist.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns the class instance, creating it if it did not exist.</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-Core.ParentModel.html">Core\ParentModel</a></code>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="query" id="_query">
+
+		<td class="attributes"><code>
+			 public 
+
+			PDO
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_query">#</a>
+		<code><a href="source-class-Core.ParentModel.html#75-90" title="Go to source code">query</a>( <span>string <var>$query</var></span>, <span>array <var>$params</var> = <span class="php-keyword1">array</span>()</span>, <span>boolean <var>$fetchAll</var> = <span class="php-keyword1">FALSE</span></span> )</code>
+
+		<div class="description short">
+			<p>Runs a given $query string and returns the PDO object.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Runs a given $query string and returns the PDO object.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$query</var></dt>
+					<dd></dd>
+					<dt><var>$params</var></dt>
+					<dd>= array()</dd>
+					<dt><var>$fetchAll</var></dt>
+					<dd>= FALSE perform a fetchAll(PDO::FETCH_ASSOC) or simply return the PDO object</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					PDO
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="queryClass" id="_queryClass">
+
+		<td class="attributes"><code>
+			 public 
+
+			PDO
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_queryClass">#</a>
+		<code><a href="source-class-Core.ParentModel.html#92-106" title="Go to source code">queryClass</a>( <span>string <var>$query</var></span>, <span>array <var>$params</var></span>, <span>string <var>$className</var></span> )</code>
+
+		<div class="description short">
+			<p>Runs a given $query string and returns the instance of the $className.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Runs a given $query string and returns the instance of the $className.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$query</var></dt>
+					<dd></dd>
+					<dt><var>$params</var></dt>
+					<dd></dd>
+					<dt><var>$className</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					PDO
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="queryIndexed" id="_queryIndexed">
+
+		<td class="attributes"><code>
+			 public 
+
+			PDO
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_queryIndexed">#</a>
+		<code><a href="source-class-Core.ParentModel.html#108-125" title="Go to source code">queryIndexed</a>( <span>string <var>$query</var></span>, <span>array <var>$params</var> = <span class="php-keyword1">array</span>()</span>, <span>boolean <var>$unique</var> = <span class="php-keyword1">TRUE</span></span> )</code>
+
+		<div class="description short">
+			<p>Runs a given $query string and returns the PDO object or the fetched results,
+indexed by the first column.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Runs a given $query string and returns the PDO object or the fetched results,
+indexed by the first column.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$query</var></dt>
+					<dd></dd>
+					<dt><var>$params</var></dt>
+					<dd></dd>
+					<dt><var>$unique</var></dt>
+					<dd>= TRUE. If set to FALSE, each key will contain an array of values.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					PDO
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getRow" id="_getRow">
+
+		<td class="attributes"><code>
+			 public 
+
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getRow">#</a>
+		<code><a href="source-class-Core.ParentModel.html#127-140" title="Go to source code">getRow</a>( <span>string <var>$tableName</var></span>, <span>string <var>$columnValue</var></span>, <span>string <var>$columnName</var> = <span class="php-quote">'id'</span></span> )</code>
+
+		<div class="description short">
+			<p>Gets a single result from a given table name and a given column name</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Gets a single result from a given table name and a given column name</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$tableName</var></dt>
+					<dd></dd>
+					<dt><var>$columnValue</var></dt>
+					<dd></dd>
+					<dt><var>$columnName</var></dt>
+					<dd>= 'id'</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					array<br>with the fetched row
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="updateRow" id="_updateRow">
+
+		<td class="attributes"><code>
+			 public 
+
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_updateRow">#</a>
+		<code><a href="source-class-Core.ParentModel.html#142-157" title="Go to source code">updateRow</a>( <span>string <var>$tableName</var></span>, <span>string <var>$columnName</var></span>, <span>integer <var>$id</var></span>, <span>mixed <var>$value</var></span> )</code>
+
+		<div class="description short">
+			<p>Updates a given row of a given table to a given value</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Updates a given row of a given table to a given value</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$tableName</var></dt>
+					<dd>Name of the table to update</dd>
+					<dt><var>$columnName</var></dt>
+					<dd>Name of the column to update</dd>
+					<dt><var>$id</var></dt>
+					<dd>The ID to index results</dd>
+					<dt><var>$value</var></dt>
+					<dd>The value to set</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					integer<br>The number of affected rows (1 or 0)
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary properties" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="db" id="$db">
+		<td class="attributes"><code>
+			protected  
+			PDO
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Core.ParentModel.html#19-22" title="Go to source code"><var>$db</var></a>
+
+			<div class="description short">
+				<p>The database object.</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>The database object.</p>
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$db" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="config" id="$config">
+		<td class="attributes"><code>
+			protected  
+			<code><a href="class-Core.Providers.Config.html">Core\Providers\Config</a></code>
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Core.ParentModel.html#24-27" title="Go to source code"><var>$config</var></a>
+
+			<div class="description short">
+				<p>The instance of the Config class.</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>The instance of the Config class.</p>
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$config" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="id" id="$id">
+		<td class="attributes"><code>
+			protected  
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Core.ParentModel.html#29-32" title="Go to source code"><var>$id</var></a>
+
+			<div class="description short">
+				<p>The project ID. Set from <b>/app/config/config.ini</b>.</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>The project ID. Set from <b>/app/config/config.ini</b>.</p>
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$id" class="anchor">#</a>
+				<code>__ID__</code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		Ribosome API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>

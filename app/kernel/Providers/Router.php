@@ -45,7 +45,7 @@ class Router {
     public static function matchRoute() {        
         $config = Config::singleton();
         $routing = $config->get('Routing');
-        
+
         self::$uri = substr(strtok($_SERVER['REQUEST_URI'] ?: '/', '?'), strlen(__PATH__) + 1);
         foreach ($routing as $routeKey => $route) {
             if (

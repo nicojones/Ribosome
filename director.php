@@ -4,22 +4,22 @@
     define ('FILE_EXISTS', "The class %s exists. Please delete it first if you want to re-generate it.\n");
     define ('UNKNOWN_ACTION', "Sorry, the required action doesn't exist.\nTry 'help' for a list of available commands\n\n");
     define ('EMPTY_CLASS_NAME', "You must specify the class name, i.e. make:controller Product (would generate ProductController)\n");
+    define ('HELP', "\nGenerate a 'controller', 'model' or 'both' by typing: `generate:<what> <name>`. \n" .
+                    "\nExample:\n\ngenerate:controller User ----> will create UserController.php\n".
+                    "generate:both Checklist  ----> will create ChecklistController.php + ChecklistModel.php\n\n");
 
     $option = $argv[1];
 
     switch ($option) {
         case 'help':
-            break;
-
-        case 'tinker':
-
+            die (HELP);
             break;
 
         default:
             if (strpos($option, ':') !== FALSE) {
                 list($action, $object) = explode(':', $option);
                 switch ($action) {
-                    case 'make':
+                    case 'generate':
                         if (empty($argv[2])) {
                             die(EMPTY_CLASS_NAME);
                         }
@@ -32,7 +32,7 @@
                                 generateFile($object, $name, false);
                                 break;
 
-                            case 'all':
+                            case 'both':
                                 generateFile('controller', $name, false);
                                 generateFile('model', $name, false);
                                 break;
@@ -43,7 +43,8 @@
                         }
                         break;
 
-                    case 'dump':
+                    default:
+                        die(UNKNOWN_ACTION);
                         break;
 
                 }

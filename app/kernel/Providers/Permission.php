@@ -61,7 +61,7 @@ class Permission {
      * Returns whether the user has permission to acces a given method
      * @param string $controller The controller name
      * @param string $method The method name
-     * @return bool $accesAllowed;
+     * @return bool $accessAllowed;
      */
     public function checkPermission($controller, $method) {
         $controllerPermission = $this->config->get('Permissions', $controller);

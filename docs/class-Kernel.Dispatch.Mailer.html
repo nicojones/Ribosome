@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class Kernel\Dispatch\Mailer | Ribosome</title>
+
+	<link rel="stylesheet" href="resources/style.css?c2f33731c1948fbed7c333554678bfa68d4817da">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li>
+					<a href="namespace-Core.html">
+						Core<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-Core.Auth.html">
+						Auth					</a>
+
+						</li>
+				<li>
+					<a href="namespace-Core.Exceptions.html">
+						Exceptions					</a>
+
+						</li>
+				<li>
+					<a href="namespace-Core.Helpers.html">
+						Helpers					</a>
+
+						</li>
+				<li>
+					<a href="namespace-Core.Providers.html">
+						Providers					</a>
+
+						</li>
+							</ul></li>
+				<li class="active">
+					<a href="namespace-Kernel.html">
+						Kernel<span></span>
+					</a>
+
+						<ul>
+				<li class="active">
+					<a href="namespace-Kernel.Dispatch.html">
+						Dispatch					</a>
+
+						</li>
+				<li>
+					<a href="namespace-Kernel.Providers.html">
+						Providers					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-None.html">
+						None					</a>
+
+						</li>
+				<li>
+					<a href="namespace-Vendor.html">
+						Vendor					</a>
+
+						</li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Kernel.Dispatch.Logger.html">Logger</a></li>
+				<li class="active"><a href="class-Kernel.Dispatch.Mailer.html">Mailer</a></li>
+				<li><a href="class-Kernel.Dispatch.Mailer_PHP.html">Mailer_PHP</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-Kernel.Dispatch.html" title="Summary of Kernel\Dispatch"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class Mailer</h1>
+
+
+	<div class="description">
+	<p>Send an email using Mandrillapp. Set the &lt;key&gt; from <b>/app/config/config.ini</b></p>
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-Kernel.html">Kernel</a>\<a href="namespace-Kernel.Dispatch.html">Dispatch</a><br>
+		<b>Package:</b> Kernel<br>
+
+				<b>Url:</b>
+				http://mandrillapp.com<br>
+			<b>Located at</b> <a href="source-class-Kernel.Dispatch.Mailer.html#9-125" title="Go to source code">app/Kernel/Dispatch/Mailer.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="singleton" id="_singleton">
+
+		<td class="attributes"><code>
+			 public static
+
+			<code><a href="class-Kernel.Dispatch.Mailer.html">Kernel\Dispatch\Mailer</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_singleton">#</a>
+		<code><a href="source-class-Kernel.Dispatch.Mailer.html#36-46" title="Go to source code">singleton</a>( )</code>
+
+		<div class="description short">
+			<p>Returns a Mailer instance, creating it if it did not exist.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns a Mailer instance, creating it if it did not exist.</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-Kernel.Dispatch.Mailer.html">Kernel\Dispatch\Mailer</a></code>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="sendEmail" id="_sendEmail">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_sendEmail">#</a>
+		<code><a href="source-class-Kernel.Dispatch.Mailer.html#48-124" title="Go to source code">sendEmail</a>( <span>mixed <var>$to</var></span>, <span>string <var>$subject</var></span>, <span>string <var>$message</var></span>, <span>mixed <var>$from</var> = []</span>, <span>mixed <var>$replyTo</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$bcc</var> = <span class="php-quote">''</span></span>, <span>array <var>$files</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			<p>Sends an email using the PHP function, but first setting the appropriate headers, content-types... and <b>attached files</b>.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Sends an email using the PHP function, but first setting the appropriate headers, content-types... and <b>attached files</b>.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$to</var></dt>
+					<dd>Send it to whom? can be a string "john&#64;example.com", an array('john&#64;example.com', 'John Smith') or an array('Addresses' => array(array('john&#64;example.com', 'John Smith'), 'peter&#64;example.com', ....))</dd>
+					<dt><var>$subject</var></dt>
+					<dd>The message subject for the email</dd>
+					<dt><var>$message</var></dt>
+					<dd>The message body</dd>
+					<dt><var>$from</var></dt>
+					<dd>array('somebody&#64;example.com', 'Foo Bar');</dd>
+					<dt><var>$replyTo</var></dt>
+					<dd>'somebody&#64;example.com'. The email address to reply to;</dd>
+					<dt><var>$bcc</var></dt>
+					<dd>'im-secret&#64;example.com'. The email address to bcc to;</dd>
+					<dt><var>$files</var></dt>
+					<dd>(default array() ) Array with the filenames of the desired files to attach.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean<br>TRUE if sending was OK, FALSE otherwise. This <b>does not mean</b> the email will be delivered: it just means there was no error when sending it
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					Exception:Mandril_Error<br>
+					Exception
+				</div>
+
+				<h4>Author</h4>
+				<div class="list">
+						Nico Kupfer<br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary properties" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="mail" id="$mail">
+		<td class="attributes"><code>
+			public  
+			Mandrill
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Kernel.Dispatch.Mailer.html#22-25" title="Go to source code"><var>$mail</var></a>
+
+			<div class="description short">
+				<p>A Mandrillapp instance, responsible of sending the email.</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>A Mandrillapp instance, responsible of sending the email.</p>
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$mail" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="config" id="$config">
+		<td class="attributes"><code>
+			protected  
+			Core\Config
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Kernel.Dispatch.Mailer.html#27-30" title="Go to source code"><var>$config</var></a>
+
+			<div class="description short">
+				<p>The instance of the Config class.</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>The instance of the Config class.</p>
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$config" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		Ribosome API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>
