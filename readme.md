@@ -21,10 +21,10 @@ My personal websites can be found at [https://kupfer.es/]
 ## How to set it up
 1. Recommended way:  
 	Type into your terminal
-	git clone —recursive https://github.com/nicojones/Ribosome.git
+		git clone —recursive https://github.com/nicojones/Ribosome.git
 The `--recursive` flag is very important, as it will download the latest version of some of the included libraries.
-2. Download the ZIP.  
-	If you do so, remember to also download the libraries on their own, and add them to `/app/libs`
+2. Alternative way:  
+	404 NOT FOUND. There’s no alternative way (in this case). What could be better than a lovely `git clone` with the `--recursive` flag (so it downloads the subgits as well ;).
 
 Once downloaded, set up your environment. If you will make a virtual server just for Ribosome, make the `root` point to the `/public` folder, as `app.php` is the index file. In that way, `http://ribosome.local` (or whatever you use) points to `/public`.
 If you *don’t* have a virtual server, or you are just running it as a subfolder of, say, `http://localhost`, you need to edit one file: `/app/config/config.ini`, and set the `__PATH__` global variable to the folder, **including leading slash /**. For example, if you are running it under
