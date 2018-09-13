@@ -25,7 +25,7 @@ First of all, we will create a `DateController`. There are two easy ways to do t
 1. By accessing the Configuration Panel on `/?_bootload_` and entering the (default) password 1234.  
 	From there we go to the last option, and we expand it.  
 	  
-	![](Screen%20Shot%202018-09-13%20at%2013.49.34.png)  
+	**Generate a controller or model**
 	  
 	Here we can enter the name of the controller we want (in our case, `Date`, without the “Controller” part of the name) and we click on `Generate a Model as well`. We don’t need it for the example but you might need it in the future.
 	  
