@@ -21,7 +21,7 @@ My personal websites can be found at [https://kupfer.es/]
 ## How to set it up
 1. Recommended way. Type into your terminal
 
-	git clone —recursive https://github.com/nicojones/Ribosome.git
+	   git clone —recursive https://github.com/nicojones/Ribosome.git
   
 The `--recursive` flag is very important, as it will download the latest version of some of the included libraries.
 2. Alternative way:  
@@ -44,14 +44,16 @@ We are going to build a page that shows the current date and time, taking in par
 
 First of all, we will create a `DateController`. There are two easy ways to do this:
 1. By accessing the Configuration Panel on `/?_bootload_` and entering the (default) password 1234.  
-	From there we go to the last option, and we expand it.  
+	From there we go to the last option, and we expand it.
+	  
 	**Generate a controller or model**
+
 	Here we can enter the name of the controller we want (in our case, `Date`, without the “Controller” part of the name) and we click on `Generate a Model as well`. We don’t need it for the example but you might need it in the future.
 	Copy the controller basic structure into `/src/controllers` and the model into `/src/models`.
 
 2. From the terminal, on your project root, call
 
-		php director.php generate:both Date 
+		nicoJones:Ribosome ~$ php director.php generate:both Date 
 
 and automatically the Controller and the Model will be generated and placed in the appropriate folder.
 
@@ -115,7 +117,7 @@ and change the view accordingly to use only the parameter:
 
 We can even go a bit further and make the URI component more user-friendly. Ideally, we would like something like:
 `/date/format/H.i.s`.
-Let’s do it! From the routing page `/src/config/routing.ini` we will change how it is processed by using wildcards:
+Let’s do it! From the routing page `/src/config/routing.ini` we will change how it is processed, using wildcards:
 
 	[Date]
 	path = date/:word/:format
@@ -142,6 +144,7 @@ Go to `/src/config/permissions` and add a new entry for `Date`:
 This is very simple. Ribosome is built on top of an access level system, meaning `1 = unlogged` and `2 = logged` (there’s also `3 = superadmin`).
 
 What this entry in `permissions.ini` is saying is:
+
 *A logged in user [level 2] can access `showDate`. Any unlogged user can visit any other page from the `DateController` except for `showDate`: otherwise they will be redirected to `/login`, which is the path specified under the `routing.ini` key `[Login]`.*
 
 Try accessing `/data` now and you’ll be redirected to `/login`.
