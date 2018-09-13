@@ -7,11 +7,13 @@ Lightweight PHP framework, with
 * Assets
 * File minimisation
 * director.php for file generation
-* ...
 * more stuff ...
 * ...
 
-See the full docs [here](https://rawgit.com/nicojones/Ribosome/master/src/resources/views/docs/2.1.1/index.html) (generated from comments)
+See the README online [here](https://github.com/nicojones/Ribosome)
+See the full docs [here](https://rawgit.com/nicojones/Ribosome/master/docs/index.html) (generated from comments) or [download it](https://rawgit.com/nicojones/Ribosome/master/docs/-API-documentation.zip)
+Fork me on Github, that would make me happy: [https://github.com/nicojones]
+My personal websites can be found at [https://kupfer.es/]
 
 ## micro Tutorial
 We are going to build a page that shows the current date and time, taking in parameters from the URL.
@@ -128,3 +130,5 @@ In `routing.ini` we add the line `after_login = 1` so it looks like this:
 This tells Ribosome that `[Date]` is a page to which the user can be redirected after login.
 
 Okay! Now log out (`/logout`), and visit `/date` again. Login… and you’re back looking at our beautiful clock.
+
+Feel free to tinker with the code. Don't forget to look at the docs for reference, or just download them.
