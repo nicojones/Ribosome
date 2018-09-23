@@ -1,7 +1,7 @@
 <?php $section = "Globals"; $id = 1; $ci = $config_INI[$section];?>
 <h4><?= $section ?></h4>
 <p class="help-block"><code>DEFINE("GLOBAL_VARS", "and its values")</code> here and use them everywhere in the project.</p><br/>
-<form action="?step=3&action=save_ini&ini_section=<?= $section ?>" method="post" class="_form-async"
+<form action="<?php echo BOOTLOAD_URL ?>&step=3&action=save_ini&ini_section=<?= $section ?>" method="post" class="_form-async"
       id="section_<?= $section ?>" style="_display:none">
     <div class="row form-group">
         <div class="col-xs-10">

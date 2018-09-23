@@ -1,6 +1,6 @@
 <?php $section = "Log"; $ci = $config_INI[$section];?>
 <h4><?= $section ?></h4>
-<form action="?step=8&action=save_ini&ini_section=<?= $section ?>" method="post" class="_form-async"
+<form action="<?php echo BOOTLOAD_URL ?>&step=8&action=save_ini&ini_section=<?= $section ?>" method="post" class="_form-async"
       id="section_<?= $section ?>" style="_display:none">
     <div class="row form-group">
         <div class="col-xs-12">

@@ -4,25 +4,37 @@
     $security = parse_ini_file('security.ini');
     define('BOOTLOAD_PASSWORD', $security['PASSWORD']);
     define('S_BASE', !empty($_SERVER['BASE']) ? $_SERVER['BASE'] : "");
+    define('BOOTLOAD_URL', '?_bootload_');
+    define('LOADER', S_BASE . BOOTLOAD_URL . '&loader=loader.gif');
+
+    // return the loader, if requested:
+    if (!empty($_GET['loader'])) {
+        header("Content-type: image/jpeg");
+        readfile(__ROOT__ . '/app/bootload/assets/' . $_GET['loader']);
+        die();
+    }
 
     /* If you are working in local ( HTTP_HOST = *.local ) you don't need authentication. */
-    if (    (
-                isset($_SERVER['HTTP_CLIENT_IP'])
-                || isset($_SERVER['HTTP_X_FORWARDED_FOR'])
-                || !(in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'fe80::1', '::1'))
-                    || php_sapi_name() === 'cli-server')
-            ) ||
-            ( isset($_SESSION['bootload_authenticated']) && $_SESSION['bootload_authenticated'] == TRUE ) ||
-            ( isset($_POST['pass']) && $_POST['pass'] == BOOTLOAD_PASSWORD )
+    if (
+            (
+               isset($_SERVER['HTTP_CLIENT_IP'])
+            || isset($_SERVER['HTTP_X_FORWARDED_FOR'])
+            || !(
+                   in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'fe80::1', '::1'))
+                || php_sapi_name() === 'cli-server'
+                )
+            )
+            || ( isset($_SESSION['bootload_authenticated']) && $_SESSION['bootload_authenticated'] == TRUE )
+            || ( isset($_POST['bootload_pass']) && $_POST['bootload_pass'] == BOOTLOAD_PASSWORD )
     ) {
         $_SESSION['bootload_authenticated'] = TRUE;
-        if ( isset($_POST['pass']) ) {
+        if ( isset($_POST['bootload_pass']) ) {
             /* If it has just authenticated */
-            header ('Location: ' . S_BASE . '/app/bootload/ ' /* self */);
+            header ('Location: ' . S_BASE . BOOTLOAD_URL  /* self */);
         }
         if ( isset($_GET['logout']) ) {
             $_SESSION['bootload_authenticated'] = FALSE;
-            header('Location: ' . S_BASE . '/app/bootload/ ' /* self */);
+            header('Location: ' . S_BASE . BOOTLOAD_URL /* self */);
         }
 
         /* All set, user is not an intruder */
@@ -55,9 +67,10 @@
                 </style>
                 <span class="screen_centered">
                     <h1>You are not allowed here</h1>
-                    <form action="" method="post">
-                        <p>The password is in the file <b>/app/bootload/security.ini</b></p>
-                        <input type="password" autocomplete="off" required="" name="pass" autofocus placeholder="Enter the password">
+                    <form action="/<?php echo BOOTLOAD_URL ?>" method="post">
+                        <p>The password is in the file <b>security.ini</b></p>
+                        <input type="password" autocomplete="off" required="" name="bootload_pass"
+                               autofocus placeholder="Enter the password">
                         <input type="submit" value="Login">
                     </form>
                 </span>
@@ -67,18 +80,17 @@
         die();
     }
 
-    require_once 'blocks/functions_globals.php';
+require_once 'blocks/functions_globals.php';
 
-    if (!empty($_GET['assets'])) {
-        asset($_GET['assets']);
-    }
-    if (!empty($_GET['versioning'])) {
-        versioning($_GET['versioning']);
-    }
+if (!empty($_GET['assets'])) {
+    asset($_GET['assets']);
+}
+if (!empty($_GET['versioning'])) {
+    versioning($_GET['versioning']);
+}
 
-    define('LOADER', S_BASE . '/app/bootloadassets/loader.gif');
 
-    $config_INI = parse_ini_file(__ROOT__ . '/app/config/config.ini', TRUE, INI_SCANNER_NORMAL);
+$config_INI = parse_ini_file(__ROOT__ . '/app/config/config.ini', TRUE, INI_SCANNER_NORMAL);
 
     $config_db = $config_INI['Database'];
     try {
@@ -88,13 +100,10 @@
         $connectionParamsOK = FALSE;
     }
 
-    // is it an AJAX call?
-
-    if (isset($_GET['action'])) {
-        require_once __ROOT__ . '/app/bootload/processor.php';
-        die();
-    }
-?>
+if (isset($_GET['action'])) {
+    require_once __ROOT__ . '/app/bootload/processor.php';
+    die();
+} ?>
 
 <!DOCTYPE html>
 <html>
@@ -179,7 +188,8 @@
                     <div class="col-xs-12 section_toggle" id="section_Vendor_Cache_ini">
                         <p class="help-block"></p>
                         <img id="vendor_ini_loader" src="<?= LOADER ?>" height="30px" style="display: none;" class="pull-left"/>
-                        <a href="?_bootload_&action=vendor-cache-refresh" class="_async pull-left btn btn-default" data-loading="vendor_ini_loader"
+                        <a href="?_bootload_&action=vendor-cache-refresh" class="_async pull-left btn btn-default"
+                           data-loading="vendor_ini_loader"
                             data-loading-text="Updating cache file">
                             Refresh <code>vendor_ini.ini</code> cache</a>
                     </div>
@@ -250,7 +260,7 @@
         <br/>
         <br/>
         <br/>
-        <a href="?logout" id="logout_label">logout</a>
+        <a href="<?php echo S_BASE . BOOTLOAD_URL . '&logout' ?>" id="logout_label">logout</a>
         <script>
             <?php echo file_get_contents(__ROOT__ . '/app/bootload/assets/jQuery.js');?>
             <?php echo file_get_contents(__ROOT__ . '/app/bootload/assets/bootload.js');?>

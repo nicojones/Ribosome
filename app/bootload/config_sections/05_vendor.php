@@ -1,7 +1,7 @@
 <?php $section = "Vendor"; $ci = $config_INI[$section];?>
 <h4><?= $section ?></h4>
 <p class="help-block">Set here the settings for the vendor plugins</p>
-<form action="?step=5&action=save_ini&ini_section=<?= $section ?>" method="post" class="_form-async"
+<form action="<?php echo BOOTLOAD_URL ?>&step=5&action=save_ini&ini_section=<?= $section ?>" method="post" class="_form-async"
       id="section_<?= $section ?>">
     <div class="row form-group">
         <div class="col-md-2 col-xs-4">

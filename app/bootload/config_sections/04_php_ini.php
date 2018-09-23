@@ -1,7 +1,7 @@
 <?php $section = "PHP_ini"; $id = 2000;?>
 <h4><?= $section ?></h4>
 <p class="help-block">Set php.ini settings here. This values will be executed as <code>ini_set('key', 'value')</code>.</p>
-<form action="?step=3&action=save_ini&ini_section=<?= $section ?>" method="post" class="_form-async"
+<form action="<?php echo BOOTLOAD_URL ?>&step=3&action=save_ini&ini_section=<?= $section ?>" method="post" class="_form-async"
       id="section_<?= $section ?>" style="_display:none">
     <?php foreach ($config_INI[$section] as $k => $v) { ?>
         <div class="row form-group _add_remove" id="_add_remove_<?= $id ?>">

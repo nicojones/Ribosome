@@ -2,7 +2,7 @@
 <h4><?= $section ?></h4>
 <p class="help-block">You can use a single and fixed <code>username</code> and <code>password</code> to access the login area or,
 if you plan to have multiple users, they can be automatically authenticated from the database.</p>
-<form action="?step=2&action=save_ini&ini_section=<?= $section ?>" method="post" class="_form-async"
+<form action="<?php echo BOOTLOAD_URL ?>&step=2&action=save_ini&ini_section=<?= $section ?>" method="post" class="_form-async"
       id="section_<?= $section ?>" style="_display:none">
     <div class="row form-group">
         <div class="col-md-2 col-xs-4">

@@ -3,7 +3,7 @@
 <p class="help-block">
     Set here some default information for the emails you will (or potentially can) send.
 </p>
-<form action="?step=7&action=save_ini&ini_section=<?= $section ?>" method="post" class="_form-async"
+<form action="<?php echo BOOTLOAD_URL ?>&step=7&action=save_ini&ini_section=<?= $section ?>" method="post" class="_form-async"
       id="section_<?= $section ?>" style="_display:none">
     <?php foreach ($config_INI[$section] as $k => $v) {
         if (is_array($v)) {

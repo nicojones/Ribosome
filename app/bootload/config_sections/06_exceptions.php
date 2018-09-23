@@ -1,7 +1,7 @@
 <?php $section = "Exceptions"; $id = 3000;?>
 <h4><?= $section ?></h4>
 <p class="help-block">Set default texts for the <code>exceptions</code> that the framework can <code>throw</code> and <code>catch</code>.</p>
-<form action="?step=6&action=save_ini&ini_section=<?= $section ?>" method="post" class="_form-async"
+<form action="<?php echo BOOTLOAD_URL ?>&step=6&action=save_ini&ini_section=<?= $section ?>" method="post" class="_form-async"
       id="section_<?= $section ?>" style="_display:none">
     <?php foreach ($config_INI[$section] as $k => $v) { ?>
         <div class="row form-group _add_remove" id="_add_remove_exception_<?= $id ?>">

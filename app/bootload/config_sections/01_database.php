@@ -2,7 +2,7 @@
 <h4><?= $section ?></h4>
 <p class="help-block">Feel free to use or not use a database for your project.<br/>
 If you do, you must set the proper <code>host</code>, <code>database name</code> and <code>credentials</code>.</p>
-<form action="?step=1&action=save_ini&ini_section=<?= $section ?>" method="post" class="_form-async"
+<form action="<?php echo BOOTLOAD_URL ?>&step=1&action=save_ini&ini_section=<?= $section ?>" method="post" class="_form-async"
       id="section_<?= $section ?>" style="_display:none">
     <div class="row form-group">
         <div class="col-md-2 col-xs-4">
