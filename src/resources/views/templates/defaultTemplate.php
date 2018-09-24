@@ -26,7 +26,8 @@
 
             <span id="body_box"><?php echo $_body; // Here goes all the body content ?>
 
-            <?php /* feel free to remove this: it's just for demo */ if(\Core\Providers\Session::isAuthenticated()) { ?>
+            <?php /* feel free to remove this: it's just for demo */
+                if(\Core\Providers\Session::isAuthenticated()) { ?>
                 <a href="<?php $this->path('Logout');?>" id="logout_label">logout</a>
             <?php } // ?>
 

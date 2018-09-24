@@ -61,9 +61,8 @@ class AppKernel {
         /**
          * Initialize hooks
          */
-//        $hooks = $GLOBALS['hooks'] = new Hooks();
-        $hooks = Hooks::init();
-        $hooks->do_action('After_Hooks_Setup', $hooks);
+        $hooks = Hooks::getInstance();
+        $hooks->do_action('After_Hooks_Mount', $hooks);
 
         /**
          * Load config files

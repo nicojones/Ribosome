@@ -1,700 +1,1181 @@
 <?php
 
+
 namespace Core\Helpers;
 
-/**
- * Hooks is a class that manages all the hooks set throughout the framework.<br/>
- * Hooks are useful to attach actions to other actions, or to alter the execution thread without
- * changing the code.<br/>
- *
- * Hooks is based on the Wordpress <em>hooks</em> system, to allow for plugin flexibility<br/>
- *
- * @defaults
- * The hooks included by default in the framework are:<br/>
- * <br/>
- * {@see \Kernel\AppKernel}:
- * <code>
- * ('After_Hooks_Setup', $hooks) // called right after the constructor
- * ('exec_beforestart', ['controller' => $controllerName, 'action' => $action]) // just after {@see \Kernel\Router::matchRoute}
- * ('permission_unallowed', [
- *     'permission' => $permission,
- *     'controller' => $controllerName,
- *     'action' => $action]) // when it's an unauthorized request
- * ('general_exception', ['e' => $e]) // when an Exception is thrown
- * ('exec_afterend', ['controller' => $controllerName, 'action' => $action]) // When execution has finished
- * </code>
- * <br/>
- * {@see \Core\ParentController}:
- * <code>
- * ('include_show_view', ['vars' => $this->vars]) // Called just before including the view file {@see \Core\ParentController::show}
- * ('include_get_view', ['vars' => $_vars]) // Called just before including a view file  {@see \Core\ParentController::get}
- * ('extra_params_path', ['route' => $route]) // If extra parameters are required when creating a url {@see \Core\ParentController::path}
- * </code>
- * <br/>
- * {@see \Core\LoginController}:
- * <code>
- * ('on_userauth', ['user' => $user]) // Called just after the login session has been created {@see \Core\LoginController::login}
- * ('on_userdeauth', ['user' => Session::getUser()]) // Called just before destroying the login session. {@see \Core\LoginController::deauthenticateUser}
- * </code>
- * <br/>
- * {@see \Core\ExceptionController}:
- * <code>
- * ('show_prod_exception', ['e' => $e]) // Called when an exception is thrown on the PROD environment {@see \Core\ExceptionController::showException}
- * ('show_dev_exception', ['e' => $e]) // Called when an exception is thrown on the DEV environment {@see \Core\ExceptionController::showException}
- * </code>
- * {@see \Kernel\Logger}:
- * <code>
- * ('logger_post', $postArray) // Called before posting an error log {@see \Kernel\Logger::sendLog}
- * </code>
- *
- * See {@see \Core\Hooks::do_action} and {@see \Core\Hooks::add_action} functions to learn how to use them
- */
-class Hooks
-{
-    protected static $hooks = null;
-
     /**
-     * $filters holds list of hooks
-     * @access public
-     * @since 0.1
-     * @var array
-     */
-    var $filters = array();
-    /**
-     * $merged_filters
-     * @var array
-     */
-    var $merged_filters = array();
-    /**
-     * $actions
-     * @var array
-     */
-    var $actions = array();
-    /**
-     * $current_filter  holds the name of the current filter
-     * @access public
-     * @since 0.1
-     * @var array
-     */
-    var $current_filter = array();
-
-    /**
-     * __construct class constructor
-     * @access public
-     * @since 0.1
-     */
-    public function __construct($args = null)
-    {
-        $this->filters = array();
-        $this->merged_filters = array();
-        $this->actions = array();
-        $this->current_filter = array();
-
-        static::$hooks = $this;
-    }
-
-    /**
-     * Singleton initializer
-     * @return Hooks
-     */
-    public static function init($args = null)
-    {
-        return static::$hooks ?: new self($args);
-    }
-
-    /**
-     * FILTERS
-     */
-
-    /**
-     * add_filter Hooks a function or method to a specific filter action.
-     * @access public
-     * @since 0.1
+     * Hooks is a helper class that manages all the hooks set throughout Ribosome.<br/>
+     * Hooks are useful to attach actions to other actions, or to alter the execution thread without
+     * changing the code.<br/>
      *
-     * @param string $tag The name of the filter to hook the $function_to_add to.
-     * @param callback $function_to_add The name of the function to be called when the filter is applied.
-     * @param int $priority optional. Used to specify the order in which the functions associated with a particular
-     *     action are executed (default: 10). Lower numbers correspond with earlier execution, and functions with
-     *     the same priority are executed in the order in which they were added to the action.
-     * @param int $accepted_args optional. The number of arguments the function accept (default 1).
+     * Hooks is based on the Wordpress <em>hooks</em> system, to allow for plugin flexibility<br/>
      *
-     * @return boolean true
+     * @defaults
+     * The hooks included by default in the framework are:<br/>
+     * <br/>
+     * {@see \Kernel\AppKernel}:
+     * <code>
+     * ('After_Hooks_Mount', $hooks) // called right after the constructor
+     * ('exec_beforestart', ['controller' => $controllerName, 'action' => $action]) // just after {@see \Kernel\Router::matchRoute}
+     * ('permission_unallowed', [
+     *     'permission' => $permission,
+     *     'controller' => $controllerName,
+     *     'action' => $action]) // when it's an unauthorized request
+     * ('general_exception', ['e' => $e]) // when an Exception is thrown
+     * ('exec_afterend', ['controller' => $controllerName, 'action' => $action]) // When execution has finished
+     * </code>
+     * <br/>
+     * {@see \Core\ParentController}:
+     * <code>
+     * ('include_show_view', ['vars' => $this->vars]) // Called just before including the view file {@see \Core\ParentController::show}
+     * ('include_get_view', ['vars' => $_vars]) // Called just before including a view file  {@see \Core\ParentController::get}
+     * </code>
+     * <br/>
+     * {@see \Core\LoginController}:
+     * <code>
+     * ('on_userauth', ['user' => $user]) // Called just after the login session has been created {@see \Core\LoginController::login}
+     * ('on_userdeauth', ['user' => Session::getUser()]) // Called just before destroying the login session. {@see \Core\LoginController::deauthenticateUser}
+     * </code>
+     * <br/>
+     * {@see \Core\ExceptionController}:
+     * <code>
+     * ('show_prod_exception', ['e' => $e]) // Called when an exception is thrown on the PROD environment {@see \Core\ExceptionController::showException}
+     * ('show_dev_exception', ['e' => $e]) // Called when an exception is thrown on the DEV environment {@see \Core\ExceptionController::showException}
+     * </code>
+     * {@see \Kernel\Logger}:
+     * <code>
+     * ('logger_post', $postArray) // Called before posting an error log {@see \Kernel\Logger::sendLog}
+     * </code>
+     *
+     * See {@see \Core\Hooks::do_action} and {@see \Core\Hooks::add_action} functions to learn how to use them
      */
-    public function add_filter($tag, $function_to_add, $priority = 10, $accepted_args = 1)
-    {
-        $idx = $this->_filter_build_unique_id($tag, $function_to_add, $priority);
-        $this->filters[$tag][$priority][$idx] = array('function' => $function_to_add, 'accepted_args' => $accepted_args);
-        unset($this->merged_filters[$tag]);
-        return true;
-    }
+
+
+
 
     /**
-     * remove_filter Removes a function from a specified filter hook.
-     * @access public
-     * @since 0.1
+     * PHP Hooks Class (Modified)
      *
-     * @param string $tag The filter hook to which the function to be removed is hooked.
-     * @param callback $function_to_remove The name of the function which should be removed.
-     * @param int $priority optional. The priority of the function (default: 10).
-     * @param int $accepted_args optional. The number of arguments the function accepts (default: 1).
+     * <p>
+     * <br />
+     * The PHP Hooks Class is a fork of the WordPress filters hook system rolled in
+     * to a class to be ported into any php based system
      *
-     * @return boolean Whether the function existed before it was removed.
+     * <br /><br />
+     * This class is heavily based on the WordPress plugin API and most (if not all)
+     * of the code comes from there.
+     * </p>
+     *
+     * @copyright   2011 - 2017
+     *
+     * @author      Ohad Raz <admin@bainternet.info>
+     * @link        http://en.bainternet.info
+     * @author      David Miles <david@amereservant.com>
+     * @link        http://github.com/amereservant/PHP-Hooks
+     * @author      Lars Moelleken <lars@moelleken.org>
+     * @link        https://github.com/voku/PHP-Hooks/
+     * @author      Damien "Mistic" Sorel <contact@git.strangeplanet.fr>
+     * @link        http://www.strangeplanet.fr
+     *
+     * @license     GNU General Public License v3.0 - license.txt
+     * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+     * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+     * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+     * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+     * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+     * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+     * THE SOFTWARE.
+     *
+     * @package     voku\helper
      */
-    public function remove_filter($tag, $function_to_remove, $priority = 10)
+    class Hooks
     {
-        $function_to_remove = $this->_filter_build_unique_id($tag, $function_to_remove, $priority);
+        /**
+         * Filters - holds list of hooks
+         *
+         * @var array
+         */
+        protected $filters = array();
 
-        $r = isset($this->filters[$tag][$priority][$function_to_remove]);
+        /**
+         * Merged Filters
+         *
+         * @var array
+         */
+        protected $merged_filters = array();
 
-        if (true === $r) {
+        /**
+         * Actions
+         *
+         * @var array
+         */
+        protected $actions = array();
+
+        /**
+         * Current Filter - holds the name of the current filter
+         *
+         * @var array
+         */
+        protected $current_filter = array();
+
+        /**
+         * Container for storing shortcode tags and their hook to call for the shortcode
+         *
+         * @var array
+         */
+        public static $shortcode_tags = array();
+
+        /**
+         * Default priority
+         *
+         * @const int
+         */
+        const PRIORITY_NEUTRAL = 50;
+
+        /**
+         * This class is not allowed to call from outside: private!
+         */
+        protected function __construct()
+        {
+        }
+
+        /**
+         * Prevent the object from being cloned.
+         */
+        protected function __clone()
+        {
+        }
+
+        /**
+         * Avoid serialization.
+         */
+        public function __wakeup()
+        {
+        }
+
+        /**
+         * Returns a Singleton instance of this class.
+         *
+         * @return Hooks
+         */
+        public static function getInstance()
+        {
+            static $instance;
+
+            if (null === $instance) {
+                $instance = new self();
+            }
+
+            return $instance;
+        }
+
+        /**
+         * FILTERS
+         */
+
+        /**
+         * Adds Hooks to a function or method to a specific filter action.
+         *
+         * @param    string       $tag             <p>
+         *                                         The name of the filter to hook the
+         *                                         {@link $function_to_add} to.
+         *                                         </p>
+         * @param    string|array $function_to_add <p>
+         *                                         The name of the function to be called
+         *                                         when the filter is applied.
+         *                                         </p>
+         * @param    integer      $priority        <p>
+         *                                         [optional] Used to specify the order in
+         *                                         which the functions associated with a
+         *                                         particular action are executed (default: 50).
+         *                                         Lower numbers correspond with earlier execution,
+         *                                         and functions with the same priority are executed
+         *                                         in the order in which they were added to the action.
+         *                                         </p>
+         * @param string          $include_path    <p>
+         *                                         [optional] File to include before executing the callback.
+         *                                         </p>
+         *
+         * @return boolean
+         */
+        public function add_filter($tag, $function_to_add, $priority = self::PRIORITY_NEUTRAL, $include_path = null)
+        {
+            $idx = $this->_filter_build_unique_id($function_to_add);
+
+            $this->filters[$tag][$priority][$idx] = array(
+                'function'     => $function_to_add,
+                'include_path' => is_string($include_path) ? $include_path : null,
+            );
+
+            unset($this->merged_filters[$tag]);
+
+            return true;
+        }
+
+        /**
+         * Removes a function from a specified filter hook.
+         *
+         * @param string $tag                <p>The filter hook to which the function to be removed is hooked.</p>
+         * @param mixed  $function_to_remove <p>The name of the function which should be removed.</p>
+         * @param int    $priority           <p>[optional] The priority of the function (default: 50).</p>
+         *
+         * @return bool
+         */
+        public function remove_filter($tag, $function_to_remove, $priority = self::PRIORITY_NEUTRAL)
+        {
+            $function_to_remove = $this->_filter_build_unique_id($function_to_remove);
+
+            if (!isset($this->filters[$tag][$priority][$function_to_remove])) {
+                return false;
+            }
+
             unset($this->filters[$tag][$priority][$function_to_remove]);
             if (empty($this->filters[$tag][$priority])) {
                 unset($this->filters[$tag][$priority]);
             }
-            unset($this->merged_filters[$tag]);
-        }
-        return $r;
-    }
 
-    /**
-     * remove_all_filters Remove all of the hooks from a filter.
-     * @access public
-     * @since 0.1
-     *
-     * @param string $tag The filter to remove hooks from.
-     * @param int $priority The priority number to remove.
-     *
-     * @return bool True when finished.
-     */
-    public function remove_all_filters($tag, $priority = false)
-    {
-        if (isset($this->filters[$tag])) {
+            unset($this->merged_filters[$tag]);
+
+            return true;
+        }
+
+        /**
+         * Remove all of the hooks from a filter.
+         *
+         * @param string $tag      <p>The filter to remove hooks from.</p>
+         * @param bool   $priority <p>The priority number to remove.</p>
+         *
+         * @return bool
+         */
+        public function remove_all_filters($tag, $priority = false)
+        {
+            if (isset($this->merged_filters[$tag])) {
+                unset($this->merged_filters[$tag]);
+            }
+
+            if (!isset($this->filters[$tag])) {
+                return true;
+            }
+
             if (false !== $priority && isset($this->filters[$tag][$priority])) {
                 unset($this->filters[$tag][$priority]);
             } else {
                 unset($this->filters[$tag]);
             }
+
+            return true;
         }
 
-        if (isset($this->merged_filters[$tag])) {
-            unset($this->merged_filters[$tag]);
-        }
+        /**
+         * Check if any filter has been registered for the given hook.
+         *
+         * <p>
+         * <br />
+         * <strong>INFO:</strong> Use !== false to check if it's true!
+         * </p>
+         *
+         * @param    string $tag               <p>The name of the filter hook.</p>
+         * @param    bool   $function_to_check <p>[optional] Callback function name to check for </p>
+         *
+         * @return   mixed                       <p>
+         *                                       If {@link $function_to_check} is omitted,
+         *                                       returns boolean for whether the hook has
+         *                                       anything registered.
+         *                                       When checking a specific function, the priority
+         *                                       of that hook is returned, or false if the
+         *                                       function is not attached.
+         *                                       When using the {@link $function_to_check} argument,
+         *                                       this function may return a non-boolean value that
+         *                                       evaluates to false
+         *                                       (e.g.) 0, so use the === operator for testing the return value.
+         *                                       </p>
+         */
+        public function has_filter($tag, $function_to_check = false)
+        {
+            $has = isset($this->filters[$tag]);
+            if (false === $function_to_check || !$has) {
+                return $has;
+            }
 
-        return true;
-    }
+            if (!($idx = $this->_filter_build_unique_id($function_to_check))) {
+                return false;
+            }
 
-    /**
-     * has_filter  Check if any filter has been registered for a hook.
-     * @access public
-     * @since 0.1
-     *
-     * @param string $tag The name of the filter hook.
-     * @param callback $function_to_check optional.
-     *
-     * @return mixed If $function_to_check is omitted, returns boolean for whether the hook has anything
-     *     registered.
-     *   When checking a specific function, the priority of that hook is returned, or false if the function is not
-     *     attached. When using the $function_to_check argument, this function may return a non-boolean value that
-     *     evaluates to false
-     *   (e.g.) 0, so use the === operator for testing the return value.
-     */
-    public function has_filter($tag, $function_to_check = false)
-    {
-        $has = !empty($this->filters[$tag]);
-        if (false === $function_to_check || false == $has) {
-            return $has;
-        }
+            foreach ((array)array_keys($this->filters[$tag]) as $priority) {
+                if (isset($this->filters[$tag][$priority][$idx])) {
+                    return $priority;
+                }
+            }
 
-        if (!$idx = $this->_filter_build_unique_id($tag, $function_to_check, false)) {
             return false;
         }
 
-        foreach ((array)array_keys($this->filters[$tag]) as $priority) {
-            if (isset($this->filters[$tag][$priority][$idx])) {
-                return $priority;
-            }
-        }
-        return false;
-    }
+        /**
+         * Call the functions added to a filter hook.
+         *
+         * <p>
+         * <br />
+         * <strong>INFO:</strong> Additional variables passed to the functions hooked to <tt>$tag</tt>.
+         * </p>
+         *
+         * @param    string|array $tag   <p>The name of the filter hook.</p>
+         * @param    mixed        $value <p>The value on which the filters hooked to <tt>$tag</tt> are applied on.</p>
+         *
+         * @return   mixed               <p>The filtered value after all hooked functions are applied to it.</p>
+         */
+        public function apply_filters($tag, $value)
+        {
+            $args = array();
 
-    /**
-     * apply_filters Call the functions added to a filter hook.
-     * @access public
-     * @since 0.1
-     *
-     * @param string $tag The name of the filter hook.
-     * @param mixed $value The value on which the filters hooked to <tt>$tag</tt> are applied on.
-     * @param mixed $var,... Additional variables passed to the functions hooked to <tt>$tag</tt>.
-     *
-     * @return mixed The filtered value after all hooked functions are applied to it.
-     */
-    public function apply_filters($tag, $value)
-    {
-        $args = array();
-        // Do 'all' actions first
-        if (isset($this->filters['all'])) {
-            $this->current_filter[] = $tag;
-            $args = func_get_args();
-            $this->_call_all_hook($args);
-        }
-
-        if (!isset($this->filters[$tag])) {
+            // Do 'all' actions first
             if (isset($this->filters['all'])) {
-                array_pop($this->current_filter);
+                $this->current_filter[] = $tag;
+                $args = func_get_args();
+                $this->_call_all_hook($args);
             }
+
+            if (!isset($this->filters[$tag])) {
+                if (isset($this->filters['all'])) {
+                    array_pop($this->current_filter);
+                }
+
+                return $value;
+            }
+
+            if (!isset($this->filters['all'])) {
+                $this->current_filter[] = $tag;
+            }
+
+            // Sort
+            if (!isset($this->merged_filters[$tag])) {
+                ksort($this->filters[$tag]);
+                $this->merged_filters[$tag] = true;
+            }
+
+            reset($this->filters[$tag]);
+
+            if (empty($args)) {
+                $args = func_get_args();
+            }
+
+            array_shift($args);
+
+            do {
+                foreach ((array)current($this->filters[$tag]) as $the_) {
+                    if (null !== $the_['function']) {
+
+                        if (null !== $the_['include_path']) {
+                            /** @noinspection PhpIncludeInspection */
+                            include_once $the_['include_path'];
+                        }
+
+                        $args[0] = $value;
+                        $value = call_user_func_array($the_['function'], $args);
+                    }
+                }
+            } while (next($this->filters[$tag]) !== false);
+
+            array_pop($this->current_filter);
+
             return $value;
         }
 
-        if (!isset($this->filters['all'])) {
-            $this->current_filter[] = $tag;
-        }
+        /**
+         * Execute functions hooked on a specific filter hook, specifying arguments in an array.
+         *
+         * @param    string $tag  <p>The name of the filter hook.</p>
+         * @param    array  $args <p>The arguments supplied to the functions hooked to <tt>$tag</tt></p>
+         *
+         * @return   mixed        <p>The filtered value after all hooked functions are applied to it.</p>
+         */
+        public function apply_filters_ref_array($tag, $args)
+        {
+            // Do 'all' actions first
+            if (isset($this->filters['all'])) {
+                $this->current_filter[] = $tag;
+                $all_args = func_get_args();
+                $this->_call_all_hook($all_args);
+            }
 
-        // Sort
-        if (!isset($this->merged_filters[$tag])) {
-            ksort($this->filters[$tag]);
-            $this->merged_filters[$tag] = true;
-        }
-
-        reset($this->filters[$tag]);
-
-        if (empty($args)) {
-            $args = func_get_args();
-        }
-
-        do {
-            foreach ((array)current($this->filters[$tag]) as $the_)
-                if (!is_null($the_['function'])) {
-                    $args[1] = $value;
-                    $value = call_user_func_array($the_['function'], array_slice($args, 1, (int)$the_['accepted_args']));
+            if (!isset($this->filters[$tag])) {
+                if (isset($this->filters['all'])) {
+                    array_pop($this->current_filter);
                 }
 
-        } while (next($this->filters[$tag]) !== false);
-
-        array_pop($this->current_filter);
-
-        return $value;
-    }
-
-    /**
-     * apply_filters_ref_array Execute functions hooked on a specific filter hook, specifying arguments in an array.
-     * @access public
-     * @since 0.1
-     *
-     * @param string $tag The name of the filter hook.
-     * @param array $args The arguments supplied to the functions hooked to <tt>$tag</tt>
-     *
-     * @return mixed The filtered value after all hooked functions are applied to it.
-     */
-    public function apply_filters_ref_array($tag, $args)
-    {
-        // Do 'all' actions first
-        if (isset($this->filters['all'])) {
-            $this->current_filter[] = $tag;
-            $all_args = func_get_args();
-            $this->_call_all_hook($all_args);
-        }
-
-        if (!isset($this->filters[$tag])) {
-            if (isset($this->filters['all'])) {
-                array_pop($this->current_filter);
+                return $args[0];
             }
+
+            if (!isset($this->filters['all'])) {
+                $this->current_filter[] = $tag;
+            }
+
+            // Sort
+            if (!isset($this->merged_filters[$tag])) {
+                ksort($this->filters[$tag]);
+                $this->merged_filters[$tag] = true;
+            }
+
+            reset($this->filters[$tag]);
+
+            do {
+                foreach ((array)current($this->filters[$tag]) as $the_) {
+                    if (null !== $the_['function']) {
+
+                        if (null !== $the_['include_path']) {
+                            /** @noinspection PhpIncludeInspection */
+                            include_once $the_['include_path'];
+                        }
+
+                        $args[0] = call_user_func_array($the_['function'], $args);
+                    }
+                }
+            } while (next($this->filters[$tag]) !== false);
+
+            array_pop($this->current_filter);
+
             return $args[0];
         }
 
-        if (!isset($this->filters['all'])) {
-            $this->current_filter[] = $tag;
-        }
-
-        // Sort
-        if (!isset($this->merged_filters[$tag])) {
-            ksort($this->filters[$tag]);
-            $this->merged_filters[$tag] = true;
-        }
-
-        reset($this->filters[$tag]);
-
-        do {
-            foreach ((array)current($this->filters[$tag]) as $the_)
-                if (!is_null($the_['function'])) {
-                    $args[0] = call_user_func_array($the_['function'], array_slice($args, 0, (int)$the_['accepted_args']));
-                }
-
-        } while (next($this->filters[$tag]) !== false);
-
-        array_pop($this->current_filter);
-
-        return $args[0];
-    }
-
-    /**
-     * ACTIONS
-     */
-
-    /**
-     * add_action Hooks a function on to a specific action.
-     * @access public
-     * @since 0.1
-     *
-     * @param string $tag The name of the action to which the $function_to_add is hooked.
-     * @param callback $function_to_add The name of the function you wish to be called.
-     * @param int $priority optional. Used to specify the order in which the functions associated with a particular
-     *     action are executed (default: 10). Lower numbers correspond with earlier execution, and functions with
-     *     the same priority are executed in the order in which they were added to the action.
-     * @param int $accepted_args optional. The number of arguments the function accept (default 1).
-     *
-     * @return bool|true The result of the add_filter
-     */
-    public function add_action($tag, $function_to_add, $priority = 10, $accepted_args = 1)
-    {
-        return $this->add_filter($tag, $function_to_add, $priority, $accepted_args);
-    }
-
-    /**
-     * has_action Check if any action has been registered for a hook.
-     * @access public
-     * @since 0.1
-     *
-     * @param string $tag The name of the action hook.
-     * @param callback $function_to_check optional.
-     *
-     * @return mixed If $function_to_check is omitted, returns boolean for whether the hook has anything
-     *     registered.
-     *   When checking a specific function, the priority of that hook is returned, or false if the function is not
-     *     attached. When using the $function_to_check argument, this function may return a non-boolean value that
-     *     evaluates to false
-     *   (e.g.) 0, so use the === operator for testing the return value.
-     */
-    public function has_action($tag, $function_to_check = false)
-    {
-        return $this->has_filter($tag, $function_to_check);
-    }
-
-    /**
-     * remove_action Removes a function from a specified action hook.
-     * @access public
-     * @since 0.1
-     *
-     * @param string $tag The action hook to which the function to be removed is hooked.
-     * @param callback $function_to_remove The name of the function which should be removed.
-     * @param int $priority optional The priority of the function (default: 10).
-     *
-     * @return boolean Whether the function is removed.
-     */
-    public function remove_action($tag, $function_to_remove, $priority = 10)
-    {
-        return $this->remove_filter($tag, $function_to_remove, $priority);
-    }
-
-    /**
-     * remove_all_actions Remove all of the hooks from an action.
-     * @access public
-     * @since 0.1
-     *
-     * @param string $tag The action to remove hooks from.
-     * @param int $priority The priority number to remove them from.
-     *
-     * @return bool True when finished.
-     */
-    public function remove_all_actions($tag, $priority = false)
-    {
-        return $this->remove_all_filters($tag, $priority);
-    }
-
-    /**
-     * do_action Execute functions hooked on a specific action hook.
-     * @access public
-     * @since 0.1
-     *
-     * @param string $tag The name of the action to be executed.
-     * @param mixed $arg,... Optional additional arguments which are passed on to the functions hooked to the
-     *     action.
-     *
-     * @return mixed The response of the last called action
-     */
-    public function do_action($tag, $arg = '')
-    {
-
-        if (!isset($this->actions)) {
-            $this->actions = array();
-        }
-
-        if (!isset($this->actions[$tag])) {
-            $this->actions[$tag] = 1;
-        } else {
-            ++$this->actions[$tag];
-        }
-
-        // Do 'all' actions first
-        if (isset($this->filters['all'])) {
-            $this->current_filter[] = $tag;
-            $all_args = func_get_args();
-            $this->_call_all_hook($all_args);
-        }
-
-        if (!isset($this->filters[$tag])) {
-            if (isset($this->filters['all'])) {
-                array_pop($this->current_filter);
-            }
-            return;
-        }
-
-        if (!isset($this->filters['all'])) {
-            $this->current_filter[] = $tag;
-        }
-
-        $args = array();
-        if (is_array($arg) && 1 == count($arg) && isset($arg[0]) && is_object($arg[0])) // array(&$this)
+        /**
+         * Hooks a function on to a specific action.
+         *
+         * @param    string  $tag             <p>
+         *                                    The name of the action to which the
+         *                                    <tt>$function_to_add</tt> is hooked.
+         *                                    </p>
+         * @param    string  $function_to_add <p>The name of the function you wish to be called.</p>
+         * @param    integer $priority        <p>
+         *                                    [optional] Used to specify the order in which
+         *                                    the functions associated with a particular
+         *                                    action are executed (default: 50).
+         *                                    Lower numbers correspond with earlier execution,
+         *                                    and functions with the same priority are executed
+         *                                    in the order in which they were added to the action.
+         *                                    </p>
+         * @param     string $include_path    <p>[optional] File to include before executing the callback.</p>
+         *
+         * @return bool
+         */
+        public function add_action($tag, $function_to_add, $priority = self::PRIORITY_NEUTRAL, $include_path = null)
         {
-            $args[] =& $arg[0];
-        } else {
-            $args[] = $arg;
-        }
-        for ($a = 2; $a < func_num_args(); $a++)
-            $args[] = func_get_arg($a);
-
-        // Sort
-        if (!isset($this->merged_filters[$tag])) {
-            ksort($this->filters[$tag]);
-            $this->merged_filters[$tag] = true;
+            return $this->add_filter($tag, $function_to_add, $priority, $include_path);
         }
 
-        reset($this->filters[$tag]);
-
-        do {
-            foreach ((array)current($this->filters[$tag]) as $the_)
-                if (!is_null($the_['function'])) {
-                    $result = call_user_func_array($the_['function'], array_slice($args, 0, (int)$the_['accepted_args']));
-                }
-
-        } while (next($this->filters[$tag]) !== false);
-
-        array_pop($this->current_filter);
-
-        return $result;
-    }
-
-    /**
-     * do_action_ref_array Execute functions hooked on a specific action hook, specifying arguments in an array.
-     * @access public
-     * @since 0.1
-     *
-     * @param string $tag The name of the action to be executed.
-     * @param array $args The arguments supplied to the functions hooked to <tt>$tag</tt>
-     *
-     * @return null Will return null if $tag does not exist in $filter array
-     */
-    public function do_action_ref_array($tag, $args)
-    {
-
-        if (!isset($this->actions)) {
-            $this->actions = array();
+        /**
+         * Check if any action has been registered for a hook.
+         *
+         * <p>
+         * <br />
+         * <strong>INFO:</strong> Use !== false to check if it's true!
+         * </p>
+         *
+         * @param    string   $tag               <p>The name of the action hook.</p>
+         * @param bool|string $function_to_check <p>[optional]</p>
+         *
+         * @return   mixed                       <p>
+         *                                       If <tt>$function_to_check</tt> is omitted,
+         *                                       returns boolean for whether the hook has
+         *                                       anything registered.
+         *                                       When checking a specific function,
+         *                                       the priority of that hook is returned,
+         *                                       or false if the function is not attached.
+         *                                       When using the <tt>$function_to_check</tt>
+         *                                       argument, this function may return a non-boolean
+         *                                       value that evaluates to false (e.g.) 0,
+         *                                       so use the === operator for testing the return value.
+         *                                       </p>
+         */
+        public function has_action($tag, $function_to_check = false)
+        {
+            return $this->has_filter($tag, $function_to_check);
         }
 
-        if (!isset($this->actions[$tag])) {
-            $this->actions[$tag] = 1;
-        } else {
-            ++$this->actions[$tag];
+        /**
+         * Removes a function from a specified action hook.
+         *
+         * @param string $tag                <p>The action hook to which the function to be removed is hooked.</p>
+         * @param mixed  $function_to_remove <p>The name of the function which should be removed.</p>
+         * @param int    $priority           <p>[optional] The priority of the function (default: 50).</p>
+         *
+         * @return bool <p>Whether the function is removed.</p>
+         */
+        public function remove_action($tag, $function_to_remove, $priority = self::PRIORITY_NEUTRAL)
+        {
+            return $this->remove_filter($tag, $function_to_remove, $priority);
         }
 
-        // Do 'all' actions first
-        if (isset($this->filters['all'])) {
-            $this->current_filter[] = $tag;
-            $all_args = func_get_args();
-            $this->_call_all_hook($all_args);
+        /**
+         * Remove all of the hooks from an action.
+         *
+         * @param string $tag      <p>The action to remove hooks from.</p>
+         * @param bool   $priority <p>The priority number to remove them from.</p>
+         *
+         * @return bool
+         */
+        public function remove_all_actions($tag, $priority = false)
+        {
+            return $this->remove_all_filters($tag, $priority);
         }
 
-        if (!isset($this->filters[$tag])) {
-            if (isset($this->filters['all'])) {
-                array_pop($this->current_filter);
+        /**
+         * Execute functions hooked on a specific action hook.
+         *
+         * @param    string $tag     <p>The name of the action to be executed.</p>
+         * @param    mixed  $arg     <p>
+         *                           [optional] Additional arguments which are passed on
+         *                           to the functions hooked to the action.
+         *                           </p>
+         *
+         * @return   bool            <p>Will return false if $tag does not exist in $filter array.</p>
+         */
+        public function do_action($tag, $arg = '')
+        {
+            if (!is_array($this->actions)) {
+                $this->actions = array();
             }
-            return;
-        }
 
-        if (!isset($this->filters['all'])) {
-            $this->current_filter[] = $tag;
-        }
-
-        // Sort
-        if (!isset($merged_filters[$tag])) {
-            ksort($this->filters[$tag]);
-            $merged_filters[$tag] = true;
-        }
-
-        reset($this->filters[$tag]);
-
-        do {
-            foreach ((array)current($this->filters[$tag]) as $the_)
-                if (!is_null($the_['function'])) {
-                    call_user_func_array($the_['function'], array_slice($args, 0, (int)$the_['accepted_args']));
-                }
-
-        } while (next($this->filters[$tag]) !== false);
-
-        array_pop($this->current_filter);
-    }
-
-    /**
-     * did_action Retrieve the number of times an action is fired.
-     * @access public
-     * @since 0.1
-     *
-     * @param string $tag The name of the action hook.
-     *
-     * @return int The number of times action hook <tt>$tag</tt> is fired
-     */
-    public function did_action($tag)
-    {
-
-        if (!isset($this->actions) || !isset($this->actions[$tag])) {
-            return 0;
-        }
-
-        return $this->actions[$tag];
-    }
-
-    /**
-     * HELPERS
-     */
-
-    /**
-     * current_filter Retrieve the name of the current filter or action.
-     * @access public
-     * @since 0.1
-     * @return string Hook name of the current filter or action.
-     */
-    public function current_filter()
-    {
-        return end($this->current_filter);
-    }
-
-    /**
-     * Retrieve the name of the current action.
-     *
-     * @since 0.1.2
-     *
-     * @uses current_filter()
-     *
-     * @return string Hook name of the current action.
-     */
-    function current_action()
-    {
-        return $this->current_filter();
-    }
-
-    /**
-     * Retrieve the name of a filter currently being processed.
-     *
-     * The function current_filter() only returns the most recent filter or action
-     * being executed. did_action() returns true once the action is initially
-     * processed. This function allows detection for any filter currently being
-     * executed (despite not being the most recent filter to fire, in the case of
-     * hooks called from hook callbacks) to be verified.
-     *
-     * @since 0.1.2
-     *
-     * @see current_filter()
-     * @see did_action()
-     * @global array $wp_current_filter Current filter.
-     *
-     * @param null|string $filter Optional. Filter to check. Defaults to null, which
-     *                            checks if any filter is currently being run.
-     *
-     * @return bool Whether the filter is currently in the stack
-     */
-    function doing_filter($filter = null)
-    {
-        if (null === $filter) {
-            return !empty($this->current_filter);
-        }
-        return in_array($filter, $this->current_filter);
-    }
-
-    /**
-     * Retrieve the name of an action currently being processed.
-     *
-     * @since 0.1.2
-     *
-     * @uses doing_filter()
-     *
-     * @param string|null $action Optional. Action to check. Defaults to null, which checks
-     *                            if any action is currently being run.
-     *
-     * @return bool Whether the action is currently in the stack.
-     */
-    function doing_action($action = null)
-    {
-        return $this->doing_filter($action);
-    }
-
-    /**
-     * _filter_build_unique_id Build Unique ID for storage and retrieval.
-     *
-     * @param string $tag Used in counting how many hooks were applied
-     * @param callback $function Used for creating unique id
-     * @param int|bool $priority Used in counting how many hooks were applied. If === false and $function is an
-     *     object reference, we return the unique id only if it already has one, false otherwise.
-     *
-     * @return string|bool Unique ID for usage as array key or false if $priority === false and $function is an
-     *     object reference, and it does not already have a unique id.
-     */
-    private function _filter_build_unique_id($tag, $function, $priority)
-    {
-        static $filter_id_count = 0;
-
-        if (is_string($function)) {
-            return $function;
-        }
-
-        if (is_object($function)) {
-            // Closures are currently implemented as objects
-            $function = array($function, '');
-        } else {
-            $function = (array)$function;
-        }
-
-        if (is_object($function[0])) {
-            // Object Class Calling
-            if (function_exists('spl_object_hash')) {
-                return spl_object_hash($function[0]) . $function[1];
+            if (!isset($this->actions[$tag])) {
+                $this->actions[$tag] = 1;
             } else {
-                $obj_idx = get_class($function[0]) . $function[1];
-                if (!isset($function[0]->filter_id)) {
-                    if (false === $priority) {
-                        return false;
-                    }
-                    $obj_idx .= isset($this->filters[$tag][$priority]) ? count((array)$this->filters[$tag][$priority]) : $filter_id_count;
-                    $function[0]->filter_id = $filter_id_count;
-                    ++$filter_id_count;
-                } else {
-                    $obj_idx .= $function[0]->filter_id;
+                ++$this->actions[$tag];
+            }
+
+            // Do 'all' actions first
+            if (isset($this->filters['all'])) {
+                $this->current_filter[] = $tag;
+                $all_args = func_get_args();
+                $this->_call_all_hook($all_args);
+            }
+
+            if (!isset($this->filters[$tag])) {
+                if (isset($this->filters['all'])) {
+                    array_pop($this->current_filter);
                 }
 
-                return $obj_idx;
+                return false;
             }
-        } else {
+
+            if (!isset($this->filters['all'])) {
+                $this->current_filter[] = $tag;
+            }
+
+            $args = array();
+
+            if (
+                is_array($arg)
+                &&
+                isset($arg[0])
+                &&
+                is_object($arg[0])
+                &&
+                1 == count($arg)
+            ) {
+                $args[] =& $arg[0];
+            } else {
+                $args[] = $arg;
+            }
+
+            $numArgs = func_num_args();
+
+            for ($a = 2; $a < $numArgs; $a++) {
+                $args[] = func_get_arg($a);
+            }
+
+            // Sort
+            if (!isset($this->merged_filters[$tag])) {
+                ksort($this->filters[$tag]);
+                $this->merged_filters[$tag] = true;
+            }
+
+            reset($this->filters[$tag]);
+
+            do {
+                foreach ((array)current($this->filters[$tag]) as $the_) {
+                    if (null !== $the_['function']) {
+
+                        if (null !== $the_['include_path']) {
+                            /** @noinspection PhpIncludeInspection */
+                            include_once $the_['include_path'];
+                        }
+
+                        call_user_func_array($the_['function'], $args);
+                    }
+                }
+            } while (next($this->filters[$tag]) !== false);
+
+            array_pop($this->current_filter);
+
+            return true;
+        }
+
+        /**
+         * Execute functions hooked on a specific action hook, specifying arguments in an array.
+         *
+         * @param    string $tag  <p>The name of the action to be executed.</p>
+         * @param    array  $args <p>The arguments supplied to the functions hooked to <tt>$tag</tt></p>
+         *
+         * @return   bool         <p>Will return false if $tag does not exist in $filter array.</p>
+         */
+        public function do_action_ref_array($tag, $args)
+        {
+            if (!is_array($this->actions)) {
+                $this->actions = array();
+            }
+
+            if (!isset($this->actions[$tag])) {
+                $this->actions[$tag] = 1;
+            } else {
+                ++$this->actions[$tag];
+            }
+
+            // Do 'all' actions first
+            if (isset($this->filters['all'])) {
+                $this->current_filter[] = $tag;
+                $all_args = func_get_args();
+                $this->_call_all_hook($all_args);
+            }
+
+            if (!isset($this->filters[$tag])) {
+                if (isset($this->filters['all'])) {
+                    array_pop($this->current_filter);
+                }
+
+                return false;
+            }
+
+            if (!isset($this->filters['all'])) {
+                $this->current_filter[] = $tag;
+            }
+
+            // Sort
+            if (!isset($merged_filters[$tag])) {
+                ksort($this->filters[$tag]);
+                $merged_filters[$tag] = true;
+            }
+
+            reset($this->filters[$tag]);
+
+            do {
+                foreach ((array)current($this->filters[$tag]) as $the_) {
+                    if (null !== $the_['function']) {
+
+                        if (null !== $the_['include_path']) {
+                            /** @noinspection PhpIncludeInspection */
+                            include_once $the_['include_path'];
+                        }
+
+                        call_user_func_array($the_['function'], $args);
+                    }
+                }
+            } while (next($this->filters[$tag]) !== false);
+
+            array_pop($this->current_filter);
+
+            return true;
+        }
+
+        /**
+         * Retrieve the number of times an action has fired.
+         *
+         * @param string $tag <p>The name of the action hook.</p>
+         *
+         * @return integer <p>The number of times action hook <tt>$tag</tt> is fired.</p>
+         */
+        public function did_action($tag)
+        {
+            if (!is_array($this->actions) || !isset($this->actions[$tag])) {
+                return 0;
+            }
+
+            return $this->actions[$tag];
+        }
+
+        /**
+         * Retrieve the name of the current filter or action.
+         *
+         * @return string <p>Hook name of the current filter or action.</p>
+         */
+        public function current_filter()
+        {
+            return end($this->current_filter);
+        }
+
+        /**
+         * Build Unique ID for storage and retrieval.
+         *
+         * @param    string|array $function <p>Used for creating unique id.</p>
+         *
+         * @return   string|bool             <p>
+         *                                   Unique ID for usage as array key or false if
+         *                                   $priority === false and $function is an
+         *                                   object reference, and it does not already have a unique id.
+         *                                   </p>
+         */
+        private function _filter_build_unique_id($function)
+        {
+            if (is_string($function)) {
+                return $function;
+            }
+
+            if (is_object($function)) {
+                // Closures are currently implemented as objects
+                $function = array(
+                    $function,
+                    '',
+                );
+            } else {
+                $function = (array)$function;
+            }
+
+            if (is_object($function[0])) {
+                // Object Class Calling
+                return spl_object_hash($function[0]) . $function[1];
+            }
+
             if (is_string($function[0])) {
                 // Static Calling
                 return $function[0] . $function[1];
             }
-        }
-    }
 
-    /**
-     * __call_all_hook
-     * @access public
-     * @since 0.1
-     *
-     * @param  (array) $args [description]
-     */
-    public function __call_all_hook($args)
-    {
-        reset($this->filters['all']);
-        do {
-            foreach ((array)current($this->filters['all']) as $the_)
-                if (!is_null($the_['function'])) {
-                    call_user_func_array($the_['function'], $args);
+            return false;
+        }
+
+        /**
+         * Call "All" Hook
+         *
+         * @param array $args
+         */
+        public function _call_all_hook($args)
+        {
+            reset($this->filters['all']);
+
+            do {
+                foreach ((array)current($this->filters['all']) as $the_) {
+                    if (null !== $the_['function']) {
+
+                        if (null !== $the_['include_path']) {
+                            /** @noinspection PhpIncludeInspection */
+                            include_once $the_['include_path'];
+                        }
+
+                        call_user_func_array($the_['function'], $args);
+                    }
+                }
+            } while (next($this->filters['all']) !== false);
+        }
+
+        /** @noinspection MagicMethodsValidityInspection */
+        /**
+         * @param array $args
+         *
+         * @deprecated use "this->_call_all_hook()"
+         */
+        public function __call_all_hook($args)
+        {
+            // <-- refactoring "__call_all_hook()" into "_call_all_hook()" is a breaking change (BC),
+            // so we will only deprecate the usage
+
+            $this->_call_all_hook($args);
+        }
+
+        /**
+         * Add hook for shortcode tag.
+         *
+         * <p>
+         * <br />
+         * There can only be one hook for each shortcode. Which means that if another
+         * plugin has a similar shortcode, it will override yours or yours will override
+         * theirs depending on which order the plugins are included and/or ran.
+         * <br />
+         * <br />
+         * </p>
+         *
+         * Simplest example of a shortcode tag using the API:
+         *
+         * <code>
+         * // [footag foo="bar"]
+         * function footag_func($atts) {
+         *  return "foo = {$atts[foo]}";
+         * }
+         * add_shortcode('footag', 'footag_func');
+         * </code>
+         *
+         * Example with nice attribute defaults:
+         *
+         * <code>
+         * // [bartag foo="bar"]
+         * function bartag_func($atts) {
+         *  $args = shortcode_atts(array(
+         *    'foo' => 'no foo',
+         *    'baz' => 'default baz',
+         *  ), $atts);
+         *
+         *  return "foo = {$args['foo']}";
+         * }
+         * add_shortcode('bartag', 'bartag_func');
+         * </code>
+         *
+         * Example with enclosed content:
+         *
+         * <code>
+         * // [baztag]content[/baztag]
+         * function baztag_func($atts, $content='') {
+         *  return "content = $content";
+         * }
+         * add_shortcode('baztag', 'baztag_func');
+         * </code>
+         *
+         * @param string   $tag  <p>Shortcode tag to be searched in post content.</p>
+         * @param callable $func <p>Hook to run when shortcode is found.</p>
+         *
+         * @return bool
+         */
+        public function add_shortcode($tag, $func)
+        {
+            if (is_callable($func)) {
+                self::$shortcode_tags[$tag] = $func;
+
+                return true;
+            }
+
+            return false;
+        }
+
+        /**
+         * Removes hook for shortcode.
+         *
+         * @param string $tag <p>shortcode tag to remove hook for.</p>
+         *
+         * @return bool
+         */
+        public function remove_shortcode($tag)
+        {
+            if (isset(self::$shortcode_tags[$tag])) {
+                unset(self::$shortcode_tags[$tag]);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        /**
+         * This function is simple, it clears all of the shortcode tags by replacing the
+         * shortcodes by a empty array. This is actually a very efficient method
+         * for removing all shortcodes.
+         *
+         * @return bool
+         */
+        public function remove_all_shortcodes()
+        {
+            self::$shortcode_tags = array();
+
+            return true;
+        }
+
+        /**
+         * Whether a registered shortcode exists named $tag
+         *
+         * @param string $tag
+         *
+         * @return boolean
+         */
+        public function shortcode_exists($tag)
+        {
+            return array_key_exists($tag, self::$shortcode_tags);
+        }
+
+        /**
+         * Whether the passed content contains the specified shortcode.
+         *
+         * @param string $content
+         * @param string $tag
+         *
+         * @return bool
+         */
+        public function has_shortcode($content, $tag)
+        {
+            if (false === strpos($content, '[')) {
+                return false;
+            }
+
+            if ($this->shortcode_exists($tag)) {
+                preg_match_all('/' . $this->get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER);
+                if (empty($matches)) {
+                    return false;
                 }
 
-        } while (next($this->filters['all']) !== false);
+                foreach ($matches as $shortcode) {
+                    if ($tag === $shortcode[2]) {
+                        return true;
+                    }
+
+                    if (!empty($shortcode[5]) && $this->has_shortcode($shortcode[5], $tag)) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        /**
+         * Search content for shortcodes and filter shortcodes through their hooks.
+         *
+         * <p>
+         * <br />
+         * If there are no shortcode tags defined, then the content will be returned
+         * without any filtering. This might cause issues when plugins are disabled but
+         * the shortcode will still show up in the post or content.
+         * </p>
+         *
+         * @param string $content <p>Content to search for shortcodes.</p>
+         *
+         * @return string <p>Content with shortcodes filtered out.</p>
+         */
+        public function do_shortcode($content)
+        {
+            if (empty(self::$shortcode_tags) || !is_array(self::$shortcode_tags)) {
+                return $content;
+            }
+
+            $pattern = $this->get_shortcode_regex();
+
+            return preg_replace_callback(
+                "/$pattern/s",
+                array(
+                    $this,
+                    '_do_shortcode_tag',
+                ),
+                $content
+            );
+        }
+
+        /**
+         * Retrieve the shortcode regular expression for searching.
+         *
+         * <p>
+         * <br />
+         * The regular expression combines the shortcode tags in the regular expression
+         * in a regex class.
+         * <br /><br />
+         *
+         * The regular expression contains 6 different sub matches to help with parsing.
+         * <br /><br />
+         *
+         * 1 - An extra [ to allow for escaping shortcodes with double [[]]<br />
+         * 2 - The shortcode name<br />
+         * 3 - The shortcode argument list<br />
+         * 4 - The self closing /<br />
+         * 5 - The content of a shortcode when it wraps some content.<br />
+         * 6 - An extra ] to allow for escaping shortcodes with double [[]]<br />
+         * </p>
+         *
+         * @return string The shortcode search regular expression
+         */
+        public function get_shortcode_regex()
+        {
+            $tagnames = array_keys(self::$shortcode_tags);
+            $tagregexp = implode('|', array_map('preg_quote', $tagnames));
+
+            // WARNING! Do not change this regex without changing __do_shortcode_tag() and __strip_shortcode_tag()
+            // Also, see shortcode_unautop() and shortcode.js.
+            return
+                '\\[' // Opening bracket
+                . '(\\[?)' // 1: Optional second opening bracket for escaping shortcodes: [[tag]]
+                . "($tagregexp)" // 2: Shortcode name
+                . '(?![\\w-])' // Not followed by word character or hyphen
+                . '(' // 3: Unroll the loop: Inside the opening shortcode tag
+                . '[^\\]\\/]*' // Not a closing bracket or forward slash
+                . '(?:'
+                . '\\/(?!\\])' // A forward slash not followed by a closing bracket
+                . '[^\\]\\/]*' // Not a closing bracket or forward slash
+                . ')*?'
+                . ')'
+                . '(?:'
+                . '(\\/)' // 4: Self closing tag ...
+                . '\\]' // ... and closing bracket
+                . '|'
+                . '\\]' // Closing bracket
+                . '(?:'
+                . '(' // 5: Unroll the loop: Optionally, anything between the opening and closing shortcode tags
+                . '[^\\[]*+' // Not an opening bracket
+                . '(?:'
+                . '\\[(?!\\/\\2\\])' // An opening bracket not followed by the closing shortcode tag
+                . '[^\\[]*+' // Not an opening bracket
+                . ')*+'
+                . ')'
+                . '\\[\\/\\2\\]' // Closing shortcode tag
+                . ')?'
+                . ')'
+                . '(\\]?)'; // 6: Optional second closing brocket for escaping shortcodes: [[tag]]
+        }
+
+        /**
+         * Regular Expression callable for do_shortcode() for calling shortcode hook.
+         *
+         * @see self::get_shortcode_regex for details of the match array contents.
+         *
+         * @param array $m <p>regular expression match array</p>
+         *
+         * @return mixed <p><strong>false</strong> on failure</p>
+         */
+        private function _do_shortcode_tag($m)
+        {
+            // allow [[foo]] syntax for escaping a tag
+            if ($m[1] == '[' && $m[6] == ']') {
+                return substr($m[0], 1, -1);
+            }
+
+            $tag = $m[2];
+            $attr = $this->shortcode_parse_atts($m[3]);
+
+            // enclosing tag - extra parameter
+            if (isset($m[5])) {
+                return $m[1] . call_user_func(self::$shortcode_tags[$tag], $attr, $m[5], $tag) . $m[6];
+            }
+
+            // self-closing tag
+            return $m[1] . call_user_func(self::$shortcode_tags[$tag], $attr, null, $tag) . $m[6];
+        }
+
+        /**
+         * Retrieve all attributes from the shortcodes tag.
+         *
+         * <p>
+         * <br />
+         * The attributes list has the attribute name as the key and the value of the
+         * attribute as the value in the key/value pair. This allows for easier
+         * retrieval of the attributes, since all attributes have to be known.
+         * </p>
+         *
+         * @param string $text
+         *
+         * @return array <p>List of attributes and their value.</p>
+         */
+        public function shortcode_parse_atts($text)
+        {
+            $atts = array();
+            $pattern = '/(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
+            $text = preg_replace("/[\x{00a0}\x{200b}]+/u", ' ', $text);
+            if (preg_match_all($pattern, $text, $match, PREG_SET_ORDER)) {
+                foreach ($match as $m) {
+                    if (!empty($m[1])) {
+                        $atts[strtolower($m[1])] = stripcslashes($m[2]);
+                    } elseif (!empty($m[3])) {
+                        $atts[strtolower($m[3])] = stripcslashes($m[4]);
+                    } elseif (!empty($m[5])) {
+                        $atts[strtolower($m[5])] = stripcslashes($m[6]);
+                    } elseif (isset($m[7]) && $m[7] !== '') {
+                        $atts[] = stripcslashes($m[7]);
+                    } elseif (isset($m[8])) {
+                        $atts[] = stripcslashes($m[8]);
+                    }
+                }
+            } else {
+                $atts = ltrim($text);
+            }
+
+            return $atts;
+        }
+
+        /**
+         * Combine user attributes with known attributes and fill in defaults when needed.
+         *
+         * <p>
+         * <br />
+         * The pairs should be considered to be all of the attributes which are
+         * supported by the caller and given as a list. The returned attributes will
+         * only contain the attributes in the $pairs list.
+         *
+         * <br /><br />
+         * If the $atts list has unsupported attributes, then they will be ignored and
+         * removed from the final returned list.
+         * </p>
+         *
+         * @param array  $pairs     <p>Entire list of supported attributes and their defaults.</p>
+         * @param array  $atts      <p>User defined attributes in shortcode tag.</p>
+         * @param string $shortcode <p>[optional] The name of the shortcode, provided for context to enable filtering.</p>
+         *
+         * @return array <p>Combined and filtered attribute list.</p>
+         */
+        public function shortcode_atts($pairs, $atts, $shortcode = '')
+        {
+            $atts = (array)$atts;
+            $out = array();
+            foreach ($pairs as $name => $default) {
+                if (array_key_exists($name, $atts)) {
+                    $out[$name] = $atts[$name];
+                } else {
+                    $out[$name] = $default;
+                }
+            }
+            /**
+             * Filter a shortcode's default attributes.
+             *
+             * <p>
+             * <br />
+             * If the third parameter of the shortcode_atts() function is present then this filter is available.
+             * The third parameter, $shortcode, is the name of the shortcode.
+             * </p>
+             *
+             * @param array $out   <p>The output array of shortcode attributes.</p>
+             * @param array $pairs <p>The supported attributes and their defaults.</p>
+             * @param array $atts  <p>The user defined shortcode attributes.</p>
+             */
+            if ($shortcode) {
+                $out = $this->apply_filters(
+                    array(
+                        $this,
+                        "shortcode_atts_{$shortcode}",
+                    ), $out, $pairs, $atts
+                );
+            }
+
+            return $out;
+        }
+
+        /**
+         * Remove all shortcode tags from the given content.
+         *
+         * @param string $content <p>Content to remove shortcode tags.</p>
+         *
+         * @return string <p>Content without shortcode tags.</p>
+         */
+        public function strip_shortcodes($content)
+        {
+
+            if (empty(self::$shortcode_tags) || !is_array(self::$shortcode_tags)) {
+                return $content;
+            }
+
+            $pattern = $this->get_shortcode_regex();
+
+            return preg_replace_callback(
+                "/$pattern/s",
+                array(
+                    $this,
+                    '_strip_shortcode_tag',
+                ),
+                $content
+            );
+        }
+
+        /**
+         * Strip shortcode by tag.
+         *
+         * @param array $m
+         *
+         * @return string
+         */
+        private function _strip_shortcode_tag($m)
+        {
+            // allow [[foo]] syntax for escaping a tag
+            if ($m[1] == '[' && $m[6] == ']') {
+                return substr($m[0], 1, -1);
+            }
+
+            return $m[1] . $m[6];
+        }
+
     }
-}

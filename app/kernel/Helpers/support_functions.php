@@ -3,17 +3,30 @@
     /**
      * &lt;pre&gt;var_dump($var);&lt;/pre&gt; die();
      * @param mixed $var
+     * @param string $label Show the label before the dump.
      */
-    function ddie($var = NULL) {
+    function ddie($var = null, $label = null) {
+
+        if ($label) {
+            echo "$label: \n";
+        }
+
         echo '<pre>';
         var_dump($var);
+        echo '</pre>';
+
         die();
     }
 
     /**
      * print_r($var); die();
+     * @param mixed $var the variable to print
+     * @param string $label Show the label before the dump.
      */
-    function ppie($var = NULL) {
+    function ppie($var = null, $label = null) {
+        if ($label) {
+            echo "$label: \n";
+        }
         print_r($var);
         die();
     }
@@ -89,7 +102,7 @@
     });
 
     /**
-     * Returns an image of the <b>\$text</b>, to avoid spam.
+     * Returns an image of the <b>\$text</b>, to avoid being caught by spam bots.
      * @param string $text The text to convert to image
      * @param array|[175,20] $size The size of the image
      * @param array|[50,50,50] $color The RGB values of the text color
@@ -155,7 +168,7 @@
      * @param string $key The clock you want the total time of.
      * @param bool|false $all Returns [end_time - start_time]. If true, it also returns start_time and end_time
      *
-     * @return float The total time; format: seconds.microseconds
+     * @return mixed The total time; format: seconds.microseconds
      */
     function clock_time($key = 'main', $all = false) {
         if (!empty($GLOBALS['_clock_'][$key]['end'])) {

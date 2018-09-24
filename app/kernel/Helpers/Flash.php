@@ -4,7 +4,9 @@ namespace Core\Helpers;
 use Core\Providers\Session;
 
 /**
- * Manages flash messages
+ * Manages flash messages.
+ *
+ * Flash messages are $_SESSION objects that can only be read once - and in doing so get destroyed.
  *
  * @package Core
  */
@@ -18,7 +20,7 @@ class Flash
      * Sets a <b>flash message</b> with a <b>message type</b>.
      * @param string $message The message to display
      * @param string $messageType The type of message: success|info|warning|danger
-     * @return string The data: [message => $message, type => $type]
+     * @return array The data: [message => $message, type => $type]
      */
     public static function set($message = null, $messageType = null) {
         $message     = $message     ?: self::$defaultMessage;

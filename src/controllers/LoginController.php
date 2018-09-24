@@ -86,6 +86,9 @@
             }
         }
 
+        /**
+         * @throws \Exception if the view doesn't exist
+         */
         public function showLoginHome() {
             $active = 'login';
             $this

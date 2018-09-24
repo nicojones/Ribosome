@@ -67,7 +67,7 @@ class AuthenticateController extends ParentController {
      * @param string $username (Optional) if $username is
      * @param string $password
      *
-     * @returns array $user The authenticated user (on success) or FALSE on fail
+     * @return array $user The authenticated user (on success) or FALSE on fail
      */
     public function login($username = '', $password = '') {
         $user = $this->authenticateUser(
@@ -86,6 +86,7 @@ class AuthenticateController extends ParentController {
 
     /**
      * Logs a user out. That is, sets the current user with ROLE_USER privileges and redirects them to the Home path.
+     * @throws \Exception if the path 'Home' doesn't have a key in routing.ini
      */
     public function logout() {
         $this->deauthenticateUser();

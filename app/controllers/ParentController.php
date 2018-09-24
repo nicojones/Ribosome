@@ -89,7 +89,7 @@ class ParentController {
             strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
         $this->viewPath = __ROOT__ . '/src/resources/views/{view}.php';
         $this->templatePath = __ROOT__ . '/src/resources/views/templates/{template}Template.php';
-        $this->hooks = Hooks::init();//$GLOBALS['hooks'];
+        $this->hooks = Hooks::getInstance();//$GLOBALS['hooks'];
     }
 
     /**
@@ -160,6 +160,7 @@ class ParentController {
      * @param string $template The name of the template
      *
      * @throws \Exception specifying the type of missing view.
+     * @throws \Exception specifying the type of missing view.
      */
     public function show($view, $template = 'default') {
         ob_start();
@@ -179,17 +180,13 @@ class ParentController {
         }
         $_body = ob_get_clean();
 
-        if (isProd()) {
-            $this->minimize($this->vars['script'], 'script');
-            $this->minimize($this->vars['style'], 'style');
-        } else {
-            foreach ($this->vars['script'] as $s) {
-                $this->addScript($this->asset('js/' . $s, TRUE), FALSE);
-            }
-            foreach ($this->vars['style'] as $s) {
-                $this->addStyle($this->asset('css/' . $s, TRUE), FALSE);
-            }
+        foreach ($this->vars['script'] as $s) {
+            $this->addScript($this->asset('js/' . $s, TRUE), FALSE);
         }
+        foreach ($this->vars['style'] as $s) {
+            $this->addStyle($this->asset('css/' . $s, TRUE), FALSE);
+        }
+
         $_js      = $this->vars['JS'];
         $_title   = $this->vars['title'];
         $_style   = $this->vars['styleSnippet'];
@@ -290,10 +287,9 @@ class ParentController {
         $arrayValues = array_values($params);
         $uri = str_replace($arrayKeys, $arrayValues, $route['path'], $count);
         if ($count < $arrayKeys) {
+
             // this means there are params not INSIDE the URL. So we need to append them...
-//            var_dump($this->hooks->has_action('extra_params_path'));die;
-            $extraParams = (array)$this->hooks->do_action('extra_params_path');
-            //ddie($extraParams);
+            $extraParams = [];
             foreach ($arrayKeys as $key => $ak) {
                 if (strpos($route['path'], $ak) === FALSE) {
                     $extraParams[substr($ak, 1)] = $arrayValues[$key];
@@ -316,6 +312,7 @@ class ParentController {
      * @param string $path The path identifier ('Home', 'Login', ...)
      * @param array $params The parameters of the URL (':id', ':name', ...)
      * @return string The formatted URL
+     * @throws \Exception if $path doesn't correspond to any routing.ini key.
      */
     public function url($path, $params = array()) {
         return $this->path($path, $params, TRUE);
@@ -325,7 +322,7 @@ class ParentController {
      * Performs a header redirection and a die();
      * @param string $path
      *
-     * @return object A JSON object with redirect instructions (if it's an ajax call) or a Location header.
+     * @return mixed A JSON string with redirect instructions (if it's an ajax call) or a Location header.
      */
     public function redirect($path = '') {
         if ($this->ajax) {
@@ -371,11 +368,10 @@ class ParentController {
      * Adds a script snippet to the $this->show() renderer.
      * @param string $path The path to the asset (local or absolute)
      * @param bool|TRUE $local whether it's a relative (local) or absolute URL
-     * @param bool|TRUE $minimize Use Minify library for the asset
      * @return ParentController
      */
-    public function addStyle($path, $local = TRUE, $minimize = TRUE) {
-        if ($minimize && $local) {
+    public function addStyle($path, $local = TRUE) {
+        if ($local) {
             $this->vars['style'][] = $path;
         } else {
             $this->vars['styleSnippet'] .= "\r\n\t\t" . '<link href="' . ($local ? $this->asset('css/' . $path, TRUE) : $path) . '" rel="stylesheet" type="text/css"/>';
@@ -387,11 +383,10 @@ class ParentController {
      * Adds a style snippet to the $this->show() renderer.
      * @param string $path The path to the asset (local or absolute)
      * @param bool|TRUE $local whether it's a relative (local) or absolute URL
-     * @param bool|TRUE $minimize Use Minify library for the asset
      * @return ParentController
      */
-    public function addScript($path, $local = TRUE, $minimize = TRUE) {
-        if ($minimize && $local) {
+    public function addScript($path, $local = true) {
+        if ($local) {
             $this->vars['script'][] = $path;
         } else {
             $this->vars['scriptSnippet'] .= "\r\n\t\t" . '<script src="' . ($local ? $this->asset('js/' . $path, TRUE) : $path). '" type="text/javascript"></script>';
@@ -399,36 +394,13 @@ class ParentController {
         return $this;
     }
 
-    /**
-     * Adds a script with the minified URL of the $files
-     * @param array $files the files to add to the minified asset
-     * @param string $type The type of minimized files
-     */
-    public function minimize($files, $type = 'js') {
-        if (!count($files)) return;
-        if ($type == 'script') {
-            $this->addScript(substr($this->url('_Minimize', [':f' => implode(',', $files), ':b' => 'js']), 1), FALSE);
-        } else {
-            $this->addStyle (substr($this->url('_Minimize', [':f' => implode(',', $files), ':b' => 'css']), 1), FALSE);
-        }
-    }
-
-    /**
-     * Get the minified URL for the assets. This does NOT minimize files, just provide the minified url.
-     * @param array $files The assets that you want to minify
-     * @param string $type The type of minimized files
-     *
-     * @return string
-     */
-    public function minimizeURL($files = [], $type = 'js') {
-        return $this->url('_Minimize', [':f' => implode(',', $files), ':b' => $type]);
-    }
 
     /**
      * Adds the $_header variable to the view
      * @param array $vars|[] The vars to pass to the header
      * @param string|bool $headerLocation an (optional) alternative route for the header
      * @return ParentController
+     * @throws \Exception
      */
     public function addHeader($vars = [], $headerLocation = FALSE) {
         $header = $headerLocation ?
@@ -444,6 +416,7 @@ class ParentController {
      * @param string|bool $footerLocation an (optional) alternative route for the footer
      *
      * @return ParentController
+     * @throws \Exception
      */
     public function addFooter($vars = [], $footerLocation = FALSE) {
         $footer = $footerLocation ?
@@ -548,13 +521,6 @@ class ParentController {
         } else {
             throw new \Exception(str_replace('[[FILE]]', $file, $this->config->get('Exceptions', 'VIEW_NOT_FOUND')));
         }
-    }
-
-    /**
-     * Compresses $this->vars['script'] or $this->vars['style'] into a unique minified asset
-     */
-    public function compressWithMinify() {
-        require_once __ROOT__ . '/app/libs/min/index.php';
     }
     
     /**

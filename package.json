@@ -5,6 +5,15 @@
     "dev": "gulp watch"
   },
   "devDependencies": {
-    "gulp": "^3.9.1"
+    "gulp": "^4.0.0"
+  },
+  "dependencies": {
+    "gulp-concat": "^2.6.1",
+    "gulp-minify": "^3.1.0",
+    "gulp-uglify": "^3.0.1",
+    "gulp-uglifycss": "^1.1.0",
+    "gulp-ng-annotate": "^2.1.0",
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-sass": "^4.0.1"
   }
 }

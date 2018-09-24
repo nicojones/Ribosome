@@ -134,7 +134,7 @@ class Logger {
         $r = curl_exec($ch);
         curl_close($ch);
         
-        if (class_exists('\FB')) {
+        if (class_exists('\FB')) { // FireBug
             if ($type == 'error') {
                 \FB::error($r);
             } elseif ($type == 'warn') {
