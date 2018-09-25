@@ -40,7 +40,7 @@ class Router {
 
     /**
      * Searches for a URI match and returns the Controller + Action that dispatch it.
-     * @return array ControllerName and Action for requested URI
+     * @return string The routing.ini key
      */
     public static function matchRoute() {        
         $config = Config::singleton();
@@ -49,7 +49,7 @@ class Router {
         self::$uri = substr(strtok($_SERVER['REQUEST_URI'] ?: '/', '?'), strlen(__PATH__) + 1);
         foreach ($routing as $routeKey => $route) {
             if (
-                /* You can set a method = get|post|put|delete to further filter. See example */
+                /* You can set a `method = get|post|put|delete` to further filter. See example above */
                 (!empty($route['method']) && !in_array($_SERVER['REQUEST_METHOD'], explode('|', strtoupper($route['method'])))) ||
                 (!isset($route['path']) /* this means is the [404] Route */)) {
                 continue;
