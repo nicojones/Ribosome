@@ -170,9 +170,9 @@ Okay! Now log out (`/logout`), and visit `/date` again. Login… and you’re ba
 Feel free to tinker with the code. Don't forget to look at the docs for reference, or just download them.
 
 
-##Other small stuff
+### Other small stuff
 
-###Links, paths and redirects
+#### Links, paths and redirects
 To create external links, do it as you always did, `<a href="...."></a>`.  
 For internal links, on the other hand, we rely *uniquely* on `routing.ini` keys. These
 are the keywords encapsulated by `[..]` in `/app/config/routing.ini`, `/src/config/routing.ini`
@@ -215,15 +215,15 @@ $this->url('Login', ['backdoor' => 1, 'superpassword' => 1234])
 ````
 will create the uri `/login?backdoor=1&superpassword=1234`.
 
-###Javascript `addJSVar`
+#### Javascript `addJSVar`
 If you have any parameters that need to be passed to your `javascript` code, you can do so
 from any controller with `$this->addJSVar('nameOfVar', $value)`. Ribosome will take care of
 encoding it properly and adding it as a global variable `var`. See an example lower down.
 
-###PHP `addVar`
+#### PHP `addVar`
 Quite obvious. Pass some values to your php views! See an example lower down.
 
-###Helper functions
+### Helper functions
 There are loooots of these ones! And are all located in `/app/Kernel/Helpers/aliases.php` and
 `/app/Kernel/Helpers/support_functions.php`. Further documentation can be found in the functions
 themselves.
@@ -292,7 +292,7 @@ To the `->view( ... )` function you only need to pass the folder and file names,
 If you need to include subviews, use `$this->get()`. Works identically but returns the code instead
 of `echo`ing it.
 
-###Session
+### Session
 To store and use session parameters all you need is the `Session` module.
 Use the namespace `Core\Providers` at the beginning of the file to include it.  
 Session has some magic methods to set and get variables:
@@ -309,7 +309,7 @@ Session::cleanFood(); // returns the variable and deletes its value.
 ````
 Look at the class `/app/Kernel/Providers/Session.php` for more info.
 
-###Model
+### Model
 (to be added soon. check `/app/models/ParentModel.php` or the documentation
 for more info!)
 
