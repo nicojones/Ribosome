@@ -35,6 +35,7 @@ class ParentModel {
      * Constructor of the ParentModel. Tries a connection to the database and throws exception on error
      * @throws \PDOException When there is a PDOException (i.e. wrong credentials) throws an Exception that is
      * captured and throwed to AppKernel for further processing
+     * @throws \Exception
      * @internal
      */
     function __construct() {

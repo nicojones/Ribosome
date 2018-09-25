@@ -463,7 +463,6 @@ class ParentController {
      * ['success' => 1 // true is always default, and the value gets cast to integer (int)
      *  'responseData' => [
      *      'message' => 'Saved!', // by default is empty
-     *      'content' => ''        // by default is empty
      *      'foo' => 'bar' // custom
      * ]]
      * </code>
@@ -474,8 +473,7 @@ class ParentController {
     public function json($obj, $flags = 0) {
         $defaults = [
             'success' => 1,
-            'message' => '',
-            'content' => ''
+            'message' => ''
         ];
 
         $response = $obj;
@@ -491,7 +489,6 @@ class ParentController {
             'success' => (int)$response['success'],
             'responseData' => [
                 'message' => $response['message'],
-                'content' => $response['content']
             ]
         ];
         foreach ($obj as $k => $o) {

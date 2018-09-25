@@ -21,13 +21,12 @@ My personal websites can be found at [https://kupfer.es/]
 ## How to set it up
 1. Recommended way. Type into your terminal
 
-	   git clone —recursive https://github.com/nicojones/Ribosome.git
-  
-The `--recursive` flag is very important, as it will download the latest version of some of the included libraries.
-
+        git clone https://github.com/nicojones/Ribosome.git
+        
+     Once cloned, navigate to the folder `/app` and run the `composer.lock` file with `composer install`. You can get Composer [here](https://getcomposer.org/).
 2. Alternative way:  
-	404 NOT FOUND. There’s no alternative way (in this case). What could be better than a lovely `git clone` with the `--recursive` flag (so it downloads the subgits as well ;).
-
+	404 NOT FOUND.
+	
 Once downloaded, set up your environment. If you will make a virtual server just for Ribosome, make the `root` point to the `/public` folder, as `app.php` is the index file. In that way, `http://ribosome.local` (or whatever you use) points to `/public`.
 
 If you *don’t* have a virtual server, or you are just running it as a subfolder of, say, `http://localhost`, you need to edit one file: `/app/config/config.ini`, and set the `__PATH__` global variable to the folder, **including leading slash /**. For example, if you are running it under
@@ -170,10 +169,155 @@ Okay! Now log out (`/logout`), and visit `/date` again. Login… and you’re ba
 
 Feel free to tinker with the code. Don't forget to look at the docs for reference, or just download them.
 
+
+##Other small stuff
+
+###Links, paths and redirects
+To create external links, do it as you always did, `<a href="...."></a>`.  
+For internal links, on the other hand, we rely *uniquely* on `routing.ini` keys. These
+are the keywords encapsulated by `[..]` in `/app/config/routing.ini`, `/src/config/routing.ini`
+and (if you have any Ribosome vendors in `<ROOT>/vendor`) under `/vendor/<Vendor Name>/config/routing.ini`.
+
+Let's say we want to add a link to log in. We have the path already configured (check
+`/src/config/routing.ini`, under the `[Login]` key).
+
+To add a link, just do
+````php
+<a href="<?php $this->path('Login') ?>">Login</a>
+````
+As you can see, we rely completely on the `key`, which will unlikely be changed.  
+
+Note: If you ever want to change the `/<path-to-login>` to be more secretive you can do so from the 
+`routing.ini` file: just set the `path = /some-secret-login-path` and *all* the links
+in all of your project will change!  
+
+Also notice *you don't need to echo*, `->path()` takes care of it. That's because
+it's an alias for `->url()` that echoes the result:
+````php
+public function fooBar() {
+    // ... your code here...
+    ...
+    
+    $this->header( 401 );
+    $this->redirect( $this->url('Login') );
+}
+````
+`url` will return the correct (absolute) url for the path you specified, but will **not** echo it.
+ In the example above, `$this->redirect($url, $headers)` works really well with `$this->url($key)`
+to redirect!
+
+(From here on, we talk only about `url()`. `path()` has exactly the same features.)  
+
+If you want to add parameters to your URL, it will be done automatically just by
+adding an associative array as a second argument:
+````php
+$this->url('Login', ['backdoor' => 1, 'superpassword' => 1234])
+````
+will create the uri `/login?backdoor=1&superpassword=1234`.
+
+###Javascript `addJSVar`
+If you have any parameters that need to be passed to your `javascript` code, you can do so
+from any controller with `$this->addJSVar('nameOfVar', $value)`. Ribosome will take care of
+encoding it properly and adding it as a global variable `var`. See an example lower down.
+
+###PHP `addVar`
+Quite obvious. Pass some values to your php views! See an example lower down.
+
+###Helper functions
+There are loooots of these ones! And are all located in `/app/Kernel/Helpers/aliases.php` and
+`/app/Kernel/Helpers/support_functions.php`. Further documentation can be found in the functions
+themselves.
+
+1. **Clock**. Use `clock_start($key = 'main')` to start a timer. You can start as many as you want
+but make sure to use different keys. You can stop them manually with `clock_end($key = 'main')`.
+And when you want to output, use `clock_time($key = 'main')`.
+2. **Authenticated? Is it production? Is it an AJAX request?**. All this and much more can be found
+    on `aliases.php`. You know, for when you are too lazy to include a class just for this, or your
+    fingers hurt from coding.
+    ````php
+    if (isAjax()) {
+        if (isAuth()) $this->json($userHistory);
+        else $this->json(['success' => 0]);
+    }
+    ````
+    (this is just an example)
+3. **$this->json()** (in ParentController.php). Use this function to return a JSON request.
+    By default (i.e. if you send it empty), the structure will be
+    ````json
+    {
+      "success": 1,
+      "responseData": {
+        "message": ""
+      }
+    }
+    ````
+    So sending
+    ````php
+    $this->json(['success' => 0, 'message' => 'error 404', 'foo' => 'bar'])
+    ````
+    will automatically generate the following:
+    ````json
+    {
+      "success": 0,
+      "responseData": {
+        "message": "error404",
+        "foo": "bar"
+      }
+    }
+    ```` 
+    that is, everything will be placed under `responseData` except for `success`.
+
+4. **Header, Footer and Title**. To add any of those three things, we do it from the controllers,
+    as it should be:
+    ````php
+    public function showHome() {
+        //...
+        $this
+            ->setTitle("Home Page")
+            ->addHeader(['active' => 'home'])
+            ->addFooter(['foo' => 'bar')
+            ->addJSVar('imAJavascriptVariable', $phpArrayOrSomething)
+            ->addVar('useMeInTheView', $myVar)
+            ->show('home/index');
+    }
+    ````
+    As it's clear in the example, you can pass parameters to the Header and Footer, which are
+    special files located under `/src/resources/views/blocks` and use `header.php` and `footer.php`.
+
+5. **Views**. You can pass parameters to the views by using `$this->addVar('foo', $bar)` from
+any controller. Then use that value in the view with `$foo`, like you would normally do.
+To the `->view( ... )` function you only need to pass the folder and file names, starting from
+`/src/resources/views` as the parent folder.  
+**DO NOT append `.php` to the function parameter**.  
+If you need to include subviews, use `$this->get()`. Works identically but returns the code instead
+of `echo`ing it.
+
+###Session
+To store and use session parameters all you need is the `Session` module.
+Use the namespace `Core\Providers` at the beginning of the file to include it.  
+Session has some magic methods to set and get variables:
+````php
+$foo = ['food' => 'sweet potato', 'drink' => 'water'];
+Session::setFood($foo); // returns value as well.
+$bar = Session::getFood(); // now: $bar = [ ... ], the whole array;
+
+// to retrieve only the drink in one line, you can do:
+Session::getExtFood('drink');
+
+//delete it:
+Session::cleanFood(); // returns the variable and deletes its value.
+````
+Look at the class `/app/Kernel/Providers/Session.php` for more info.
+
+###Model
+(to be added soon. check `/app/models/ParentModel.php` or the documentation
+for more info!)
+
+
 <hr/>
 
 Known issues:
-File minimisation isn't working: Please configure gulp to minify assets into the /public folder, or code in it. Sorry
+Please use gulp to minify assets into the /public folder, or code in /public. gulp.js should be properly configured.
 
 [1]:	https://github.com/nicojones/Ribosome
 [2]:	https://rawgit.com/nicojones/Ribosome/master/docs/index.html
