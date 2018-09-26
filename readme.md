@@ -1,7 +1,6 @@
-## Ribosome
+## <img src="https://i.imgur.com/xhDwTWD.png" height="40px"/> Ribosome
 
-Lightweight PHP framework, with
-
+Lightweight PHP framework. Packed with goodies like
 * Router
 * Authentication
 * Assets
@@ -9,10 +8,11 @@ Lightweight PHP framework, with
 * director.php for file generation
 * more stuff ...
 * ...
+* ... yes, even more
 
 See the README online [here][1]
 
-See the full docs [here][2] (generated from comments) or [download it][3]
+See the full docs [here][2] (generated from comments) or [download them][3]
 
 Fork me on Github, that would make me happy: [https://github.com/nicojones]
 
@@ -77,10 +77,11 @@ In `/src/controllers/DateController.php` we create a method called `showDate` th
 	}
 
 And we show a view, by adding `$this->show(...)`:
-
-	public function showDate() {
-	    $this->show('date/index');
-	}
+````php
+public function showDate() {
+    $this->show('date/index');
+}
+````
 
 Last thing is to create a file named `index.php` inside of `src/resources/views/date/` with the content:  
 
@@ -310,10 +311,66 @@ Session::cleanFood(); // returns the variable and deletes its value.
 Look at the class `/app/Kernel/Providers/Session.php` for more info.
 
 ### Model
-(to be added soon. check `/app/models/ParentModel.php` or the documentation
-for more info!)
+The Model (`/app/models/ParentModel.php`) is a helper class that all models extend:
+````php
+class MyCustomModel extends Model {
+    //...
+}
+````
+(remember to generate these classes with `director.php` or the admin tool. See the [Tutorial](#micro-Tutorial)
+for more info.)
+
+To execute a query, you need first to enable database use. You can do that by manually editing the
+configuration file `/app/config/config.ini` under the `[Database]` key, or by accessing `/?_bootload_` from
+your browser and using the interface.
+
+Once that's done, it's as easy as calling the `query` function:
+````php
+class MyCustomModel extends Model {
+    public function getUsers() {
+        $peopleNamedJohn = $this->query('SELECT * from users WHERE name = :name', [':name' => 'John'], TRUE);
+        
+        $pdoObject = $this->query('SELECT * from users WHERE name = :name', [':name' => 'Mark'], FALSE); 
+        $peopleNamedMark = $pdoObject->fetchAll();
+    }
+}
+````
+So you can do it quickly or in several steps.
+
+We can also obtain an indexed list, say:
+````php
+$marksInCities = $this->queryIndexed('SELECT `city`, `name`, `phone` FROM `users` WHERE `name` = :name', [':name' => 'Peter']);
+````
+will return something nicely indexed, like this:
+````php
+$marksInCities = [
+    'Berlin' => [
+        ...
+        ...
+        ...
+    ],
+    'Paris' => [
+        ...
+    ]
+];
+````
+If you are sure the users are unique (say you are quering by email and you want the emails to be
+the keys) then set the third parameter to `$unique = TRUE`.
+
+#### Shortcuts
+There are two nice shortcuts to manipulate databases: setter and getter. This helps perform simple
+and quick inserts and searches with minimum code:
+````php
+$user37 = $this->getRow('users', 37); // by ID
+$mark   = $this->getRow('users', 'Mark', 'name');
+
+$this->updateRow('users', 'name', 37, 'Mark Jones');
+
+````
 
 
+That should be enough to get you started. Feel free to comment if you need help with something,
+or a feature that can be added or improved.
 <hr/>
 
 Known issues:
