@@ -39,6 +39,15 @@ Then you need to set
 
 That’s it, refresh and you should see the Welcome message.
 
+If you don't, check that your local server (or remote) is properly configured, and that `.htaccess`
+is being read. If so, make sure that `mod_rewrite` and `mod_expires` are enabled in `etc/apache2/httpd.conf`
+or wherever your configuration file is. In other words, make sure that the lines
+````apacheconfig
+LoadModule expires_module libexec/apache2/mod_expires.so
+LoadModule rewrite_module libexec/apache2/mod_rewrite.so
+````
+are uncommented.
+
 ## micro Tutorial
 We are going to build a page that shows the current date and time, taking in parameters from the URL.
 
@@ -187,6 +196,11 @@ To add a link, just do
 <a href="<?php $this->path('Login') ?>">Login</a>
 ````
 As you can see, we rely completely on the `key`, which will unlikely be changed.  
+
+````php
+<a href="<?php path('Login') ?>">Login</a>
+````
+will work as well. `path()` is an alias function. See the [Tutorial # aliases](#helper-functions) for more.
 
 Note: If you ever want to change the `/<path-to-login>` to be more secretive you can do so from the 
 `routing.ini` file: just set the `path = /some-secret-login-path` and *all* the links

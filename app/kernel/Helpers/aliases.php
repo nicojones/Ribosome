@@ -15,6 +15,25 @@
     }
 
     /**
+     * @param string $urlKey The routing [key] (as seen in routing.ini) for the desired URL
+     * @param array $params Extra parameters to the url
+     *
+     * @throws Exception
+     */
+    function path($urlKey, $params = []) {
+        echo \Core\ParentController::singleton()->url($urlKey, $params);
+    }
+
+    /**
+     * @param string $src path to the asset (image, file...). No leading slash,
+     * @param bool|false $return return or echo
+     * @return string|null
+     */
+    function asset($src, $return = false) {
+        return \Core\ParentController::singleton()->asset($src, $return);
+    }
+
+    /**
      * @param string $view The location of the $template within the /src/view folder
      * @param array $vars The vars to add to the view
      * @param string $template An optional template if we don't want to use defaultTemplate.php
