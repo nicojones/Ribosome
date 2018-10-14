@@ -329,3 +329,56 @@
         }
         rmdir($dirPath);
     }
+
+    /**
+     * Dumps data into a log file. file_dump($content, $label);
+     * @param mixed $content Content to be dumped
+     * @param string $label The label to show
+     * @param null $log_path If specified, the path of the log file, starting with /. You can also use $GLOBALS['file_dump_path'] to avoid having to set this for each log
+     * @param array $options backtrace: shows file name and line number. mode: writing/reading mode.
+     */
+    function file_dump($content, $label = null, $log_path = null, $options = ['backtrace' => true, 'append' => true])
+    {
+        $file = __ROOT__ . $GLOBALS['log_path'] ?? $log_path ?? "/logs/file_dump.txt";
+
+        $fstream = fopen($file, $options['append'] ? 'a' : 'w');
+        if (!$fstream) {
+            return;
+        }
+ 
+        $backtraceInfo = '';
+        $fileName = '';
+        // if the $backtrace is not null in the $options array, we do it. Usually we'll always do it
+        if (!empty($options['backtrace'])) {
+            // defaults to true.
+            // but if it's set with a value, we use the value
+            if (is_array($options['backtrace'])) {
+                $db = $options['backtrace'];
+            } else {
+                // or we create it here
+                $db = debug_backtrace();
+            }
+            // we get the caller
+            $caller = array_shift($db);
+            // and only the name of the file that called us, not the full path.
+            $fileName = array_pop(explode("/", array_pop(explode("\\", $caller['file'])))); // both windows and linux servers.
+            // this is what we output
+            $backtraceInfo .= 'trace: ' . $fileName . ' line ' . $caller['line'] . "\n";
+        }
+ 
+        // we set the label to whatever it's been set, or to the file name, or (if none of that) to "debug".
+        $label = $label ?? $fileName ?? 'debug';
+        $log =
+            "\n######################################\n" .
+            'time:  ' . date('Y-m-d H:i:s') .
+            "\nlabel: $label\n$backtraceInfo\n";
+
+        fwrite($fstream, $log);
+ 
+        if (!is_string($content)) {
+            $content = var_export($content, true);
+        }
+        fwrite($fstream, $content . "\n\n");
+ 
+        fclose($fstream);
+    }
