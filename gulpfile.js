@@ -10,7 +10,8 @@ var src = './src/resources/assets/',
     styles = {
         'style.css': [
             'libs/bootstrap/themes/paper_theme.css', // this is just a Bootstrap theme. do what you wish.
-            'custom.css'
+            'custom.css' 
+            //'main.scss' // you can use SASS as well of course! Use the flag --sass when compiling
         ]
     };
 
@@ -23,12 +24,14 @@ var gulp   = require('gulp'),
     mixins = merge(scripts, styles),
     //ngAnnotate = require('gulp-ng-annotate'), // use this with AngularJS
     htmlmin = require('gulp-htmlmin'),
-    sass = require('gulp-sass');
+    //sass = require('gulp-sass'), // doesn't work on OSX 64bit + Node v10
+    sourcemaps = require('gulp-sourcemaps');
 
 
 /**
  *
  * use '--production' to get a minified version: $~ gulp ribosome --production
+ * use '--sass' or '--scss' if you are using .scss files: $~ gulp ribosome --sass
  */
 gulp.task('ribosome', function() {
 
@@ -37,19 +40,30 @@ gulp.task('ribosome', function() {
         var fileTypeScript  = destinationNameJS.split('.').pop(),
             scriptPartials  = mixins[destinationNameJS],
             fullPathToScripts = [];
-
-        for (var i = 0, l1 = scriptPartials.length, file1; (file1 = scriptPartials [i]) || i < l1; ++i) {
-            fullPathToScripts.push(src + fileTypeScript + '/' + file1);
+  
+        if (scriptPartials.length)
+        {
+            for (var i = 0, l1 = scriptPartials.length, file1; (file1 = scriptPartials [i]) || i < l1; ++i) {
+                fullPathToScripts.push(src + fileTypeScript + '/' + file1);
+            }
+            
+            var destinationPipeScripts =
+              gulp
+              .src(fullPathToScripts)
+              .pipe(sourcemaps.init())
+              .pipe(concat(destinationNameJS));
+            
+            if (argv.production !== undefined)
+            {
+                destinationPipeScripts = destinationPipeScripts.pipe(uglify({mangle: false}))
+            }
+            
+            destinationPipeScripts
+              .pipe(sourcemaps.write())
+              .pipe(gulp.dest('./public/' + fileTypeScript + '/'));
+            
+            console.log("Compressed '" + destinationNameJS + "' (" + scriptPartials.length + " files)");
         }
-
-        var destinationPipeScripts = gulp.src(fullPathToScripts).pipe(concat(destinationNameJS));
-        if (argv.production !== undefined) {
-            destinationPipeScripts = destinationPipeScripts.pipe(uglify())
-            dest = dest.pipe(uglify({ mangle: false }))
-        }
-        destinationPipeScripts.pipe(gulp.dest('./public/' + fileTypeScript + '/'));
-
-        console.log("Compressed '" + destinationNameJS + "' (" + scriptPartials.length + " files)");
     }
     for (var destinationNameCSS in styles)
     {
@@ -57,22 +71,35 @@ gulp.task('ribosome', function() {
             stylePartials  = mixins[destinationNameCSS],
             fullPathToStyles = [];
 
-        for (var j = 0, l2 = stylePartials.length, file2; (file2 = stylePartials[j]) || j < l2; ++j) {
-            fullPathToStyles.push(src + fileTypeStyle + '/' + file2);
+        if (stylePartials.length)
+        {
+            for (var j = 0, l2 = stylePartials.length, file2; (file2 = stylePartials[j]) || j < l2; ++j)
+            {
+                fullPathToStyles.push(src + fileTypeStyle + '/' + file2);
+            }
+    
+            var destinationPipeStyles = gulp.src(fullPathToStyles).pipe(concat(destinationNameCSS));
+  
+            destinationPipeStyles.pipe(sourcemaps.init());
+            
+            if (argv.sass !== undefined || argv.scss !== undefined)
+            {
+              destinationPipeStyles.pipe(sass().on('error', sass.logError));
+            }
+            
+            destinationPipeStyles.pipe(sourcemaps.write());
+    
+            if (argv.production !== undefined)
+            {
+                destinationPipeStyles = destinationPipeStyles.pipe(uglifycss({
+                    "maxLineLen": 80,
+                    "uglyComments": true
+                }));
+            }
+    
+            destinationPipeStyles.pipe(gulp.dest('./public/' + fileTypeStyle + '/'));
+            console.log("Compressed '" + destinationNameCSS + "' (" + stylePartials.length + " files)");
         }
-
-        var destinationPipeStyles = gulp.src(fullPathToStyles).pipe(concat(destinationNameCSS))
-            .pipe(sass().on('error', sass.logError));
-
-        if (argv.production !== undefined) {
-            destinationPipeStyles = destinationPipeStyles.pipe(uglifycss({
-                "maxLineLen": 80,
-                "uglyComments": true
-            }));
-        }
-
-        destinationPipeStyles.pipe(gulp.dest('./public/' + fileTypeStyle + '/'));
-        console.log("Compressed '" + destinationNameCSS + "' (" + stylePartials.length + " files)");
     }
 
     return destinationPipeScripts;
