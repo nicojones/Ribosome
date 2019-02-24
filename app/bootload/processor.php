@@ -6,7 +6,7 @@
             $postINI = $_POST;
             $config_INI[$_GET['ini_section']] = $_POST;
             try {
-                write_ini($config_INI, TRUE, __DIR__ . '/../config/config.ini');
+                write_ini($config_INI, __DIR__ . '/../config/config.ini', TRUE);
             } catch (Exception $e) {
                 die(json_encode(['success' => 0, 'responseData' => ['message' => 'Cannot write on "config.ini"']]));
             }

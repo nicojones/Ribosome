@@ -117,7 +117,7 @@ gulp.task('ribosome', function() {
 //                       | ....
 //
 gulp.task('html-min', function() {
-    gulp.src('./src/resources/uc_views/**')
+    return gulp.src('./src/resources/uc_views/**')
         .pipe(htmlmin({
             collapseWhitespace: true,
             caseSensitive: true,
@@ -139,7 +139,7 @@ function merge(obj1,obj2){
  * Call "gulp watch" to watch for changes in JS, CSS and SASS. Uncomment 'html-min' to watch for minimized html as well.
  */
 gulp.task('watch', function() {
-    gulp.watch([src + 'js/**/*.js', src + 'js/**/**/*.js', src + 'sass/*.scss', src + 'sass/**/*.scss'], ['ribosome']);
     //gulp.watch(['./src/views/uc_html/**/*.php', './src/views/uc_html/**/**/*.php', './src/views/uc_templates/*.php'], ['html-min']);
+    return gulp.watch([src + 'js/**/*.js', src + 'js/**/**/*.js', src + 'sass/*.scss', src + 'sass/**/*.scss'], ['ribosome']);
 });
 

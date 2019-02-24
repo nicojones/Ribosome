@@ -1,3 +1,0 @@
-[submodule "app/libs/kint"]
-	path = app/libs/kint
-	url = https://github.com/raveren/kint/

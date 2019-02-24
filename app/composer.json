@@ -1,0 +1,7 @@
+{
+  "require": {
+    "kint-php/kint": "^1.0",
+    "nesbot/carbon": "^1.33",
+    "mobiledetect/mobiledetectlib": "^2.8"
+  }
+}

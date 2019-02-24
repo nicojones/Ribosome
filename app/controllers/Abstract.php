@@ -2,14 +2,11 @@
 
     namespace Core;
 
+
     /**
-     * Class LoginController contains functions for user (de)authentication.
+     * This class defines the basic structure of any Controller
      *
-     * @hooks
-     * <code>
-     * ('on_userauth', ['user' => $user]) // Called just after the login session has been created {@see \Core\LoginController::login}
-     * ('on_userdeauth', ['user' => Session::getUser()]) // Called just before destroying the login session. {@see \Core\LoginController::deauthenticateUser}
-     * </code>
+     * Class AbstractClass
      * @package Core
      */
     abstract class AbstractClass {

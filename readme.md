@@ -20,8 +20,9 @@ My personal websites can be found at [https://kupfer.es/]
 
 ## How to set it up
 1. Recommended way. Type into your terminal
-
-        git clone https://github.com/nicojones/Ribosome.git
+    ````bash
+    git clone https://github.com/nicojones/Ribosome.git
+    ````
         
      Once cloned, navigate to the folder `/app` and run the `composer.lock` file with `composer install`. You can get Composer [here](https://getcomposer.org/).
 2. Alternative way:  
@@ -35,11 +36,17 @@ If you *don’t* have a virtual server, or you are just running it as a subfolde
 
 Then you need to set
 
-	__PATH__ = "/php/Ribosome/public"
+````php
+__PATH__ = "/php/Ribosome/public"
+````
 
-That’s it, refresh and you should see the Welcome message.
+Lastly, before everything runs smoothly, update the project dependencies by going to
+the `app` folder on your terminal/console and running `composer install` (or `php composer.phar install`, depending on your configuration.)  
+This will download required dependencies to the `app/vendor` folder.
 
-If you don't, check that your local server (or remote) is properly configured, and that `.htaccess`
+#####!!That’s it, refresh and you should see the Welcome message!!
+
+If you didn't, check that your local server (or remote) is properly configured, and that `.htaccess`
 is being read. If so, make sure that `mod_rewrite` and `mod_expires` are enabled in `etc/apache2/httpd.conf`
 or wherever your configuration file is. In other words, make sure that the lines
 ````apacheconfig
@@ -62,7 +69,9 @@ First of all, we will create a `DateController`. There are two easy ways to do t
 
 2. From the terminal, on your project root, call
 
-		nicoJones:Ribosome ~$ php director.php generate:both Date 
+````bash
+nicoJones:Ribosome ~$ php director.php generate:both Date 
+````
 
 and automatically the Controller and the Model will be generated and placed in the appropriate folder.
 
@@ -72,18 +81,22 @@ First of all, we need a url `path` for our date app, to access it from our brows
 
 Go to `/src/config/routing.ini` and add a new entry for this app:  
 
-	[Date]
-	path = date
-	action = Date@showDate
+````ini
+[Date]
+path = date
+action = Date@showDate
+````
 
 In `/src/config/permission.ini` we don’t need to add anything (yet) because we want this page to be accessible by everyone (access level `1`.)
 
 We are going to add the content now:
 In `/src/controllers/DateController.php` we create a method called `showDate` that takes no parameters:
 
-	public function showDate() {
-	    // ....
-	}
+````php
+public function showDate() {
+    // ....
+}
+````
 
 And we show a view, by adding `$this->show(...)`:
 ````php
@@ -94,7 +107,9 @@ public function showDate() {
 
 Last thing is to create a file named `index.php` inside of `src/resources/views/date/` with the content:  
 
-	<h1 class="text-center"><?php echo date('Y-m-d H:i');?></h1>
+````html
+<h1 class="text-center"><?php echo date('Y-m-d H:i');?></h1>
+````
 
 That’s it, go to `/date` on your browser and you should see the current date.
 
@@ -102,26 +117,32 @@ That’s it, go to `/date` on your browser and you should see the current date.
 There is, of course, a way to pass parameters from the URL to the Controller or View.
 Say, for example, that we want to pass our own format. We could implement  `?format=H.i` and get only the time: by going to `/date/?format=H.i` and changing the view to:
 
-	<h1 class="text-center"><?php echo date(
-	!empty($_GET['format'])
-	? $_GET['format']
-	: 'Y-m-d H:i'
-	); ?></h1>
+````php
+<h1 class="text-center"><?php echo date(
+!empty($_GET['format'])
+? $_GET['format']
+: 'Y-m-d H:i'
+); ?></h1>
+````
 
 and it would display your format… but this is really bad practice.
 
 But we could also do it in a nicer way by getting the parameter in the Controller, with `getGet`:
 
-	public function showDate() {
-	   $format = $this->getGet('format', 'H.i');
-	   $this
-	        ->add('format', $format)
-	        ->show('date/index');
-	}
+````php
+public function showDate() {
+   $format = $this->getGet('format', 'H.i');
+   $this
+        ->add('format', $format)
+        ->show('date/index');
+}
+````
 
 and change the view accordingly to use only the parameter:
 
-	<h1 class="text-center"><?php echo date($format);?></h1>
+````html
+<h1 class="text-center"><?php echo date($format);?></h1>
+````
 
 *Note: To add PHP variables to the view, use the method `add` with `$this->add('foo', $fooVar)`. If you want to add it as a Javascript value, use instead `addJSVar`.*
 
@@ -129,11 +150,13 @@ We can even go a bit further and make the URI component more user-friendly. Idea
 `/date/format/H.i.s`.
 Let’s do it! From the routing page `/src/config/routing.ini` we will change how it is processed, using wildcards:
 
-	[Date]
-	path = date/:word/:format
-	action = Date@showDate
-	default[word] = format
-	default[format] = H.i.s
+````ini
+[Date]
+path = date/:word/:format
+action = Date@showDate
+default[word] = format
+default[format] = H.i.s
+````
 
 Any *lowercase alphanumeric* word prepended with `:` will function as a wildcard, accepting any parameter from the URL. In this case we added two (`:word` and `:format`): in this way, we can have both `/date` and `/date/format/Y-m-d` use the same code.
 
@@ -146,10 +169,12 @@ We’ll change a couple of settings, in less than 2 minutes, that will allow ONL
 
 Go to `/src/config/permissions` and add a new entry for `Date`:
 
-	[Date]
-	__throw_to = "Login"
-	showDate = 2
-	* = 1
+````ini
+[Date]
+__throw_to = "Login"
+showDate = 2
+* = 1
+````
 
 This is very simple. Ribosome is built on top of an access level system, meaning `1 = unlogged` and `2 = logged` (there’s also `3 = superadmin`).
 
@@ -166,12 +191,14 @@ This is one of those, so let’s set that up.
 
 In `routing.ini` we add the line `after_login = 1` so it looks like this:
 
-	[Date]
-	path = date/:word/:format
-	default[word] = "format"
-	default[format] = "H.i.s"
-	action = Date@showDate
-	after_login = 1 
+````ini
+[Date]
+path = date/:word/:format
+default[word] = "format"
+default[format] = "H.i.s"
+action = Date@showDate
+after_login = 1 
+````
 
 This tells Ribosome that `[Date]` is a page to which the user can be redirected after login.
 
@@ -393,3 +420,16 @@ Please use gulp to minify assets into the /public folder, or code in /public. gu
 [1]:	https://github.com/nicojones/Ribosome
 [2]:	https://rawgit.com/nicojones/Ribosome/master/docs/index.html
 [3]:	https://rawgit.com/nicojones/Ribosome/master/docs/-API-documentation.zip
+
+
+<style type="text/css" rel="stylesheet">
+.success {
+border: green;
+background-color: rgba(0,200,0,0.3);
+border-radius: 5px;
+box-shadow: 0 0 4px 0 #666;
+line-height: 30px;
+height: 30px;
+display: inline-block;
+width: 100%;
+}</style>

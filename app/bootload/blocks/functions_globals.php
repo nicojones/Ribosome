@@ -6,6 +6,9 @@
     DEFINE ('FW_TOKEN', 'fwRW7w3i8aHg4N315cCGgKi5mqCc3E');
     DEFINE ('FW_VERSION', getVersion());
 
+    /**
+     * @return string
+     */
     function getVersion() {
         if (!file_exists(__ROOT__ . '/app/bootload/CHANGELOG.txt')) {
             return '0.0.0';
@@ -14,9 +17,16 @@
         preg_match("/\[([\d\.]+)\]/", $changelog, $matches);
         return $matches[1];
     }
-    function write_ini($assoc_arr, $has_sections=FALSE, $file = null) {
+
+    /**
+     * @param $assoc_arr
+     * @param $path
+     * @param bool $has_sections
+     *
+     * @return bool
+     */
+    function write_ini($assoc_arr, $path, $has_sections = FALSE) {
         $content = "";
-        $path = is_null($file) ? self::$_file : $file;
 
         if ($has_sections) {
             foreach ($assoc_arr as $key => $elem) {
@@ -60,6 +70,14 @@
         return true;
     }
 
+    /**
+     * @param $db
+     * @param $query
+     * @param array $params
+     * @param bool $fetchAll
+     *
+     * @return mixed
+     */
     function query($db, $query, $params = array(), $fetchAll = FALSE) {
         $res = $db->prepare($query);
         $res->execute($params);
@@ -70,6 +88,14 @@
         }
     }
 
+    /**
+     * @param $db
+     * @param $query
+     * @param array $params
+     * @param bool $unique
+     *
+     * @return array
+     */
     function queryIndexed($db, $query, $params = array(), $unique = TRUE) {
         $res = $db->prepare($query);
         $res->execute($params);
@@ -81,6 +107,9 @@
         }
     }
 
+    /**
+     * @param $path
+     */
     function asset($path) {
         $extension = [
             'css' => 'text/css',
@@ -94,6 +123,9 @@
         die();
     }
 
+    /**
+     * @param $path
+     */
     function versioning($path) {
         header('Content-type: text/plain');
         readfile($path);
@@ -132,6 +164,10 @@
         closedir($dir);
     }
 
+    /**
+     * @param $var
+     * @param bool $die
+     */
     function _die($var, $die = true) {
         echo "<pre>", var_export($var, true), "</pre>";
         if ($die) die;
