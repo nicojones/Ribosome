@@ -47,26 +47,38 @@ class HomeController extends Controller {
         return $this->model;
     }
 
-    public function showHome() {
-
-//        $this->hooks->add_action('extra_params_path', function($params) {
-            // I'll appear on the "Login" link on the home page
-//            return ['im_a_hook' => 'yes'];
-//        });
-
-        $this->hooks->add_action('exec_afterend', function($params) {
-            echo "<small style='position:fixed;bottom:0'>I'm a hook called from " .
-                $params['controller'] . '->' . $params['action'] . '()</small>';
-        });
-        $this->show('home/index');
-
-        return $this;
+    public function mainPage() {
+        $this
+            ->show('home/index');
     }
 
-    /*
-     * See more info about this function at /src/config/routing.ini :)
-     */
-    public function animalZoo() {
-        die($_GET['animal'] . ' -> ' . $_GET['sound'] . ' -> ' . $_GET['extra']);
+    public function image() {
+        $this->header(200);
+
+        $hash = $this->getGet('hash', "not-found");
+
+        if ($tracker = $this->getTracker($hash, false, true))
+        {
+            $trackerIP = ($this->model->getRow('tracker',  $tracker['id'], 'id'))['ip'];
+
+            if ((int)$tracker['active'] !== 0 && ($trackerIP !== $_SERVER['REMOTE_ADDR']))
+            {
+                // add tracking info.
+                $ip = $_SERVER['REMOTE_ADDR'];
+                $address = $this->getLocationFromIP($ip);
+                $visitID = $this->model->insertVisit($tracker['id'], $ip, $address['address'], $address['lat'], $address['lng'], $address['full']);
+            }
+            else {
+                // tracker is NOT active -> we don't save visits.
+            }
+        }
+        else {
+            // tracker doesn't exist.
+        }
+
+        header("Content-type: image/jpeg");
+        $image = imagecreatefrompng(__ROOT__ . '/public/images/icons/1px.png');
+        imagejpeg($image);
+        die();
     }
 }

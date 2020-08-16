@@ -8,6 +8,7 @@ DirectoryIndex app.php
 <Files app.php>
     order allow,deny
     allow from all
+    Header set Access-Control-Allow-Origin "*"
 </Files>
 <FilesMatch "\.(xml|txt|html|js|css|gif|png|jpg)$">
     order allow,deny
