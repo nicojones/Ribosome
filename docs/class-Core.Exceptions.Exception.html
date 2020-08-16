@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class Core\Exceptions\Exception | Ribosome</title>
+
+	<link rel="stylesheet" href="resources/style.css?c2f33731c1948fbed7c333554678bfa68d4817da">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li class="active">
+					<a href="namespace-Core.html">
+						Core<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-Core.Auth.html">
+						Auth					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-Core.Exceptions.html">
+						Exceptions					</a>
+
+						</li>
+				<li>
+					<a href="namespace-Core.Helpers.html">
+						Helpers					</a>
+
+						</li>
+				<li>
+					<a href="namespace-Core.Providers.html">
+						Providers					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-Kernel.html">
+						Kernel<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-Kernel.Dispatch.html">
+						Dispatch					</a>
+
+						</li>
+				<li>
+					<a href="namespace-Kernel.Providers.html">
+						Providers					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-None.html">
+						None					</a>
+
+						</li>
+				<li>
+					<a href="namespace-Vendor.html">
+						Vendor<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-Vendor.ExampleVendor.html">
+						ExampleVendor					</a>
+
+						</li>
+							</ul></li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li class="active"><a href="class-Core.Exceptions.Exception.html">Exception</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-Core.Exceptions.html" title="Summary of Core\Exceptions"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+			<li>
+				<a href="-API-documentation.zip" title="Download documentation as ZIP archive"><span>Download</span></a>
+			</li>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class Exception</h1>
+
+
+	<div class="description">
+	<p>Class Exception contains the page shown on Exceptions (<b>throw new Exception($e)</b>).
+It is called by default on such cases.</p>
+	</div>
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+			<a href="class-Core.ParentController.html"><span>Core\ParentController</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by">
+<b><span>Core\Exceptions\Exception</span></b>			
+			
+			
+		</dd>
+	</dl>
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-Core.html">Core</a>\<a href="namespace-Core.Exceptions.html">Exceptions</a><br>
+		<b>Package:</b> Core<br>
+
+				<b>Hooks:</b>
+				<pre>(<span class="php-quote">'show_prod_exception'</span>, [<span class="php-quote">'e'</span> =&gt; <span class="php-var">$e</span>]) <span class="php-comment">// Called when an exception is thrown on the PROD environment \Core\Exception::showException</span>
+(<span class="php-quote">'show_dev_exception'</span>, [<span class="php-quote">'e'</span> =&gt; <span class="php-var">$e</span>]) <span class="php-comment">// Called when an exception is thrown on the DEV environment \Core\Exception::showException</span></pre><br>
+			<b>Located at</b> <a href="source-class-Core.Exceptions.Exception.html#7-68" title="Go to source code">app/Exceptions/Exception.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="singleton" id="_singleton">
+
+		<td class="attributes"><code>
+			 public static
+
+			<code><a href="class-Core.Exceptions.Exception.html">Core\Exceptions\Exception</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_singleton">#</a>
+		<code><a href="source-class-Core.Exceptions.Exception.html#26-36" title="Go to source code">singleton</a>( <span> <var>$path</var> = <span class="php-keyword1">FALSE</span></span> )</code>
+
+		<div class="description short">
+			<p>Returns the Exception instance, creating it if it did not exist.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns the Exception instance, creating it if it did not exist.</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-Core.Exceptions.Exception.html">Core\Exceptions\Exception</a></code>
+				</div>
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-Core.ParentController.html#_singleton">Core\ParentController::singleton()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="showException" id="_showException">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_showException">#</a>
+		<code><a href="source-class-Core.Exceptions.Exception.html#38-67" title="Go to source code">showException</a>( <span><code><a href="class-Core.Exceptions.Exception.html">Core\Exceptions\Exception</a></code> <var>$e</var></span> )</code>
+
+		<div class="description short">
+			<p>Outputs a 500 header. In <b>dev</b> mode and in localhost shows the catched exception with debug information, otherwise a 500 page is shown.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Outputs a 500 header. In <b>dev</b> mode and in localhost shows the catched exception with debug information, otherwise a 500 page is shown.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$e</var></dt>
+					<dd></dd>
+				</dl></div>
+
+
+
+				<h4>See</h4>
+				<div class="list">
+						<code><a href="function-isLocalServer.html">isLocalServer()</a></code><br>
+						<code><a href="function-isProd.html">isProd()</a></code><br>
+						<code><a href="function-isDev.html">isDev()</a></code><br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-Core.ParentController.html#methods">Core\ParentController</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-Core.ParentController.html#___construct">__construct()</a>, 
+			<a href="class-Core.ParentController.html#_add">add()</a>, 
+			<a href="class-Core.ParentController.html#_addFooter">addFooter()</a>, 
+			<a href="class-Core.ParentController.html#_addHeader">addHeader()</a>, 
+			<a href="class-Core.ParentController.html#_addJSVar">addJSVar()</a>, 
+			<a href="class-Core.ParentController.html#_addScript">addScript()</a>, 
+			<a href="class-Core.ParentController.html#_addStyle">addStyle()</a>, 
+			<a href="class-Core.ParentController.html#_asset">asset()</a>, 
+			<a href="class-Core.ParentController.html#_cache">cache()</a>, 
+			<a href="class-Core.ParentController.html#_compressWithMinify">compressWithMinify()</a>, 
+			<a href="class-Core.ParentController.html#_get">get()</a>, 
+			<a href="class-Core.ParentController.html#_getGet">getGet()</a>, 
+			<a href="class-Core.ParentController.html#_getModel">getModel()</a>, 
+			<a href="class-Core.ParentController.html#_getPost">getPost()</a>, 
+			<a href="class-Core.ParentController.html#_header">header()</a>, 
+			<a href="class-Core.ParentController.html#_json">json()</a>, 
+			<a href="class-Core.ParentController.html#_minimize">minimize()</a>, 
+			<a href="class-Core.ParentController.html#_minimizeURL">minimizeURL()</a>, 
+			<a href="class-Core.ParentController.html#_path">path()</a>, 
+			<a href="class-Core.ParentController.html#_redirect">redirect()</a>, 
+			<a href="class-Core.ParentController.html#_setFavicon">setFavicon()</a>, 
+			<a href="class-Core.ParentController.html#_setTitle">setTitle()</a>, 
+			<a href="class-Core.ParentController.html#_show">show()</a>, 
+			<a href="class-Core.ParentController.html#_url">url()</a>
+		</code></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary inherited">
+	<caption>Properties inherited from <a href="class-Core.ParentController.html#properties">Core\ParentController</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-Core.ParentController.html#$ajax"><var>$ajax</var></a>, 
+			<a href="class-Core.ParentController.html#$config"><var>$config</var></a>, 
+			<a href="class-Core.ParentController.html#$hooks"><var>$hooks</var></a>, 
+			<a href="class-Core.ParentController.html#$model"><var>$model</var></a>, 
+			<a href="class-Core.ParentController.html#$path"><var>$path</var></a>, 
+			<a href="class-Core.ParentController.html#$templatePath"><var>$templatePath</var></a>, 
+			<a href="class-Core.ParentController.html#$vars"><var>$vars</var></a>, 
+			<a href="class-Core.ParentController.html#$viewPath"><var>$viewPath</var></a>
+		</code></td>
+	</tr>
+	</table>
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		Ribosome API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>
